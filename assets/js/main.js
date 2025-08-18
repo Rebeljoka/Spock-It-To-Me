@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleUserChoice(e) {
         const buttonId = e.currentTarget.id;
         const computerChoice = opponentChoiceGenerator();
+        console.log(`Player selected ${buttonId}\nComputer selected ${computerChoice}`);
 
         const outcome = checkIfPlayerWins(buttonId, computerChoice);
         console.log(outcome);
@@ -60,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
     /** CPU choice function: returns one of the five options as a CPU choice */
     function opponentChoiceGenerator() {
         const moveChoicesArray = Object.values(moveChoices);
-        console.log(`moveChoicesArray.length is ${moveChoicesArray.length}`);
         let randomIndex = Math.floor(Math.random() * moveChoicesArray.length); // Get pseudorandom number of 1 - 5 to select opponent choice from array
 
         const selection = moveChoicesArray[randomIndex];
