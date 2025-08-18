@@ -4,32 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Boilerplate</title>
+    <title>Spock It To Me!</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-    <header class="bg-primary text-white text-center py-4">
-        <h1>Header</h1>
+
+    <header class="d-flex justify-content-center">
+        <img src="assets/images/Header.webp" alt="Western Background" class="img-fluid headerImage">
     </header>
+
     <main class="container my-4">
         <div class="row">
             <section class="col-12 col-md-6 mb-4 mb-md-0">
                 <div class="p-3 border bg-light">
                     <h2>Section 1</h2>
                     <p>Content for section 1 goes here.</p>
+                    <div class="d-flex flex-column align-items-center py-3">
+                        <div class="d-flex justify-content-center mb-2">
+                            <button type="button" class="btn move-choice-btn" id="rock" ><img src="assets/images/stoneBtn.webp"></button>
+                            <button type="button" class="btn move-choice-btn" id="paper"><img src="assets/images/stoneBtn.webp"></button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn move-choice-btn" id="scissors"><img src="assets/images/stoneBtn.webp"></button>
+                            <button type="button" class="btn move-choice-btn" id="lizard"><img src="assets/images/stoneBtn.webp"></button>
+                            <button type="button" class="btn move-choice-btn" id="spock"><img src="assets/images/stoneBtn.webp"></button>
+                        </div>
+                    </div>
                 </div>
             </section>
             <section class="col-12 col-md-6">
-                <div class="p-3 border bg-light">
+                <div class="p-3 border">
                     <h2>Section 2</h2>
                     <p>Content for section 2 goes here.</p>
+                    <div class="d-flex flex-column align-items-center py-3">
+                        <div class="d-flex justify-content-center mb-2">
+                            <button type="button" id="CPURock" class="btn btn-primary mx-1">Rock</button>
+                            <button type="button" id="CPUPaper" class="btn btn-primary mx-1">Paper</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" id="CPUScissors" class="btn btn-primary mx-1">Scissors</button>
+                            <button type="button" id="CPULizard" class="btn btn-primary mx-1">Lizard</button>
+                            <button type="button" id="CPUSpock" class="btn btn-primary mx-1">Spock</button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
     </main>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
 </body>

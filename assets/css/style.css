@@ -1,1 +1,18 @@
-/* Custom styles go here */
+.headerImage {
+    max-width: 25vw;
+    padding-top: 2.5rem;
+}
+
+body {
+    background-image: url('../images/Western_Background_Image.webp');
+    background-repeat: no-repeat;
+    background-size: 100vw auto;
+    background-position: top center;
+}
+
+.move-choice-btn img {
+    max-width: 100% auto;
+    height: 200px;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+}
