@@ -1,28 +1,35 @@
-document.addEventListener("DOMContentLoaded", function() {
-   
+document.addEventListener("DOMContentLoaded", function () {
     // Choices available in the game,
     const moveChoices = {
         rock: "rock",
-        paper: "paper", 
+        paper: "paper",
         scissors: "scissors",
         spock: "spock",
         lizard: "lizard",
-        };
+    };
+
+    const winRules = {
+        rock: [moveChoices.scissors, moveChoices.lizard],
+        paper: [moveChoices.spock, moveChoices.rock],
+        scissors: [moveChoices.paper, moveChoices.lizard],
+        spock: [moveChoices.scissors, moveChoices.rock],
+        lizard: [moveChoices.spock, moveChoices.paper],
+    };
 
     //Obj containing all possible game outcomes:
-    const outcomes = {win: "win", lose: "lose", draw: "draw"};
+    const outcomes = { win: "win", lose: "lose", draw: "draw" };
 
     // Generate array of all user gameplay choice button elements.
-    const choiceButtonsArray = document.getElementsByClassName("move-choice-btn");    
-
-    // Add event listeners for each button, populate array of move choices from button id
-    for(let button of choiceButtonsArray){
+    const choiceButtonsArray =
+        document.getElementsByClassName("move-choice-btn");
+    // Add event listeners for each button - for click and for Enter key down
+    for (let button of choiceButtonsArray) {
         console.log(button.id);
         button.addEventListener("click", handleUserChoice);
     }
 
     /** handles user click events on move choice buttons */
-    function handleUserChoice(e){
+    function handleUserChoice(e) {
         const buttonId = e.currentTarget.id;
         const computerChoice = opponentChoiceGenerator();
 
@@ -32,66 +39,31 @@ document.addEventListener("DOMContentLoaded", function() {
         // TODO: Reflect outcome of game in the html from here:
     }
 
-    /**Pass strings for player1 and player2 choices into func, 
-     * returns outcome of game from the player's perspective 
+    /**Parameters: strings for player1 and player2 choices,
+     * returns outcome of game from the player's perspective
      */
-    function checkIfPlayerWins(playerChoice, computerChoice){
-        console.log(`Player choice is: ${playerChoice}\nComputer choice is ${computerChoice}`);
+    function checkIfPlayerWins(playerChoice, computerChoice) {
 
         let outcome = outcomes.draw; // defaults to draw, change only if needed
-        
-        if(playerChoice === moveChoices.rock){
-            if(computerChoice === moveChoices.scissors || computerChoice === moveChoices.lizard){
-                outcome = outcomes.win;
-            }
-            else if(computerChoice === moveChoices.paper || computerChoice === moveChoices.spock){
-                outcome = outcomes.lose;
-            }
+
+        if(winRules[playerChoice].includes(computerChoice)){
+            outcome = outcomes.win;
         }
-        else if(playerChoice === moveChoices.paper){
-            if(computerChoice === moveChoices.rock || computerChoice === moveChoices.spock){
-                outcome = outcomes.win;
-            }
-            else if(computerChoice === moveChoices.scissors || computerChoice === moveChoices.lizard){
-                outcome = outcomes.lose;
-            }
+        else if(winRules[computerChoice].includes(playerChoice))
+        {
+            outcome = outcomes.lose;
         }
-        else if(playerChoice === moveChoices.scissors){
-            if(computerChoice === moveChoices.paper || computerChoice === moveChoices.lizard){
-                outcome = outcomes.win;
-            }
-            else if(computerChoice === moveChoices.rock || computerChoice === moveChoices.spock){
-                outcome = outcomes.lose;
-            }
-        }
-        else if(playerChoice === moveChoices.spock){
-            if(computerChoice === moveChoices.scissors || computerChoice === moveChoices.rock){
-                outcome = outcomes.win;
-            }
-            else if (computerChoice === moveChoices.lizard || computerChoice === moveChoices.paper){
-                outcome = outcomes.lose;
-            }
-        }
-        else if(playerChoice === moveChoices.lizard){
-            if(computerChoice === moveChoices.scissors || computerChoice === moveChoices.paper){
-                outcome = outcomes.win;
-            }
-            else if(computerChoice === moveChoices.scissors || computerChoice === moveChoices.rock){
-                outcome = outcomes.lose;
-            }
-        }
-        
+
         return outcome;
     }
 
     /** CPU choice function: returns one of the five options as a CPU choice */
-    function opponentChoiceGenerator(){
-        
+    function opponentChoiceGenerator() {
         const moveChoicesArray = Object.values(moveChoices);
-        let randomIndex = Math.floor(Math.random() * moveChoicesArray.length);  // Get pseudorandom number of 1 - 5 to select opponent choice from array
+        console.log(`moveChoicesArray.length is ${moveChoicesArray.length}`);
+        let randomIndex = Math.floor(Math.random() * moveChoicesArray.length); // Get pseudorandom number of 1 - 5 to select opponent choice from array
 
         const selection = moveChoicesArray[randomIndex];
         return selection;
     }
-
 });
