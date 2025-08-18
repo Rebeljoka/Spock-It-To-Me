@@ -28,10 +28,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const outcome = checkIfPlayerWins(buttonId, computerChoice);
         console.log(outcome);
+
+        // TODO: Reflect outcome of game in the html from here:
     }
 
-    /**Pass strings for player1 and player2 in to func, 
-     * validates string against moveChoiceArray, returns winner */
+    /**Pass strings for player1 and player2 choices into func, 
+     * returns outcome of game from the player's perspective 
+     */
     function checkIfPlayerWins(playerChoice, computerChoice){
         console.log(`Player choice is: ${playerChoice}\nComputer choice is ${computerChoice}`);
 
@@ -80,8 +83,6 @@ document.addEventListener("DOMContentLoaded", function() {
         
         return outcome;
     }
-
-
 
     /** CPU choice function: returns one of the five options as a CPU choice */
     function opponentChoiceGenerator(){
