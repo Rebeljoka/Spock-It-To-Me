@@ -6,15 +6,19 @@
     --tertiary-font: 'Fredericka the Great', cursive;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
     font-family: var(--primary-font);
 }
 
-nav, .navbar, .navigation, button, .btn, .sub-header, h4, h5, h6, p {
+h4, h5, h6, p {
     font-family: var(--secondary-font);
 }
 
-.accent, .accent-text {
+.btn, button {
+    font-family: var(--secondary-font);
+}
+
+.accent, .accent-text, li {
     font-family: var(--tertiary-font);
 }
 
@@ -29,6 +33,19 @@ body {
     background-size: 100vw auto;
     background-position: top center;
 background-color: #A66500;
+}
+
+.how-to-img {
+    max-width: 100%;
+    height: 350px;
+}
+
+#difficultyModal .modal-content {
+    background-color: #7f634b;
+}
+
+#instructionsModal .modal-content {
+    background-color: #7f634b;
 }
 
 .move-choice-btn img,
@@ -51,10 +68,6 @@ background-color: #A66500;
         height: 48px;
     }
 
-    .p-3 {
-        padding: 1rem !important;
-    }
-
     h2 {
         font-size: 1.2rem;
     }
@@ -62,20 +75,47 @@ background-color: #A66500;
     p {
         font-size: 1rem;
     }
-
-    #startBtn, #stopBtn, #difficultyBtn, #bestOfBtn, #howToPlayBtn {
-        font-size: 1rem;
-        padding: 0.5rem 0.75rem;
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
-
-    .container .row.align-items-center > div {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        justify-content: center !important;
-    }
 }
+
+.wanted-label {
+    font-family: var(--primary-font);
+    font-size: 1.25rem;
+    color: #000;
+    letter-spacing: 2px;
+    text-shadow: none;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+}
+
+.difficulty-img {
+    max-height: 300px;
+}
+
+.peseta-img {
+    max-height: 16px;
+}
+
+/* Medium difficulty button: yellow background and white text on hover/focus */
+#mediumBtn:hover, #mediumBtn:focus {
+    background-color: #ffc107 !important;
+    color: #fff !important;
+}
+#mediumBtn:hover span, #mediumBtn:focus span {
+    color: #fff !important;
+}
+#mediumBtn:hover .wanted-label, #mediumBtn:focus .wanted-label {
+    color: #000 !important;
+}
+
+
+/* possibly update/uncomment this after text in diff buttons are made larger */
+/* #easyBtn:hover span, #easyBtn:focus span,
+#mediumBtn:hover span, #mediumBtn:focus span,
+#hardBtn:hover span, #hardBtn:focus span {
+    -webkit-text-stroke: 1px #000;
+    text-stroke: 1px #000;
+} */
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .headerImage {
