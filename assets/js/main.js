@@ -1,13 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Boilerplate JS for instructions modal (can be expanded later)
-    var instructionsModal = document.getElementById('instructionsModal');
-    if (instructionsModal) {
-        // Example: Show modal programmatically
-        // var modal = new bootstrap.Modal(instructionsModal);
-        // modal.show();
+    // Difficulty Modal JS
+    var difficultyModalEl = document.getElementById('difficultyModal');
+    var difficultyModal = difficultyModalEl ? new bootstrap.Modal(difficultyModalEl) : null;
+    var difficultyBtn = document.getElementById('difficultyBtn');
+    if (difficultyBtn && difficultyModal) {
+        difficultyBtn.addEventListener('click', function() {
+            difficultyModal.show();
+        });
     }
 
-    
+    // Best Of Modal JS
+    var bestOfModalEl = document.getElementById('bestOfModal');
+    var bestOfModal = bestOfModalEl ? new bootstrap.Modal(bestOfModalEl) : null;
+    var bestOfBtn = document.getElementById('bestOfBtn');
+    if (bestOfBtn && bestOfModal) {
+        bestOfBtn.addEventListener('click', function() {
+            bestOfModal.show();
+        });
+    }
+
+    // Difficulty modal button clicks (for future logic)
+    ['easyBtn', 'mediumBtn', 'hardBtn'].forEach(function(id) {
+        var btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener('click', function() {
+                console.log('Difficulty selected:', btn.textContent.trim());
+            });
+        }
+    });
+
+    // Best Of modal button clicks (for future logic)
+    ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id) {
+        var btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener('click', function() {
+                console.log('Best Of selected:', btn.textContent.trim());
+            });
+        }
+    });
+
     /** Data structures*/
 
     // Choices available in the game,
@@ -43,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let computerWins = 0;
     let drawnGames = 0;
 
-    const playerChoices = [];   // Array containing list of choices that the player has made
+    const playerChoices = []; // Array containing list of choices that the player has made
 
     // Generate array of all user gameplay choice button elements.
     const choiceButtonsArray =
@@ -58,11 +89,18 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleUserMoveChoice(e) {
         const buttonId = e.currentTarget.id;
         playerChoices.push(buttonId);
+        console.log(`Player choices array: ${playerChoices}`);
 
         const computerChoice = computerChoiceGenerator(difficultyLevels.easy);
+        if (computerChoice == null) {
+            throw new Error(
+                "Null reference passed back from computerChoiceGenerator()"
+            );
+        }
         console.log(
             `Player selected ${buttonId}\nComputer selected ${computerChoice}`
         );
+        playerFavouriteMove(); //Debug call
 
         const playerOutcome = checkIfPlayerWins(buttonId, computerChoice);
         console.log(playerOutcome);
@@ -83,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (winRules[computerChoice].includes(playerChoice)) {
             outcome = outcomes.lose;
         }
-
         return outcome;
     }
 
@@ -91,22 +128,49 @@ document.addEventListener("DOMContentLoaded", function () {
     function computerChoiceGenerator(difficulty) {
         let selection = null;
 
-        switch(difficulty){
+        switch (difficulty) {
             case difficultyLevels.easy:
                 const moveChoicesArray = Object.values(moveChoices);
                 selection = moveChoicesArray[randomMoveIndex()];
-            break;
+                break;
         }
 
         return selection;
     }
 
-    function randomMoveIndex()
-    {
-        let randomIndex = Math.floor(Math.random() * (Object.keys(moveChoices).length)); // Get pseudorandom number of 1 - 5 to select opponent choice from array
+    /** Generates a random index number between 0 - (number of choices - 1) */
+    function randomMoveIndex() {
+        let randomIndex = Math.floor(
+            Math.random() * Object.keys(moveChoices).length
+        ); // Get pseudorandom number of 1 - 5 to select opponent choice from array
         return randomIndex;
     }
 
+    /** Returns most commonly selected player choice from playerChoices array */
+    function playerFavouriteMove() {
+        const countPlayerChoices = {};
+
+        // Record number of times each choice was selected
+        for (let choice of playerChoices) {
+            countPlayerChoices[choice] = (countPlayerChoices[choice] || 0) + 1;
+            console.log(
+                `countPlayerChoices: ${JSON.stringify(countPlayerChoices)}`
+            );
+        }
+
+        // Find the most-picked choice
+        const entries = Object.entries(countPlayerChoices);
+        // Below: all possible choices should have been added even if no instance of their use have been counted
+        if (entries.length === 0) return null;
+
+        entries.sort(function (a, b) {
+            return b[1] - a[1]; // Sort by count, descending
+        });
+
+        const favouriteMove = entries[0][0]; // The choice with the highest count
+        console.log(`Player's favourite move is: ${favouriteMove}`)
+        return favouriteMove;
+    }
 
     /** Updates win/lose/draw scores */
     function updateScores(playerOutcome) {
