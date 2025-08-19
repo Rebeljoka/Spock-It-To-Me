@@ -1,4 +1,3 @@
-
 .headerImage {
     max-width: 100vw;
     height: 450px;
@@ -68,7 +67,7 @@ background-color: #A66500;
 @media (min-width: 1200px) {
     .headerImage {
         max-width: 100vw;
-        height: 600px;
+        height: 450px;
         padding-top: 2rem;
     }
     .move-choice-btn img,
