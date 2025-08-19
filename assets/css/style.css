@@ -1,7 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Rye&family=Sancreek&display=swap');
+
+:root {
+    --primary-font: 'Rye', cursive;
+    --secondary-font: 'Sancreek', cursive;
+    --tertiary-font: 'Fredericka the Great', cursive;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--primary-font);
+}
+
+nav, .navbar, .navigation, button, .btn, .sub-header, h4, h5, h6, p {
+    font-family: var(--secondary-font);
+}
+
+.accent, .accent-text {
+    font-family: var(--tertiary-font);
+}
 
 .headerImage {
     max-width: 100vw;
-    height: 450px;
     padding-top: 1rem;
 }
 
@@ -12,7 +30,6 @@ body {
     background-position: top center;
 background-color: #A66500;
 }
-
 
 .move-choice-btn img,
 .CPU-btn img {
@@ -27,19 +44,36 @@ background-color: #A66500;
         height: 250px;
         padding-top: 0.5rem;
     }
+
     .move-choice-btn img,
     .CPU-btn img {
         width: 48px;
         height: 48px;
     }
+
     .p-3 {
         padding: 1rem !important;
     }
+
     h2 {
         font-size: 1.2rem;
     }
+
     p {
         font-size: 1rem;
+    }
+
+    #startBtn, #stopBtn, #difficultyBtn, #bestOfBtn, #howToPlayBtn {
+        font-size: 1rem;
+        padding: 0.5rem 0.75rem;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .container .row.align-items-center > div {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: center !important;
     }
 }
 
@@ -49,26 +83,52 @@ background-color: #A66500;
         height: 350px;
         padding-top: 0.75rem;
     }
+
     .move-choice-btn img,
     .CPU-btn img {
         width: 64px;
         height: 64px;
     }
+
     .p-3 {
         padding: 1.5rem !important;
     }
+
     h2 {
         font-size: 1.5rem;
     }
+
     p {
         font-size: 1.1rem;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+    .headerImage {
+        max-width: 100vw;
+        height: 400px;
+        padding-top: 1rem;
+    }
+        .move-choice-btn img,
+    .CPU-btn img {
+        width: 92px;
+        height: 92px;
+    }
+    .p-3 {
+        padding: 1.75rem !important;
+    }
+    h2 {
+        font-size: 1.75rem;
+    }
+    p {
+        font-size: 1.175rem;
     }
 }
 
 @media (min-width: 1200px) {
     .headerImage {
         max-width: 100vw;
-        height: 600px;
+        height: 450px;
         padding-top: 2rem;
     }
     .move-choice-btn img,
