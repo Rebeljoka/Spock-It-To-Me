@@ -100,6 +100,16 @@ background-color: #A66500;
     color: #000 !important;
 }
 
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000; /* Set lower than modals, higher than background */
+    pointer-events: none; /* Allows clicks to pass through if needed */
+    display: block;
+}
 
 /* possibly update/uncomment this after text in diff buttons are made larger */
 /* #easyBtn:hover span, #easyBtn:focus span,
