@@ -98,20 +98,26 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(`Player Score is: ${playerWins}\nComputer score is: ${computerWins}\nDraws is: ${drawnGames}`);
     }
 
+    /** Reset scores / win counts */
+    function resetGame(){
+        playerWins = 0;
+        computerWins = 0;
+        drawnGames = 0;
+    }
 
 
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
     /** Code for handling interactive JS styling */
-    const userRockBtn = document.getElementById("rock");
-    const userRockImg = document.getElementById("UserRockImg");
-    const defaultSrc = "assets/images/stoneBtn.webp";
-    const selectedSrc = "assets/images/stoneBtnClicked.webp";
+    // const userRockBtn = document.getElementById("rock");
+    // const userRockImg = document.getElementById("UserRockImg");
+    // const defaultSrc = "assets/images/stoneBtn.webp";
+    // const selectedSrc = "assets/images/stoneBtnClicked.webp";
 
-    userRockBtn.addEventListener("click", function () {
-        userRockImg.src = selectedSrc;
-        setTimeout(() => {
-            userRockImg.src = defaultSrc;
-        }, 200); // 200ms delay before switching back
-    });
+    // userRockBtn.addEventListener("click", function () {
+    //     userRockImg.src = selectedSrc;
+    //     setTimeout(() => {
+    //         userRockImg.src = defaultSrc;
+    //     }, 200); // 200ms delay before switching back
+    // });
 });
