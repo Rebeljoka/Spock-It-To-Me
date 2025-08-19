@@ -77,6 +77,46 @@ background-color: #A66500;
     }
 }
 
+.wanted-label {
+    font-family: var(--primary-font);
+    font-size: 1.25rem;
+    color: #000;
+    letter-spacing: 2px;
+    text-shadow: none;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+}
+
+.difficulty-img {
+    max-height: 300px;
+}
+
+.peseta-img {
+    max-height: 16px;
+}
+
+/* Medium difficulty button: yellow background and white text on hover/focus */
+#mediumBtn:hover, #mediumBtn:focus {
+    background-color: #ffc107 !important;
+    color: #fff !important;
+}
+#mediumBtn:hover span, #mediumBtn:focus span {
+    color: #fff !important;
+}
+#mediumBtn:hover .wanted-label, #mediumBtn:focus .wanted-label {
+    color: #000 !important;
+}
+
+
+/* possibly update/uncomment this after text in diff buttons are made larger */
+/* #easyBtn:hover span, #easyBtn:focus span,
+#mediumBtn:hover span, #mediumBtn:focus span,
+#hardBtn:hover span, #hardBtn:focus span {
+    -webkit-text-stroke: 1px #000;
+    text-stroke: 1px #000;
+} */
+
 @media (min-width: 769px) and (max-width: 1024px) {
     .headerImage {
         max-width: 100vw;
