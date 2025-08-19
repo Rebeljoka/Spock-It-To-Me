@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
      * Difficultly parameter options are easy, medium and hard as per the difficultyLevels object
      *  - Easy: straight random choice
      *  - Medium: 40% chance of CPU counter against the last used player move
-     *  - Hard: 70% chance of GPU counter against the last used player move
+     *  - Hard: 70% chance of GPU counter against the most used / favourite player move
      * Returns: a cpu move choise based upon the difficulty level
     */
     function computerChoiceGenerator(difficulty) {
@@ -186,28 +186,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             case difficultyLevels.medium:
                 if(playerChoices.length === 0) return randomMoveChoice();
-                const lastMove = playerChoices[playerChoices.length - 1];
-
-                // Bit complex, but this should create an array (counterMovesArray) that includes
+                const playerLastMove = playerChoices[playerChoices.length - 1];
+                // Bit complex, but this should create an array (counterMovesMedium) that includes
                 //  only winRules keys that include in their array lastMove as a move they beat
-                const counterMovesArray = Object.keys(winRules).filter(
-                    choice => winRules[choice].includes(lastMove));
-                
-                cpuSelection = weightedChoice(counterMovesArray, 0.4);
+                const counterMovesMedium = Object.keys(winRules).filter(
+                    choice => winRules[choice].includes(playerLastMove));
+                cpuSelection = weightedChoice(counterMovesMedium, 0.4);
                 break;
             case difficultyLevels.hard:
-                console.log(`${difficulty} difficulty not implemented yet`);
+                if(playerChoices.length === 0) return randomMoveChoice();
+                const playerMostFrequent = playerFavouriteMove();
+                // See medium difficulty switch case (above) for explanation
+                const counterMovesHard = Object.keys(winRules).filter(
+                    choice => winRules[choice].includes(playerMostFrequent));
+                cpuSelection = weightedChoice(counterMovesHard, 0.7);
                 break;
         }
-        if(cpuSelection === null){
-            return randomMoveChoice();
-        }
-        else{
-            return cpuSelection;
-        }
+
+        if(cpuSelection === null) return randomMoveChoice();        
+        else return cpuSelection;
     }
 
-    /** Generates a random index number between 0 - (number of choices - 1) */
+    /** Generates a random move, 1/moveOptions probability of any moveOption being selected 
+     * 
+    */
     function randomMoveChoice() {
         const arrayOfMoveOptions = Object.keys(moveOptions);
         let randomIndex = Math.floor(Math.random() * arrayOfMoveOptions.length);
@@ -326,7 +328,9 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     }
 
-    /** Reset scores / win counts */
+    /** Reset scores / win counts 
+     * 
+    */
     function resetGame() {
         playerWins = 0;
         computerWins = 0;
