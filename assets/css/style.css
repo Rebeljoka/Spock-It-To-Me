@@ -96,6 +96,16 @@ background-color: #A66500;
     max-height: 16px;
 }
 
+.scoreTxt {
+    font-family: var(--secondary-font);
+    font-size: 1.5rem;
+}
+
+#playerScore, #cpuScore, #drawScore {
+    font-family: var(--secondary-font);
+    font-size: 1.5rem;
+}
+
 /* Medium difficulty button: yellow background and white text on hover/focus */
 #mediumBtn:hover, #mediumBtn:focus {
     background-color: #ffc107 !important;
