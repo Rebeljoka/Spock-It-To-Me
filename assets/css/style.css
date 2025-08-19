@@ -6,11 +6,15 @@
     --tertiary-font: 'Fredericka the Great', cursive;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
     font-family: var(--primary-font);
 }
 
-nav, .navbar, .navigation, button, .btn, .sub-header, h4, h5, h6, p {
+h4, h5, h6, p {
+    font-family: var(--secondary-font);
+}
+
+.btn, button {
     font-family: var(--secondary-font);
 }
 
@@ -29,6 +33,11 @@ body {
     background-size: 100vw auto;
     background-position: top center;
 background-color: #A66500;
+}
+
+.how-to-img {
+    max-width: 100%;
+    height: auto;
 }
 
 .move-choice-btn img,
@@ -51,29 +60,12 @@ background-color: #A66500;
         height: 48px;
     }
 
-    .p-3 {
-        padding: 1rem !important;
-    }
-
     h2 {
         font-size: 1.2rem;
     }
 
     p {
         font-size: 1rem;
-    }
-
-    #startBtn, #stopBtn, #difficultyBtn, #bestOfBtn, #howToPlayBtn {
-        font-size: 1rem;
-        padding: 0.5rem 0.75rem;
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
-
-    .container .row.align-items-center > div {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        justify-content: center !important;
     }
 }
 
