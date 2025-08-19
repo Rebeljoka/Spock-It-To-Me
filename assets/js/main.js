@@ -1,4 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Also override console.error and console.warn to log to browser-console div
+    const originalConsoleError = console.error;
+    console.error = function (...args) {
+        originalConsoleError.apply(console, args);
+        const el = document.getElementById('browser-console');
+        if (el) {
+            el.innerHTML += '<span style="color:#ff5555">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
+        }
+    };
+
+    const originalConsoleWarn = console.warn;
+    console.warn = function (...args) {
+        originalConsoleWarn.apply(console, args);
+        const el = document.getElementById('browser-console');
+        if (el) {
+            el.innerHTML += '<span style="color:#ffd700">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
+        }
+    };
     // Override console.log to also log to the browser-console div
     const originalConsoleLog = console.log;
     console.log = function (...args) {
