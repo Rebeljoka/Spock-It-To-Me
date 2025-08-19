@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+    /** Data structures*/
+
     // Choices available in the game,
     const moveChoices = {
         rock: "rock",
@@ -8,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         lizard: "lizard",
     };
 
+    /** winRules - array holds values that the property will beat */
     const winRules = {
         rock: [moveChoices.scissors, moveChoices.lizard],
         paper: [moveChoices.spock, moveChoices.rock],
@@ -16,8 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
         lizard: [moveChoices.spock, moveChoices.paper],
     };
 
-    //Obj containing all possible game outcomes:
+    // all possible game outcomes:
     const outcomes = { win: "win", lose: "lose", draw: "draw" };
+
+    /** Global Variables - keep to minimum */
+    let playerWins = 0;
+    let computerWins = 0;
+    let drawnGames = 0;
 
     // Generate array of all user gameplay choice button elements.
     const choiceButtonsArray =
@@ -25,19 +34,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add event listeners for each button - for click and for Enter key down
     for (let button of choiceButtonsArray) {
         console.log(button.id);
-        button.addEventListener("click", handleUserChoice);
+        button.addEventListener("click", handleUserMoveChoice);
     }
 
-    /** handles user click events on move choice buttons */
-    function handleUserChoice(e) {
+    /** handles user click events on game move choice buttons */
+    function handleUserMoveChoice(e) {
         const buttonId = e.currentTarget.id;
         const computerChoice = opponentChoiceGenerator();
         console.log(
             `Player selected ${buttonId}\nComputer selected ${computerChoice}`
         );
 
-        const outcome = checkIfPlayerWins(buttonId, computerChoice);
-        console.log(outcome);
+        const playerOutcome = checkIfPlayerWins(buttonId, computerChoice);
+        console.log(playerOutcome);
+        updateScores(playerOutcome);
+        displayScores();
 
         // TODO: Reflect outcome of game in the html from here:
     }
@@ -66,7 +77,31 @@ document.addEventListener("DOMContentLoaded", function () {
         return selection;
     }
 
-    
+    /** Updates win/lose/draw scores */
+    function updateScores(playerOutcome){
+        if(playerOutcome === outcomes.win){
+            playerWins++;
+        }else if(playerOutcome === outcomes.lose){
+            computerWins++;
+        }else if(playerOutcome === outcomes.draw){
+            drawnGames++;
+        }else{
+            console.log("Error - checkIfPlayerWins() returned invalid response");
+        }
+    }
+
+    /** Display scores
+     * TODO: Make scores display on page istead of console.
+     * This function has placeholder functionality until html page is ready
+     */
+    function displayScores(){
+        console.log(`Player Score is: ${playerWins}\nComputer score is: ${computerWins}\nDraws is: ${drawnGames}`);
+    }
+
+
+
+    //----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
     /** Code for handling interactive JS styling */
     const userRockBtn = document.getElementById("rock");
     const userRockImg = document.getElementById("UserRockImg");
