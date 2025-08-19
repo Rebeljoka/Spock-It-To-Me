@@ -57,7 +57,7 @@
 
         <!-- Difficulty Modal -->
         <div class="modal fade" id="difficultyModal" tabindex="-1" aria-labelledby="difficultyModalLabel" aria-modal="true" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header justify-content-center">
                         <h5 class="modal-title text-center w-100" id="difficultyModalLabel">Select Difficulty</h5>
@@ -66,16 +66,22 @@
                     <div class="modal-body">
                         <div class="d-flex justify-content-between">
                             <div class="text-center flex-fill mx-2">
-                                <button type="button" class="btn btn-outline-success w-100 mb-2" id="easyBtn">Easy</button>
-                                <img src="assets/images/easy.webp" alt="Easy difficulty" class="img-fluid" style="max-height:60px;">
+                                <button type="button" class="btn btn-outline-success w-100 d-flex flex-column align-items-center py-3" id="easyBtn">
+                                    <img src="assets/images/easy.webp" alt="Easy difficulty" class="img-fluid mb-2" style="max-height:120px;">
+                                    <span class="w-100 text-center">Easy</span>
+                                </button>
                             </div>
                             <div class="text-center flex-fill mx-2">
-                                <button type="button" class="btn btn-outline-primary w-100 mb-2" id="mediumBtn">Medium</button>
-                                <img src="assets/images/medium.webp" alt="Medium difficulty" class="img-fluid" style="max-height:60px;">
+                                <button type="button" class="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3" id="mediumBtn">
+                                    <img src="assets/images/medium.webp" alt="Medium difficulty" class="img-fluid mb-2" style="max-height:120px;">
+                                    <span class="w-100 text-center">Medium</span>
+                                </button>
                             </div>
                             <div class="text-center flex-fill mx-2">
-                                <button type="button" class="btn btn-outline-danger w-100 mb-2" id="hardBtn">Hard</button>
-                                <img src="assets/images/hard.webp" alt="Hard difficulty" class="img-fluid" style="max-height:60px;">
+                                <button type="button" class="btn btn-outline-danger w-100 d-flex flex-column align-items-center py-3" id="hardBtn">
+                                    <img src="assets/images/hard.webp" alt="Hard difficulty" class="img-fluid mb-2" style="max-height:120px;">
+                                    <span class="w-100 text-center">Hard</span>
+                                </button>
                             </div>
                         </div>
                     </div>
