@@ -1,43 +1,43 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // // Difficulty Modal JS
-    // var difficultyModalEl = document.getElementById('difficultyModal');
-    // var difficultyModal = difficultyModalEl ? new bootstrap.Modal(difficultyModalEl) : null;
-    // var difficultyBtn = document.getElementById('difficultyBtn');
-    // if (difficultyBtn && difficultyModal) {
-    //     difficultyBtn.addEventListener('click', function() {
-    //         difficultyModal.show();
-    //     });
-    // }
+    // Difficulty Modal JS
+    var difficultyModalEl = document.getElementById('difficultyModal');
+    var difficultyModal = difficultyModalEl ? new bootstrap.Modal(difficultyModalEl) : null;
+    var difficultyBtn = document.getElementById('difficultyBtn');
+    if (difficultyBtn && difficultyModal) {
+        difficultyBtn.addEventListener('click', function() {
+            difficultyModal.show();
+        });
+    }
 
-    // // Best Of Modal JS
-    // var bestOfModalEl = document.getElementById('bestOfModal');
-    // var bestOfModal = bestOfModalEl ? new bootstrap.Modal(bestOfModalEl) : null;
-    // var bestOfBtn = document.getElementById('bestOfBtn');
-    // if (bestOfBtn && bestOfModal) {
-    //     bestOfBtn.addEventListener('click', function() {
-    //         bestOfModal.show();
-    //     });
-    // }
+    // Best Of Modal JS
+    var bestOfModalEl = document.getElementById('bestOfModal');
+    var bestOfModal = bestOfModalEl ? new bootstrap.Modal(bestOfModalEl) : null;
+    var bestOfBtn = document.getElementById('bestOfBtn');
+    if (bestOfBtn && bestOfModal) {
+        bestOfBtn.addEventListener('click', function() {
+            bestOfModal.show();
+        });
+    }
 
-    // // Difficulty modal button clicks (for future logic)
-    // ['easyBtn', 'mediumBtn', 'hardBtn'].forEach(function(id) {
-    //     var btn = document.getElementById(id);
-    //     if (btn) {
-    //         btn.addEventListener('click', function() {
-    //             console.log('Difficulty selected:', btn.textContent.trim());
-    //         });
-    //     }
-    // });
+    // Difficulty modal button clicks (for future logic)
+    ['easyBtn', 'mediumBtn', 'hardBtn'].forEach(function(id) {
+        var btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener('click', function() {
+                console.log('Difficulty selected:', btn.textContent.trim());
+            });
+        }
+    });
 
-    // // Best Of modal button clicks (for future logic)
-    // ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id) {
-    //     var btn = document.getElementById(id);
-    //     if (btn) {
-    //         btn.addEventListener('click', function() {
-    //             console.log('Best Of selected:', btn.textContent.trim());
-    //         });
-    //     }
-    // });
+    // Best Of modal button clicks (for future logic)
+    ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id) {
+        var btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener('click', function() {
+                console.log('Best Of selected:', btn.textContent.trim());
+            });
+        }
+    });
 
     /** Data structures*/
 
