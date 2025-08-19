@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-
     /** Data structures*/
 
     // Choices available in the game,
@@ -23,10 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // all possible game outcomes:
     const outcomes = { win: "win", lose: "lose", draw: "draw" };
 
+    // difficulty levels
+    const difficultyLevels = {
+        easy: "easy",
+        normal: "normal",
+        hard: "hard",
+    };
+
     /** Global Variables - keep to minimum */
     let playerWins = 0;
     let computerWins = 0;
     let drawnGames = 0;
+
+    const playerChoices = [];   // Array containing list of choices that the player has made
 
     // Generate array of all user gameplay choice button elements.
     const choiceButtonsArray =
@@ -40,7 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
     /** handles user click events on game move choice buttons */
     function handleUserMoveChoice(e) {
         const buttonId = e.currentTarget.id;
-        const computerChoice = opponentChoiceGenerator();
+        playerChoices.push(buttonId);
+
+        const computerChoice = computerChoiceGenerator(difficultyLevels.easy);
         console.log(
             `Player selected ${buttonId}\nComputer selected ${computerChoice}`
         );
@@ -69,24 +79,38 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /** CPU choice function: returns one of the five options as a CPU choice */
-    function opponentChoiceGenerator() {
-        const moveChoicesArray = Object.values(moveChoices);
-        let randomIndex = Math.floor(Math.random() * moveChoicesArray.length); // Get pseudorandom number of 1 - 5 to select opponent choice from array
+    function computerChoiceGenerator(difficulty) {
+        let selection = null;
 
-        const selection = moveChoicesArray[randomIndex];
+        switch(difficulty){
+            case difficultyLevels.easy:
+                const moveChoicesArray = Object.values(moveChoices);
+                selection = moveChoicesArray[randomMoveIndex()];
+            break;
+        }
+
         return selection;
     }
 
+    function randomMoveIndex()
+    {
+        let randomIndex = Math.floor(Math.random() * (Object.keys(moveChoices).length)); // Get pseudorandom number of 1 - 5 to select opponent choice from array
+        return randomIndex;
+    }
+
+
     /** Updates win/lose/draw scores */
-    function updateScores(playerOutcome){
-        if(playerOutcome === outcomes.win){
+    function updateScores(playerOutcome) {
+        if (playerOutcome === outcomes.win) {
             playerWins++;
-        }else if(playerOutcome === outcomes.lose){
+        } else if (playerOutcome === outcomes.lose) {
             computerWins++;
-        }else if(playerOutcome === outcomes.draw){
+        } else if (playerOutcome === outcomes.draw) {
             drawnGames++;
-        }else{
-            console.log("Error - checkIfPlayerWins() returned invalid response");
+        } else {
+            console.log(
+                "Error - checkIfPlayerWins() returned invalid response"
+            );
         }
     }
 
@@ -94,17 +118,20 @@ document.addEventListener("DOMContentLoaded", function () {
      * TODO: Make scores display on page istead of console.
      * This function has placeholder functionality until html page is ready
      */
-    function displayScores(){
-        console.log(`Player Score is: ${playerWins}\nComputer score is: ${computerWins}\nDraws is: ${drawnGames}`);
+    function displayScores() {
+        console.log(
+            `Player Score is: ${playerWins}\nComputer score is: ${computerWins}\nDraws is: ${drawnGames}`
+        );
     }
 
     /** Reset scores / win counts */
-    function resetGame(){
+    function resetGame() {
         playerWins = 0;
         computerWins = 0;
         drawnGames = 0;
-    }
 
+        playerChoices.length = 0;
+    }
 
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
