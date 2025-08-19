@@ -39,6 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+
+    //--------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
+
     /** Data structures*/
 
     // Choices available in the game,
@@ -70,11 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     /** Global Variables - keep to minimum */
+
+    let currentDifficulty = difficultyLevels.normal;
+
+    const playerChoices = []; // Array containing list of choices that the player has made
+
     let playerWins = 0;
     let computerWins = 0;
     let drawnGames = 0;
-
-    const playerChoices = []; // Array containing list of choices that the player has made
 
     // Generate array of all user gameplay choice button elements.
     const choiceButtonsArray =
@@ -85,6 +92,8 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", handleUserMoveChoice);
     }
 
+    //--------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
     /** handles user click events on game move choice buttons */
     function handleUserMoveChoice(e) {
         const buttonId = e.currentTarget.id;
@@ -109,6 +118,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // TODO: Reflect outcome of game in the html from here:
     }
+
+    //--------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
+
+    function difficultyChange(){
+
+    }
+
 
     /**Parameters: strings for player1 and player2 choices,
      * returns outcome of game from the player's perspective
