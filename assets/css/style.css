@@ -18,7 +18,7 @@ h4, h5, h6, p {
     font-family: var(--secondary-font);
 }
 
-.accent, .accent-text {
+.accent, .accent-text, li {
     font-family: var(--tertiary-font);
 }
 
@@ -37,7 +37,15 @@ background-color: #A66500;
 
 .how-to-img {
     max-width: 100%;
-    height: auto;
+    height: 350px;
+}
+
+#difficultyModal .modal-content {
+    background-color: #7f634b;
+}
+
+#instructionsModal .modal-content {
+    background-color: #7f634b;
 }
 
 .move-choice-btn img,
