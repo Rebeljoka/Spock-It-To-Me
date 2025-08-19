@@ -32,7 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleUserChoice(e) {
         const buttonId = e.currentTarget.id;
         const computerChoice = opponentChoiceGenerator();
-        console.log(`Player selected ${buttonId}\nComputer selected ${computerChoice}`);
+        console.log(
+            `Player selected ${buttonId}\nComputer selected ${computerChoice}`
+        );
 
         const outcome = checkIfPlayerWins(buttonId, computerChoice);
         console.log(outcome);
@@ -44,14 +46,11 @@ document.addEventListener("DOMContentLoaded", function () {
      * returns outcome of game from the player's perspective
      */
     function checkIfPlayerWins(playerChoice, computerChoice) {
-
         let outcome = outcomes.draw; // defaults to draw, change only if needed
 
-        if(winRules[playerChoice].includes(computerChoice)){
+        if (winRules[playerChoice].includes(computerChoice)) {
             outcome = outcomes.win;
-        }
-        else if(winRules[computerChoice].includes(playerChoice))
-        {
+        } else if (winRules[computerChoice].includes(playerChoice)) {
             outcome = outcomes.lose;
         }
 
@@ -66,4 +65,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const selection = moveChoicesArray[randomIndex];
         return selection;
     }
+
+    
+    /** Code for handling interactive JS styling */
+    const userRockBtn = document.getElementById("rock");
+    const userRockImg = document.getElementById("UserRockImg");
+    const defaultSrc = "assets/images/stoneBtn.webp";
+    const selectedSrc = "assets/images/stoneBtnClicked.webp";
+
+    userRockBtn.addEventListener("click", function () {
+        userRockImg.src = selectedSrc;
+        setTimeout(() => {
+            userRockImg.src = defaultSrc;
+        }, 200); // 200ms delay before switching back
+    });
 });
