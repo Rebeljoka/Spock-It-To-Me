@@ -1,6 +1,8 @@
+
 .headerImage {
-    max-width: 25vw;
-    padding-top: 2.5rem;
+    max-width: 100vw;
+    height: 450px;
+    padding-top: 1rem;
 }
 
 body {
@@ -8,18 +10,79 @@ body {
     background-repeat: no-repeat;
     background-size: 100vw auto;
     background-position: top center;
+background-color: #A66500;
 }
 
-.move-choice-btn img {
-    max-width: 100% auto;
-    height: 200px;
-    margin-left: 2px !important;
-    margin-right: 2px !important;
-}
 
+.move-choice-btn img,
 .CPU-btn img {
-    max-width: 100% auto;
-    height: 200px;
-    margin-left: 2px !important;
-    margin-right: 2px !important;
+    width: 80px;
+    height: 80px;
+    margin: 2px !important;
+}
+
+@media (max-width: 768px) {
+    .headerImage {
+        max-width: 100vw;
+        height: 250px;
+        padding-top: 0.5rem;
+    }
+    .move-choice-btn img,
+    .CPU-btn img {
+        width: 48px;
+        height: 48px;
+    }
+    .p-3 {
+        padding: 1rem !important;
+    }
+    h2 {
+        font-size: 1.2rem;
+    }
+    p {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .headerImage {
+        max-width: 100vw;
+        height: 350px;
+        padding-top: 0.75rem;
+    }
+    .move-choice-btn img,
+    .CPU-btn img {
+        width: 64px;
+        height: 64px;
+    }
+    .p-3 {
+        padding: 1.5rem !important;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .headerImage {
+        max-width: 100vw;
+        height: 600px;
+        padding-top: 2rem;
+    }
+    .move-choice-btn img,
+    .CPU-btn img {
+        width: 120px;
+        height: 120px;
+    }
+    .p-3 {
+        padding: 2rem !important;
+    }
+    h2 {
+        font-size: 2rem;
+    }
+    p {
+        font-size: 1.25rem;
+    }
 }

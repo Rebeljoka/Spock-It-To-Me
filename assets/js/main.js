@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Boilerplate JS for instructions modal (can be expanded later)
+    var instructionsModal = document.getElementById('instructionsModal');
+    if (instructionsModal) {
+        // Example: Show modal programmatically
+        // var modal = new bootstrap.Modal(instructionsModal);
+        // modal.show();
+    }
+
+    
     /** Data structures*/
 
     // Choices available in the game,
