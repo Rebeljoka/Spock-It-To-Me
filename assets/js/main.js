@@ -307,6 +307,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateScores(playerOutcome) {
         if (playerOutcome === outcomes.win) {
             playerWins++;
+            jsConfetti.addConfetti({
+                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
         } else if (playerOutcome === outcomes.lose) {
             computerWins++;
         } else if (playerOutcome === outcomes.draw) {
@@ -394,3 +399,6 @@ document.addEventListener("DOMContentLoaded", function () {
             userSpockImg.src = defaultSpockSrc;
         }, 200);
     });
+
+const canvas = document.getElementById("confetti-canvas");
+const jsConfetti = new JSConfetti({ canvas });
