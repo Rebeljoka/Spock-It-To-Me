@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     /** Data structures*/
 
     // Choices available in the game,
-    const moveChoices = {
+    const moveOptions = {
         rock: "rock",
         paper: "paper",
         scissors: "scissors",
@@ -82,11 +82,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /** winRules - array holds values that the property will beat */
     const winRules = {
-        rock: [moveChoices.scissors, moveChoices.lizard],
-        paper: [moveChoices.spock, moveChoices.rock],
-        scissors: [moveChoices.paper, moveChoices.lizard],
-        spock: [moveChoices.scissors, moveChoices.rock],
-        lizard: [moveChoices.spock, moveChoices.paper],
+        rock: [moveOptions.scissors, moveOptions.lizard],
+        paper: [moveOptions.spock, moveOptions.rock],
+        scissors: [moveOptions.paper, moveOptions.lizard],
+        spock: [moveOptions.scissors, moveOptions.rock],
+        lizard: [moveOptions.spock, moveOptions.paper],
     };
 
     // all possible game outcomes:
@@ -103,15 +103,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let currentDifficulty = difficultyLevels.medium;
 
-    const playerChoices = []; // Array containing list of choices that the player has made
+    /** Array containing list of choices that the player has made 
+     * DO NOT update with current event move selection until AFTER
+     * all calculations relating to CPU have been done or will
+     * HEAVILY advantage CPU move choice in favour of the CPU
+    */
+    const playerChoices = [];
 
     let playerWins = 0;
     let computerWins = 0;
     let drawnGames = 0;
 
     // Generate array of all user gameplay choice button elements.
-    const choiceButtonsArray =
-        document.getElementsByClassName("move-choice-btn");
+    const choiceButtonsArray = document.getElementsByClassName("move-choice-btn");
     // Add event listeners for each button - for click and for Enter key down
     for (let button of choiceButtonsArray) {
         console.log(button.id);
@@ -123,7 +127,6 @@ document.addEventListener("DOMContentLoaded", function () {
     /** handles user click events on game move choice buttons */
     function handleUserMoveChoice(e) {
         const buttonId = e.currentTarget.id;
-        playerChoices.push(buttonId);
         console.log(`Player choices array: ${playerChoices}`);
 
         const computerChoice = computerChoiceGenerator(currentDifficulty);
@@ -142,6 +145,11 @@ document.addEventListener("DOMContentLoaded", function () {
         displayScores();
 
         // TODO: Reflect outcome of game in the html from here:
+
+        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPUS GO THIS ROUND
+         * Especially a huge problem for MEDIUM difficulty
+         */
+        playerChoices.push(buttonId);
     }
 
     //--------------------------------------------------------------------------------------
@@ -152,13 +160,123 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log('Difficulty selected:', e.currentTarget.id);
         let newDifficulty = e.currentTarget.id;
         if(newDifficulty === currentDifficulty){
-            console.log("No changs to difficulty, nothing changed or reset");
+            console.log("No changes to difficulty, nothing changed or reset");
         }
         else{
             console.log(`Difficult level change from ${currentDifficulty} to ${newDifficulty}\nresetting scores and history.`);
             currentDifficulty = newDifficulty;
             resetGame();
         }
+    }
+
+
+    /** CPU choice function: returns one of the five options as a CPU choice 
+     * Difficultly parameter options are easy, medium and hard as per the difficultyLevels object
+     *  - Easy: straight random choice
+     *  - Medium: 40% chance of CPU counter against the last used player move
+     *  - Hard: 70% chance of GPU counter against the last used player move
+     * Returns: a cpu move choise based upon the difficulty level
+    */
+    function computerChoiceGenerator(difficulty) {
+        let cpuSelection = null;
+
+        switch (difficulty) {
+            case difficultyLevels.easy:
+                cpuSelection = randomMoveChoice();
+                break;
+            case difficultyLevels.medium:
+                if(playerChoices.length === 0) return randomMoveChoice();
+                const lastMove = playerChoices[playerChoices.length - 1];
+
+                // Bit complex, but this should create an array (counterMovesArray) that includes
+                //  only winRules keys that include in their array lastMove as a move they beat
+                const counterMovesArray = Object.keys(winRules).filter(
+                    choice => winRules[choice].includes(lastMove));
+                
+                cpuSelection = weightedChoice(counterMovesArray, 0.4);
+                break;
+            case difficultyLevels.hard:
+                console.log(`${difficulty} difficulty not implemented yet`);
+                break;
+        }
+        if(cpuSelection === null){
+            return randomMoveChoice();
+        }
+        else{
+            return cpuSelection;
+        }
+    }
+
+    /** Generates a random index number between 0 - (number of choices - 1) */
+    function randomMoveChoice() {
+        const arrayOfMoveOptions = Object.keys(moveOptions);
+        let randomIndex = Math.floor(Math.random() * arrayOfMoveOptions.length);
+        return arrayOfMoveOptions[randomIndex];
+    }
+
+
+    /** Calculates which move in the playerChoices is most picked / favoutire
+     * Returns most commonly selected player move from playerChoices array
+     * If more than one shares first place, fist one of these encountered in array will be chosen
+    */
+    function playerFavouriteMove() {
+        const countPlayerChoices = {};
+        // Record number of times each choice was selected
+        for (let choice of playerChoices) {
+            countPlayerChoices[choice] = (countPlayerChoices[choice] || 0) + 1;
+        }
+        console.log(`countPlayerChoices: ${JSON.stringify(countPlayerChoices)}`);
+
+        // Find the most-picked choice
+        const entries = Object.entries(countPlayerChoices);
+        if (entries.length === 0) return null;
+
+        entries.sort(function (a, b) {
+            return b[1] - a[1]; // Sort by count, descending
+        });
+
+        const favouriteMove = entries[0][0]; // The choice with the highest count
+        console.log(`Player's favourite move is: ${favouriteMove}`)
+        return favouriteMove;
+    }
+
+
+    /** Create array of move options, based on moveOptions, with duplicate entries
+     * for those options that you are biasing towards
+     * Parameters:
+     * preferred - array of 
+     * 
+     */
+    function weightedChoice(preferred, weight = 0.5) {
+
+        // This function returns an array with the move repeated more times if it's preferred,
+        // just the once if its no preferred
+        function expandIfPreferred(moveOption) {
+            if (preferred.includes(moveOption)) {
+                // If moveOption is in preferred array, creates and returns new array 
+                //  of size (weight * 10), and fills all elements with moveOption
+                return Array(Math.round(weight * 10)).fill(moveOption);
+            } else {
+                // If not in preferred array, just include it once
+                return [moveOption];
+            }
+        }
+
+        var biasedMoveOptionsArray = [];
+        const moveOptionsArray = Object.keys(moveOptions);
+        // Go through every possible move
+        for (var i = 0; i < moveOptionsArray.length; i++) {
+            // Get the expanded array for this move
+            var expanded = expandIfPreferred(moveOptionsArray[i]);
+            // Add each item from the expanded array into the pool
+            for (var j = 0; j < expanded.length; j++) {
+                biasedMoveOptionsArray.push(expanded[j]);
+            }
+        }
+
+        // Pick a random move from the pool
+        if (biasedMoveOptionsArray.length === 0) return null;
+        return biasedMoveOptionsArray[Math.floor(Math.random() * biasedMoveOptionsArray.length)];
     }
 
 
@@ -181,61 +299,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return outcome;
     }
 
-    /** CPU choice function: returns one of the five options as a CPU choice */
-    function computerChoiceGenerator(difficulty) {
-        let selection = null;
-
-        switch (difficulty) {
-            case difficultyLevels.easy:
-                const moveChoicesArray = Object.values(moveChoices);
-                selection = moveChoicesArray[randomMoveIndex()];
-                break;
-            case difficultyLevels.medium:
-                console.log(`${difficulty} difficulty not implemented yet`);
-                break;
-            case difficultyLevels.hard:
-                console.log(`${difficulty} difficulty not implemented yet`);
-                break;
-        }
-
-        return selection;
-    }
-
-    /** Generates a random index number between 0 - (number of choices - 1) */
-    function randomMoveIndex() {
-        let randomIndex = Math.floor(
-            Math.random() * Object.keys(moveChoices).length
-        ); // Get pseudorandom number of 1 - 5 to select opponent choice from array
-        return randomIndex;
-    }
-
-    /** Returns most commonly selected player choice from playerChoices array */
-    function playerFavouriteMove() {
-        const countPlayerChoices = {};
-
-        // Record number of times each choice was selected
-        for (let choice of playerChoices) {
-            countPlayerChoices[choice] = (countPlayerChoices[choice] || 0) + 1;
-            console.log(
-                `countPlayerChoices: ${JSON.stringify(countPlayerChoices)}`
-            );
-        }
-
-        // Find the most-picked choice
-        const entries = Object.entries(countPlayerChoices);
-        // Below: all possible choices should have been added even if no instance of their use have been counted
-        if (entries.length === 0) return null;
-
-        entries.sort(function (a, b) {
-            return b[1] - a[1]; // Sort by count, descending
-        });
-
-        const favouriteMove = entries[0][0]; // The choice with the highest count
-        console.log(`Player's favourite move is: ${favouriteMove}`)
-        return favouriteMove;
-    }
-
-    /** Updates win/lose/draw scores */
+    /** Updates win/lose/draw scores 
+     * Returns: nothing
+    */
     function updateScores(playerOutcome) {
         if (playerOutcome === outcomes.win) {
             playerWins++;
