@@ -51,9 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ['easyBtn', 'mediumBtn', 'hardBtn'].forEach(function(id) {
         var btn = document.getElementById(id);
         if (btn) {
-            btn.addEventListener('click', function() {
-                console.log('Difficulty selected:', btn.textContent.trim());
-            });
+            btn.addEventListener('click', difficultyChange);
         }
     });
 
@@ -94,16 +92,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // all possible game outcomes:
     const outcomes = { win: "win", lose: "lose", draw: "draw" };
 
-    // difficulty levels
+    // difficulty levels - map to ids of difficult buttons in difficulty modal
     const difficultyLevels = {
-        easy: "easy",
-        normal: "normal",
-        hard: "hard",
+        easy: "easyBtn",
+        medium: "mediumBtn",
+        hard: "hardBtn",
     };
 
     /** Global Variables - keep to minimum */
 
-    let currentDifficulty = difficultyLevels.normal;
+    let currentDifficulty = difficultyLevels.medium;
 
     const playerChoices = []; // Array containing list of choices that the player has made
 
@@ -128,11 +126,10 @@ document.addEventListener("DOMContentLoaded", function () {
         playerChoices.push(buttonId);
         console.log(`Player choices array: ${playerChoices}`);
 
-        const computerChoice = computerChoiceGenerator(difficultyLevels.easy);
+        const computerChoice = computerChoiceGenerator(currentDifficulty);
         if (computerChoice == null) {
-            throw new Error(
-                "Null reference passed back from computerChoiceGenerator()"
-            );
+            console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
+            return;
         }
         console.log(
             `Player selected ${buttonId}\nComputer selected ${computerChoice}`
@@ -150,16 +147,31 @@ document.addEventListener("DOMContentLoaded", function () {
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
 
-    function difficultyChange(){
+    function difficultyChange(e){
 
+        console.log('Difficulty selected:', e.currentTarget.id);
+        let newDifficulty = e.currentTarget.id;
+        if(newDifficulty === currentDifficulty){
+            console.log("No changs to difficulty, nothing changed or reset");
+        }
+        else{
+            console.log(`Difficult level change from ${currentDifficulty} to ${newDifficulty}\nresetting scores and history.`);
+            currentDifficulty = newDifficulty;
+            resetGame();
+        }
     }
 
 
-    /**Parameters: strings for player1 and player2 choices,
+    /**Parameters: strings for player and computer choices,
      * returns outcome of game from the player's perspective
      */
     function checkIfPlayerWins(playerChoice, computerChoice) {
         let outcome = outcomes.draw; // defaults to draw, change only if needed
+
+        if(playerChoice == null || computerChoice == null){
+            console.error("null reference passed into checkIfPlayerWins, returning from function");
+            return;
+        }
 
         if (winRules[playerChoice].includes(computerChoice)) {
             outcome = outcomes.win;
@@ -177,6 +189,12 @@ document.addEventListener("DOMContentLoaded", function () {
             case difficultyLevels.easy:
                 const moveChoicesArray = Object.values(moveChoices);
                 selection = moveChoicesArray[randomMoveIndex()];
+                break;
+            case difficultyLevels.medium:
+                console.log(`${difficulty} difficulty not implemented yet`);
+                break;
+            case difficultyLevels.hard:
+                console.log(`${difficulty} difficulty not implemented yet`);
                 break;
         }
 
