@@ -167,23 +167,23 @@
                 <div class="p-3 border text-center">
                     <h2 class="text-center">Your Move:</h2>
                     <p class="text-center">Pick Your Move.</p>
-                    <div class="d-flex flex-column align-items-center py-3">
-                        <div class="d-flex justify-content-center mb-2">
-                            <button type="button" class="btn mx-1 move-choice-btn" id="rock">
+                    <div class="d-flex flex-column align-items-center py-0">
+                        <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="rock">
                                 <img src="assets/images/rockBtn.webp" id="UserRockImg">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn" id="paper">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="paper">
                                 <img src="assets/images/paperBtn.webp" id="UserPaperImg">
                             </button>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn mx-1 move-choice-btn" id="scissors">
+                        <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="scissors">
                                 <img src="assets/images/scissorsBtn.webp" id="UserScissorsImg">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn" id="lizard">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="lizard">
                                 <img src="assets/images/lizardBtn.webp" id="UserLizardImg">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn" id="spock">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="spock">
                                 <img src="assets/images/spockBtn.webp" id="UserSpockImg">
                             </button>
                         </div>
@@ -195,23 +195,23 @@
                 <div class="p-3 border text-center">
                     <h2 class="text-center">Opponent Move:</h2>
                     <p class="text-center">Opponent Picks Their Move.</p>
-                    <div class="d-flex flex-column align-items-center py-3">
-                        <div class="d-flex justify-content-center mb-2">
-                            <button type="button" class="btn mx-1 CPU-btn" id="CPURock">
+                    <div class="d-flex flex-column align-items-center py-0">
+                        <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPURock">
                                 <img src="assets/images/rockBtn.webp" id="CPURockImg">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn" id="CPUPaper">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUPaper">
                                 <img src="assets/images/paperBtn.webp" id="CPUPaperImg">
                             </button>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn mx-1 CPU-btn" id="CPUScissors">
+                        <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUScissors">
                                 <img src="assets/images/scissorsBtn.webp" id="CPUScissorsImg">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn" id="CPULizard">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPULizard">
                                 <img src="assets/images/lizardBtn.webp" id="CPULizardImg">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn" id="CPUSpock">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUSpock">
                                 <img src="assets/images/spockBtn.webp" id="CPUSpockImg">
                             </button>
                         </div>
@@ -220,23 +220,23 @@
             </section>
         </div>
 
-    <!-- Start/Stop and Modal Trigger Buttons -->
+    <!-- Start/Stop, Score, and Modal Buttons Responsive Row -->
     <div class="container my-4">
-        <div class="row">
-            <div class="col-12 col-md-4 d-flex justify-content-start gap-3 mb-3 mb-md-0">
-                <button type="button" class="btn btn-success btn-lg" id="startBtn">Start</button>
-                <button type="button" class="btn btn-danger btn-lg" id="stopBtn">Stop</button>
+        <div class="row g-3 align-items-center text-center">
+            <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-start gap-2 gap-md-3 order-2 order-md-1">
+                <button type="button" class="btn btn-success btn-lg w-50 w-md-auto" id="startBtn">Start</button>
+                <button type="button" class="btn btn-danger btn-lg w-50 w-md-auto" id="stopBtn">Stop</button>
             </div>
-            <div class="col-12 col-md-4 d-flex justify-content-center mb-3 mb-md-0">
-                <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center">
+            <div class="col-12 col-md-4 d-flex justify-content-center align-items-center order-3 order-md-2">
+                <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center w-100">
                     <span class="fw-bold scoreTxt">Score:</span>
                     <span id="playerScore">0</span> - <span id="cpuScore">0</span> - <span id="drawScore">0</span>
                 </div>
             </div>
-            <div class="col-12 col-md-4 d-flex justify-content-end gap-3">
-                <button type="button" class="btn btn-primary btn-lg" id="difficultyBtn" data-bs-toggle="modal"
+            <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-end gap-2 gap-md-3 order-1 order-md-3">
+                <button type="button" class="btn btn-primary btn-lg w-50 w-md-auto" id="difficultyBtn" data-bs-toggle="modal"
                     data-bs-target="#difficultyModal">Difficulty</button>
-                <button type="button" class="btn btn-warning btn-lg" id="bestOfBtn" data-bs-toggle="modal"
+                <button type="button" class="btn btn-warning btn-lg w-50 w-md-auto" id="bestOfBtn" data-bs-toggle="modal"
                     data-bs-target="#bestOfModal">Best Of</button>
             </div>
         </div>
