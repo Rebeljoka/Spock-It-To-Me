@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Override console.log to also log to the browser-console div
+    const originalConsoleLog = console.log;
+    console.log = function (...args) {
+        originalConsoleLog.apply(console, args);
+        const el = document.getElementById('browser-console');
+        if (el) {
+            el.innerHTML += args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '<br>';
+        }
+    };
+
     // Difficulty Modal JS
     var difficultyModalEl = document.getElementById('difficultyModal');
     var difficultyModal = difficultyModalEl ? new bootstrap.Modal(difficultyModalEl) : null;
