@@ -314,6 +314,12 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         } else if (playerOutcome === outcomes.lose) {
             computerWins++;
+            jsConfetti.addConfetti({
+                emojis: [ "❌", "💔"],
+                confettiColors: ["#FF2A00"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
         } else if (playerOutcome === outcomes.draw) {
             drawnGames++;
         } else {
