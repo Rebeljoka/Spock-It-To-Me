@@ -22,15 +22,15 @@ function getAIChoice(playerHistory = [], difficulty = "easy") {
 }
 
 // Helper Functions
-function randomChoice() {
-  return choices[Math.floor(Math.random() * choices.length)];
-}
+// function randomChoice() {
+//   return choices[Math.floor(Math.random() * choices.length)];
+// }
 
-function mostFrequent(arr) {
-  const count = {};
-  arr.forEach(item => count[item] = (count[item] || 0) + 1);
-  return Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
-}
+// function mostFrequent(arr) {
+//   const count = {};
+//   arr.forEach(item => count[item] = (count[item] || 0) + 1);
+//   return Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+// }
 
 function weightedChoice(preferred, weight = 0.5) {
   const pool = choices.flatMap(choice =>
