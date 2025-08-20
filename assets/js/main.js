@@ -206,8 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
         disableRestartButton();
         disablePlayerMoveButtons();
         disableCpuMoveButtons();
-        gameStateMessageEl.innerText = "That's it! Game completed!\n"
-        gameStateMessageEl.innerText += `${gameOutcomeMessage()}\n`;
+        // gameStateMessageEl.innerText = "That's it! Game completed!\n"
+        // gameStateMessageEl.innerText += `${gameOutcomeMessage()}\n`;
     }
 
     function gameRestartFunc(){
@@ -287,15 +287,18 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(`playerOutcome is: ${playerOutcome}`);
 
         startCountdown(() => {
-            gameStateMessageEl.innerText = `Player chose ${playerChoiceButtonId}! Computer chose ${computerChoice}!\n`;
+            gameStateMessageEl.innerText = `You chose ${playerChoiceButtonId}! Computer chose ${computerChoice}!\n`;
             gameStateMessageEl.innerText += `You ${playerOutcome}!\n`;
             updateScores(playerOutcome);
             displayScores();
 
             if(gameComplete === true){
                 // startCountdown(showWinner);
-                showWhoWonCountdown(showWinner);
-                showWhoWonCountdown();
+                showWhoWonCountdown(() => {
+                    gameStateMessageEl.innerText = `Game Over! ${gameOutcomeMessage().toUpperCase()}`;
+                    displayWhoWonTimedMessage();
+                });
+                gameCompleteFunc();
             }
         });
 
@@ -653,7 +656,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 700);
     }
 
-    /** Timer used to delay callback by 5 seconds, display "WHO WON?"
+    /** Timer used to delay callback by 4 seconds, display "WHO WON THE GAME?"
      * while counting down
      */
     function showWhoWonCountdown(callback) {
@@ -665,14 +668,36 @@ document.addEventListener("DOMContentLoaded", function () {
         whoWonDiv.style.fontSize = "4rem";
         whoWonDiv.style.fontWeight = "bold";
         whoWonDiv.style.textAlign = "center";
-        whoWonDiv.innerText = "WHO WON?";
+        whoWonDiv.style.color = "purple";
+        whoWonDiv.innerText = "WHO WON THE GAME?";
         container.appendChild(whoWonDiv);
 
-        // Show "WHO WON?" for 5 seconds, then clear and call callback
+        // Show "WHO WON?" for 4 seconds, then clear and call callback
         setTimeout(() => {
             container.innerHTML = "";
             if (typeof callback === "function") callback();
-        }, 5000);
+        }, 4000);
+    }
+
+    /**Timer being used to display who won the game prominently for 4 seconds  */
+    function displayWhoWonTimedMessage(callback) {
+        const container = document.getElementById("countdown-timer-container");
+        if (!container) return;
+        container.innerHTML = "";
+        const whoWonTimedMessageDiv = document.createElement("div");
+        whoWonTimedMessageDiv.id = "display-who-won-timer";
+        whoWonTimedMessageDiv.style.fontSize = "4rem";
+        whoWonTimedMessageDiv.style.fontWeight = "bold";
+        whoWonTimedMessageDiv.style.textAlign = "center";
+        whoWonTimedMessageDiv.style.color = "red";
+        whoWonTimedMessageDiv.innerText = gameOutcomeMessage();
+        container.appendChild(whoWonTimedMessageDiv);
+
+        // Show whoWonDiv.innerText for 4 seconds, then clear and call callback
+        setTimeout(() => {
+            container.innerHTML = "";
+            if (typeof callback === "function") callback();
+        }, 4000);
     }
 
     const userLizardBtn = document.getElementById("lizard");
