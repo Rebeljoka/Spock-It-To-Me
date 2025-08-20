@@ -204,8 +204,8 @@ canvas {
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
     .headerImage {
-        height: 350px;
-        padding-top: 0.75rem;
+        height: 250px;
+        padding-top: 0.5rem;
     }
     .howToPlayImg {
         width: 200px;
@@ -223,7 +223,7 @@ canvas {
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
     .headerImage {
-        height: 450px;
+        height: 400px;
         padding-top: 2rem;
     }
     .howToPlayImg {
