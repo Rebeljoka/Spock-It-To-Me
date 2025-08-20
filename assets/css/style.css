@@ -127,6 +127,23 @@ background-color: #A66500;
     text-align: center;
 }
 
+/* Solid color for selected difficulty buttons */
+#easyBtn.selected {
+    background-color: #198754 !important; /* Bootstrap success */
+    color: #fff !important;
+    border-color: #198754 !important;
+}
+#mediumBtn.selected {
+    background-color: #ffc107 !important; /* Bootstrap warning */
+    color: #212529 !important;
+    border-color: #ffc107 !important;
+}
+#hardBtn.selected {
+    background-color: #dc3545 !important; /* Bootstrap danger */
+    color: #fff !important;
+    border-color: #dc3545 !important;
+}
+
 canvas {
     position: fixed;
     top: 0;
