@@ -161,8 +161,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const playerOutcome = checkIfPlayerWins(buttonId, computerChoice);
         console.log(playerOutcome);
-        updateScores(playerOutcome);
-        displayScores();
+        startCountdown(() => {
+            updateScores(playerOutcome);
+            displayScores();
+        });
 
         // TODO: Reflect outcome of game in the html from here:
 
@@ -394,6 +396,13 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userRockImg.src = defaultRockSrc;
         }, 200);
+        startCountdown(() => {
+            jsConfetti.addConfetti({
+                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
+        });
     });
 
     const userPaperBtn = document.getElementById("paper");
@@ -405,6 +414,13 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userPaperImg.src = defaultPaperSrc;
         }, 200);
+        startCountdown(() => {
+            jsConfetti.addConfetti({
+                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
+        });
     });
 
     const userScissorsBtn = document.getElementById("scissors");
@@ -416,7 +432,46 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userScissorsImg.src = defaultScissorsSrc;
         }, 200);
+        startCountdown(() => {
+            jsConfetti.addConfetti({
+                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
+        });
     });
+    // Countdown function
+    function startCountdown(callback) {
+        const container = document.getElementById('countdown-timer-container');
+        if (!container) return;
+        container.innerHTML = '';
+        const countdownDiv = document.createElement('div');
+        countdownDiv.id = 'countdown-timer';
+        countdownDiv.style.fontSize = '4rem';
+        countdownDiv.style.fontWeight = 'bold';
+        countdownDiv.style.textAlign = 'center';
+        container.appendChild(countdownDiv);
+        let count = 3;
+        function updateCountdownDisplay(val) {
+            let color = '#ff3333';
+            if (val === 2) color = '#FFD700';
+            if (val === 1) color = '#33cc33';
+            countdownDiv.innerHTML = `<span style="color:${color}">${val}</span>`;
+        }
+        updateCountdownDisplay(count);
+        const interval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                updateCountdownDisplay(count);
+            } else if (count === 0) {
+                countdownDiv.innerHTML = `<span style="color:#33cc33">GO!</span>`;
+            } else {
+                clearInterval(interval);
+                container.innerHTML = '';
+                if (typeof callback === 'function') callback();
+            }
+        }, 700);
+    }
 
     const userLizardBtn = document.getElementById("lizard");
     const userLizardImg = document.getElementById("UserLizardImg");
