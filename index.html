@@ -28,7 +28,7 @@
     <!-- Instructions Modal -->
     <div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="instructionsModalLabel"
         aria-modal="true" role="dialog">
-        <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
                     <h5 class="modal-title text-center w-100" id="instructionsModalLabel">How to Play</h5>
@@ -74,8 +74,8 @@
         <div class="row">
             <section class="col-12 col-md-6 mb-4 mb-md-0">
                 <div class="p-3 text-center">
-                    <h2 class="text-center">Your Move:</h2>
-                    <p class="text-center">Pick Your Move.</p>
+                    <h2 class="text-center section-title">Your Move:</h2>
+                    <p class="text-center section-description">Pick Your Move.</p>
                     <div class="d-flex flex-column align-items-center py-0">
                         <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
                             <button type="button" class="btn mx-1 move-choice-btn w-auto" id="rock">
@@ -102,8 +102,8 @@
 
             <section class="col-12 col-md-6 mb-4 mb-md-0">
                 <div class="p-3 text-center">
-                    <h2 class="text-center">Opponent Move:</h2>
-                    <p class="text-center">Opponent Picks Their Move.</p>
+                    <h2 class="text-center section-title">Opponent Move:</h2>
+                    <p class="text-center section-description">Opponent Picks Their Move.</p>
                     <div class="d-flex flex-column align-items-center py-0">
                         <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
                             <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPURock">
@@ -163,7 +163,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
-                        <div class="text-center flex-fill mx-2">
+                        <div class="text-center flex-fill mx-2 smBtn">
                             <button type="button"
                                 class="btn btn-outline-success d-flex flex-column align-items-center py-3" id="easyBtn">
                                 <span class="wanted-label mb-2">WANTED</span>
@@ -215,7 +215,7 @@
     <!-- Best Of Modal -->
     <div class="modal fade" id="bestOfModal" tabindex="-1" aria-labelledby="bestOfModalLabel" aria-modal="true"
         role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
                     <h5 class="modal-title text-center w-100" id="bestOfModalLabel">Best Of:</h5>
@@ -225,20 +225,19 @@
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
                         <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn btn-outline-info w-100 mb-2" id="bestOf3Btn">3</button>
-                            <img src="assets/images/three.webp" alt="Best of 3" class="img-fluid"
-                                style="max-height:60px;">
+                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="bestOf3Btn">
+                                <img src="assets/images/three.webp" alt="Best of 3" class="img-fluid bestOfImg">
+                            </button>
                         </div>
                         <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn btn-outline-info w-100 mb-2" id="bestOf5Btn">5</button>
-                            <img src="assets/images/five.webp" alt="Best of 5" class="img-fluid"
-                                style="max-height:60px;">
+                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="bestOf5Btn">
+                                <img src="assets/images/five.webp" alt="Best of 5" class="img-fluid bestOfImg">
+                            </button>
                         </div>
                         <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn btn-outline-info w-100 mb-2"
-                                id="endlessBtn">Endless</button>
-                            <img src="assets/images/endless.webp" alt="Endless mode" class="img-fluid"
-                                style="max-height:60px;">
+                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="endlessBtn">
+                                <img src="assets/images/endless.webp" alt="Endless mode" class="img-fluid bestOfImg">
+                            </button>
                         </div>
                     </div>
                 </div>
