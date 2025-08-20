@@ -16,17 +16,15 @@
     </header>
 
     <!-- Centered Instructions Modal Trigger Button -->
-    <div class="d-flex justify-content-center my-4">
-    </div>
-        <div class="d-flex justify-content-center my-4">
-            <button type="button" class="border-0 bg-transparent p-0 d-flex flex-column align-items-center" data-bs-toggle="modal" data-bs-target="#instructionsModal" aria-label="How to Play">
-                <img src="assets/images/howToPlay.webp" alt="How to Play" class="howToPlayBtn">
-                <span class="howToPlayText mt-2">How to Play</span>
+    <div class="d-flex justify-content-center mt-2">
+        <div class="d-flex justify-content-center mt-2">
+            <button type="button" class="btn bg-transparent d-block mx-auto howToPlayBtn" data-bs-toggle="modal" data-bs-target="#instructionsModal" aria-label="How to Play">
+                <img src="assets/images/howToPlay.webp" alt="How to Play" class="howToPlayImg">
+                <span class="howToPlayText">How to Play</span>
             </button>
         </div>
+    </div>
 
-    <!-- Countdown Display (appears dynamically) -->
-    <div id="countdown-timer-container" class="d-flex justify-content-center"></div>
     <!-- Instructions Modal -->
     <div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="instructionsModalLabel"
         aria-modal="true" role="dialog">
@@ -65,6 +63,90 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Countdown Display (appears dynamically) -->
+    <div id="countdown-timer-container" class="d-flex justify-content-center"></div>
+
+    <main class="container my-4">
+        <div class="row">
+            <section class="col-12 col-md-6 mb-4 mb-md-0">
+                <div class="p-3 text-center">
+                    <h2 class="text-center">Your Move:</h2>
+                    <p class="text-center">Pick Your Move.</p>
+                    <div class="d-flex flex-column align-items-center py-0">
+                        <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="rock">
+                                <img src="assets/images/rockBtn.webp" id="UserRockImg" alt="Rock button">
+                            </button>
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="paper">
+                                <img src="assets/images/paperBtn.webp" id="UserPaperImg" alt="Paper button">
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="scissors">
+                                <img src="assets/images/scissorsBtn.webp" id="UserScissorsImg" alt="Scissors button">
+                            </button>
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="lizard">
+                                <img src="assets/images/lizardBtn.webp" id="UserLizardImg" alt="Lizard button">
+                            </button>
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="spock">
+                                <img src="assets/images/spockBtn.webp" id="UserSpockImg" alt="Spock button">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="col-12 col-md-6 mb-4 mb-md-0">
+                <div class="p-3 text-center">
+                    <h2 class="text-center">Opponent Move:</h2>
+                    <p class="text-center">Opponent Picks Their Move.</p>
+                    <div class="d-flex flex-column align-items-center py-0">
+                        <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPURock">
+                                <img src="assets/images/rockBtn.webp" id="CPURockImg" alt="CPU Rock button">
+                            </button>
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUPaper">
+                                <img src="assets/images/paperBtn.webp" id="CPUPaperImg" alt="CPU Paper button">
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUScissors">
+                                <img src="assets/images/scissorsBtn.webp" id="CPUScissorsImg" alt="CPU Scissors button">
+                            </button>
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPULizard">
+                                <img src="assets/images/lizardBtn.webp" id="CPULizardImg" alt="CPU Lizard button">
+                            </button>
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUSpock">
+                                <img src="assets/images/spockBtn.webp" id="CPUSpockImg" alt="CPU Spock button">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    <!-- Start/Stop, Score, and Modal Buttons Responsive Row -->
+    <div class="container my-4">
+        <div class="row g-3 align-items-center text-center">
+            <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-start gap-2 gap-md-3 order-2 order-md-1">
+                <button type="button" class="btn btn-success btn-lg w-50 w-md-auto" id="startBtn">Start</button>
+                <button type="button" class="btn btn-danger btn-lg w-50 w-md-auto" id="restartBtn">Restart</button>
+            </div>
+            <div class="col-12 col-md-4 d-flex justify-content-center align-items-center order-3 order-md-2">
+                <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center w-100">
+                    <span class="fw-bold scoreTxt">Score:</span>
+                    <span id="playerScore" class="text-success">0</span> - <span id="cpuScore" class="text-danger">0</span> - <span id="drawScore" class="text-secondary">0</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-end gap-2 gap-md-3 order-1 order-md-3">
+                <button type="button" class="btn btn-primary btn-lg w-50 w-md-auto" id="difficultyBtn" data-bs-toggle="modal"
+                    data-bs-target="#difficultyModal">Difficulty</button>
+                <button type="button" class="btn btn-warning btn-lg w-50 w-md-auto" id="bestOfBtn" data-bs-toggle="modal"
+                    data-bs-target="#bestOfModal">Best Of</button>
             </div>
         </div>
     </div>
@@ -163,87 +245,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <main class="container my-4">
-        <div class="row">
-            <section class="col-12 col-md-6 mb-4 mb-md-0">
-                <div class="p-3 text-center">
-                    <h2 class="text-center">Your Move:</h2>
-                    <p class="text-center">Pick Your Move.</p>
-                    <div class="d-flex flex-column align-items-center py-0">
-                        <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="rock">
-                                <img src="assets/images/rockBtn.webp" id="UserRockImg" alt="Rock button">
-                            </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="paper">
-                                <img src="assets/images/paperBtn.webp" id="UserPaperImg" alt="Paper button">
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="scissors">
-                                <img src="assets/images/scissorsBtn.webp" id="UserScissorsImg" alt="Scissors button">
-                            </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="lizard">
-                                <img src="assets/images/lizardBtn.webp" id="UserLizardImg" alt="Lizard button">
-                            </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="spock">
-                                <img src="assets/images/spockBtn.webp" id="UserSpockImg" alt="Spock button">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="col-12 col-md-6 mb-4 mb-md-0">
-                <div class="p-3 text-center">
-                    <h2 class="text-center">Opponent Move:</h2>
-                    <p class="text-center">Opponent Picks Their Move.</p>
-                    <div class="d-flex flex-column align-items-center py-0">
-                        <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPURock">
-                                <img src="assets/images/rockBtn.webp" id="CPURockImg" alt="CPU Rock button">
-                            </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUPaper">
-                                <img src="assets/images/paperBtn.webp" id="CPUPaperImg" alt="CPU Paper button">
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUScissors">
-                                <img src="assets/images/scissorsBtn.webp" id="CPUScissorsImg" alt="CPU Scissors button">
-                            </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPULizard">
-                                <img src="assets/images/lizardBtn.webp" id="CPULizardImg" alt="CPU Lizard button">
-                            </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUSpock">
-                                <img src="assets/images/spockBtn.webp" id="CPUSpockImg" alt="CPU Spock button">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-    <!-- Start/Stop, Score, and Modal Buttons Responsive Row -->
-    <div class="container my-4">
-        <div class="row g-3 align-items-center text-center">
-            <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-start gap-2 gap-md-3 order-2 order-md-1">
-                <button type="button" class="btn btn-success btn-lg w-50 w-md-auto" id="startBtn">Start</button>
-                <button type="button" class="btn btn-danger btn-lg w-50 w-md-auto" id="restartBtn">Restart</button>
-            </div>
-            <div class="col-12 col-md-4 d-flex justify-content-center align-items-center order-3 order-md-2">
-                <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center w-100">
-                    <span class="fw-bold scoreTxt">Score:</span>
-                    <span id="playerScore" class="text-success">0</span> - <span id="cpuScore" class="text-danger">0</span> - <span id="drawScore" class="text-secondary">0</span>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-end gap-2 gap-md-3 order-1 order-md-3">
-                <button type="button" class="btn btn-primary btn-lg w-50 w-md-auto" id="difficultyBtn" data-bs-toggle="modal"
-                    data-bs-target="#difficultyModal">Difficulty</button>
-                <button type="button" class="btn btn-warning btn-lg w-50 w-md-auto" id="bestOfBtn" data-bs-toggle="modal"
-                    data-bs-target="#bestOfModal">Best Of</button>
             </div>
         </div>
     </div>
