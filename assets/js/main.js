@@ -149,11 +149,45 @@ document.addEventListener("DOMContentLoaded", function () {
     const restartButtonEl = document.getElementById("restartBtn");
     restartButtonEl.addEventListener("click", resetGame);
 
+
+    //--------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
+    /** handles user click events on game move choice buttons */
+    function handleUserMoveChoice(e) {
+        const buttonId = e.currentTarget.id;
+        console.log(`Player choices array: ${playerChoices}`);
+
+        const computerChoice = computerChoiceGenerator(currentDifficulty);
+        if (computerChoice == null) {
+            console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
+            return;
+        }
+        console.log(
+            `Player selected ${buttonId}\nComputer selected ${computerChoice}`
+        );
+        playerFavouriteMove(); //Debug call
+
+        const playerOutcome = checkIfPlayerWins(buttonId, computerChoice);
+        console.log(playerOutcome);
+        updateScores(playerOutcome);
+        displayScores();
+
+        // TODO: Reflect outcome of game in the html from here:
+
+        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPUS GO THIS ROUND
+         * Especially a huge problem for MEDIUM difficulty
+         */
+        playerChoices.push(buttonId);
+    }
+
+    //--------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
+
     /** -----------------------------------------
      * Event handling functions
      */
 
-        function difficultyChange(e){a
+    function difficultyChange(e){
 
         console.log('Difficulty selected:', e.currentTarget.id);
         let newDifficulty = e.currentTarget.id;
@@ -202,8 +236,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const playerOutcome = processRound(playerChoiceButtonId, computerChoice, currentGameType);
         
         console.log(playerOutcome);
-        updateScores(playerOutcome);
-        displayScores();
+
+        startCountdown(() => {
+            updateScores(playerOutcome);
+            displayScores();
+        });
 
         // if moves this game >= moves for game type
             // disable player buttons until start or restart is clicked
@@ -496,6 +533,13 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userRockImg.src = defaultRockSrc;
         }, 200);
+        startCountdown(() => {
+            jsConfetti.addConfetti({
+                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
+        });
     });
 
     const userPaperBtn = document.getElementById("paper");
@@ -507,6 +551,13 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userPaperImg.src = defaultPaperSrc;
         }, 200);
+        startCountdown(() => {
+            jsConfetti.addConfetti({
+                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
+        });
     });
 
     const userScissorsBtn = document.getElementById("scissors");
@@ -518,7 +569,46 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userScissorsImg.src = defaultScissorsSrc;
         }, 200);
+        startCountdown(() => {
+            jsConfetti.addConfetti({
+                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
+        });
     });
+    // Countdown function
+    function startCountdown(callback) {
+        const container = document.getElementById('countdown-timer-container');
+        if (!container) return;
+        container.innerHTML = '';
+        const countdownDiv = document.createElement('div');
+        countdownDiv.id = 'countdown-timer';
+        countdownDiv.style.fontSize = '4rem';
+        countdownDiv.style.fontWeight = 'bold';
+        countdownDiv.style.textAlign = 'center';
+        container.appendChild(countdownDiv);
+        let count = 3;
+        function updateCountdownDisplay(val) {
+            let color = '#ff3333';
+            if (val === 2) color = '#FFD700';
+            if (val === 1) color = '#33cc33';
+            countdownDiv.innerHTML = `<span style="color:${color}">${val}</span>`;
+        }
+        updateCountdownDisplay(count);
+        const interval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                updateCountdownDisplay(count);
+            } else if (count === 0) {
+                countdownDiv.innerHTML = `<span style="color:#33cc33">GO!</span>`;
+            } else {
+                clearInterval(interval);
+                container.innerHTML = '';
+                if (typeof callback === 'function') callback();
+            }
+        }, 700);
+    }
 
     const userLizardBtn = document.getElementById("lizard");
     const userLizardImg = document.getElementById("UserLizardImg");
