@@ -12,14 +12,18 @@
 
 <body>
     <header class="d-flex justify-content-center">
-        <img src="assets/images/Header.webp" alt="Spock It To Me Western Town" class="img-fluid headerImage">
+        <img src="assets/images/HeaderV2.webp" alt="Spock It To Me Western Town" class="img-fluid headerImage">
     </header>
 
     <!-- Centered Instructions Modal Trigger Button -->
     <div class="d-flex justify-content-center my-4">
-        <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#instructionsModal">
-            How to Play </button>
     </div>
+        <div class="d-flex justify-content-center my-4">
+            <button type="button" class="border-0 bg-transparent p-0 d-flex flex-column align-items-center" data-bs-toggle="modal" data-bs-target="#instructionsModal" aria-label="How to Play">
+                <img src="assets/images/howToPlay.webp" alt="How to Play" class="howToPlayBtn">
+                <span class="howToPlayText mt-2">How to Play</span>
+            </button>
+        </div>
 
     <!-- Countdown Display (appears dynamically) -->
     <div id="countdown-timer-container" class="d-flex justify-content-center"></div>
