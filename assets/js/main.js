@@ -340,8 +340,19 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateScores(playerOutcome) {
         if (playerOutcome === outcomes.win) {
             playerWins++;
+            jsConfetti.addConfetti({
+                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
         } else if (playerOutcome === outcomes.lose) {
             computerWins++;
+            jsConfetti.addConfetti({
+                emojis: [ "❌", "💔"],
+                confettiColors: ["#FF2A00"],
+                emojiSize: 100,
+                confettiNumber: 500
+            });
         } else if (playerOutcome === outcomes.draw) {
             drawnGames++;
         } else {
@@ -372,19 +383,62 @@ document.addEventListener("DOMContentLoaded", function () {
         playerChoices.length = 0;
         displayScores();
     }
-
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    /** Code for handling interactive JS styling */
-    // const userRockBtn = document.getElementById("rock");
-    // const userRockImg = document.getElementById("UserRockImg");
-    // const defaultSrc = "assets/images/stoneBtn.webp";
-    // const selectedSrc = "assets/images/stoneBtnClicked.webp";
-
-    // userRockBtn.addEventListener("click", function () {
-    //     userRockImg.src = selectedSrc;
-    //     setTimeout(() => {
-    //         userRockImg.src = defaultSrc;
-    //     }, 200); // 200ms delay before switching back
-    // });
 });
+
+    const userRockBtn = document.getElementById("rock");
+    const userRockImg = document.getElementById("UserRockImg");
+    const defaultRockSrc = "assets/images/rockBtn.webp";
+    const selectedRockSrc = "assets/images/rockBtnClicked.webp";
+    userRockBtn.addEventListener("click", function () {
+        userRockImg.src = selectedRockSrc;
+        setTimeout(() => {
+            userRockImg.src = defaultRockSrc;
+        }, 200);
+    });
+
+    const userPaperBtn = document.getElementById("paper");
+    const userPaperImg = document.getElementById("UserPaperImg");
+    const defaultPaperSrc = "assets/images/paperBtn.webp";
+    const selectedPaperSrc = "assets/images/paperBtnClicked.webp";
+    userPaperBtn.addEventListener("click", function () {
+        userPaperImg.src = selectedPaperSrc;
+        setTimeout(() => {
+            userPaperImg.src = defaultPaperSrc;
+        }, 200);
+    });
+
+    const userScissorsBtn = document.getElementById("scissors");
+    const userScissorsImg = document.getElementById("UserScissorsImg");
+    const defaultScissorsSrc = "assets/images/scissorsBtn.webp";
+    const selectedScissorsSrc = "assets/images/scissorsBtnClicked.webp";
+    userScissorsBtn.addEventListener("click", function () {
+        userScissorsImg.src = selectedScissorsSrc;
+        setTimeout(() => {
+            userScissorsImg.src = defaultScissorsSrc;
+        }, 200);
+    });
+
+    const userLizardBtn = document.getElementById("lizard");
+    const userLizardImg = document.getElementById("UserLizardImg");
+    const defaultLizardSrc = "assets/images/lizardBtn.webp";
+    const selectedLizardSrc = "assets/images/lizardBtnClicked.webp";
+    userLizardBtn.addEventListener("click", function () {
+        userLizardImg.src = selectedLizardSrc;
+        setTimeout(() => {
+            userLizardImg.src = defaultLizardSrc;
+        }, 200);
+    });
+
+    const userSpockBtn = document.getElementById("spock");
+    const userSpockImg = document.getElementById("UserSpockImg");
+    const defaultSpockSrc = "assets/images/spockBtn.webp";
+    const selectedSpockSrc = "assets/images/spockBtnClicked.webp";
+    userSpockBtn.addEventListener("click", function () {
+        userSpockImg.src = selectedSpockSrc;
+        setTimeout(() => {
+            userSpockImg.src = defaultSpockSrc;
+        }, 200);
+    });
+
+const canvas = document.getElementById("confetti-canvas");
+const jsConfetti = new JSConfetti({ canvas });
