@@ -605,13 +605,9 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userRockImg.src = defaultRockSrc;
         }, 200);
-        startCountdown(() => {
-            jsConfetti.addConfetti({
-                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
-                emojiSize: 100,
-                confettiNumber: 500
+            startCountdown(() => {
+                // Confetti is now triggered only in updateScores
             });
-        });
     });
 
     const userPaperBtn = document.getElementById("paper");
@@ -624,13 +620,9 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userPaperImg.src = defaultPaperSrc;
         }, 200);
-        startCountdown(() => {
-            jsConfetti.addConfetti({
-                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
-                emojiSize: 100,
-                confettiNumber: 500
+            startCountdown(() => {
+                // Confetti is now triggered only in updateScores
             });
-        });
     });
 
     const userScissorsBtn = document.getElementById("scissors");
@@ -643,13 +635,9 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userScissorsImg.src = defaultScissorsSrc;
         }, 200);
-        startCountdown(() => {
-            jsConfetti.addConfetti({
-                emojis: ["🪙", "🎉", "✨", "🎊", "🍾", "🥳", "🎈", "🙌🏾", "🪅"],
-                emojiSize: 100,
-                confettiNumber: 500
+            startCountdown(() => {
+                // Confetti is now triggered only in updateScores
             });
-        });
     });
     // Countdown function
     function startCountdown(callback) {
@@ -657,10 +645,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!container) return;
         container.innerHTML = '';
         const countdownDiv = document.createElement('div');
-        countdownDiv.id = 'countdown-timer';
-        countdownDiv.style.fontSize = '4rem';
-        countdownDiv.style.fontWeight = 'bold';
-        countdownDiv.style.textAlign = 'center';
+        countdownDiv.classList.add('countdown-active');
         container.appendChild(countdownDiv);
         let count = 3;
         function updateCountdownDisplay(val) {

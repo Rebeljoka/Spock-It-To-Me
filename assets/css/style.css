@@ -114,6 +114,19 @@ background-color: #A66500;
     font-size: 1.5rem;
 }
 
+.greyed-out {
+    border: none;
+}
+
+.countdown-active {
+    padding: 1rem 2rem;
+    background: white;
+    border-radius: 12px;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+}
+
 canvas {
     position: fixed;
     top: 0;
