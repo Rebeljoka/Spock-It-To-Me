@@ -59,9 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id) {
         var btn = document.getElementById(id);
         if (btn) {
-            btn.addEventListener('click', function() {
-                console.log('Best Of selected:', btn.textContent.trim());
-            });
+            btn.addEventListener('click', gameTypeChange);
         }
     });
 
@@ -99,9 +97,19 @@ document.addEventListener("DOMContentLoaded", function () {
         hard: "hardBtn",
     };
 
+    // Game types
+    const gameType = {
+        BestOf3: "bestOf3Btn",
+        BestOf5: "bestOf5Btn",
+        Endless: "endlessBtn",
+    };
+
+    //------------------------------------------------------------
     /** Global Variables - keep to minimum */
 
+    // Sensible defaults for current difficulty and currentGameType
     let currentDifficulty = difficultyLevels.medium;
+    let currentGameType = gameType.BestOf3;
 
     /** Array containing list of choices that the player has made 
      * DO NOT update with current event move selection until AFTER
@@ -113,6 +121,18 @@ document.addEventListener("DOMContentLoaded", function () {
     let playerWins = 0;
     let computerWins = 0;
     let drawnGames = 0;
+
+    /**------------------------------------------------------------------
+     * Get html element references
+     */
+
+    const playerScoreEl = document.getElementById("playerScore");
+    const cpuScoreEl = document.getElementById("cpuScore");
+    const drawScoreEl = document.getElementById("drawScore");
+
+    /**-------------------------------------------------------------------
+     * Attach event handlers
+     */
 
     // Generate array of all user gameplay choice button elements.
     const choiceButtonsArray = document.getElementsByClassName("move-choice-btn");
@@ -160,11 +180,24 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log('Difficulty selected:', e.currentTarget.id);
         let newDifficulty = e.currentTarget.id;
         if(newDifficulty === currentDifficulty){
-            console.log("No changes to difficulty, nothing changed or reset");
+            console.log("User selected same difficulty level again, nothing changed or reset");
         }
         else{
             console.log(`Difficult level change from ${currentDifficulty} to ${newDifficulty}\nresetting scores and history.`);
             currentDifficulty = newDifficulty;
+            resetGame();
+        }
+    }
+
+    function gameTypeChange(e){
+        const buttonId = e.currentTarget.id;
+        let newGameType = e.currentTarget.id;
+        if(newGameType === currentGameType){
+            console.log(`User selected the same game type ${currentGameType} again - continuing`);
+        }
+        else{
+            console.log(`User changed game type from to ${currentGameType} to ${newGameType} - restarting`);
+            currentGameType = newGameType;
             resetGame();
         }
     }
@@ -174,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
      * Difficultly parameter options are easy, medium and hard as per the difficultyLevels object
      *  - Easy: straight random choice
      *  - Medium: 40% chance of CPU counter against the last used player move
-     *  - Hard: 70% chance of GPU counter against the most used / favourite player move
+     *  - Hard: 70% chance of CPU counter against the most used / favourite player move
      * Returns: a cpu move choise based upon the difficulty level
     */
     function computerChoiceGenerator(difficulty) {
@@ -227,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let choice of playerChoices) {
             countPlayerChoices[choice] = (countPlayerChoices[choice] || 0) + 1;
         }
-        console.log(`countPlayerChoices: ${JSON.stringify(countPlayerChoices)}`);
+        // console.log(`countPlayerChoices: ${JSON.stringify(countPlayerChoices)}`);
 
         // Find the most-picked choice
         const entries = Object.entries(countPlayerChoices);
@@ -323,9 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (playerOutcome === outcomes.draw) {
             drawnGames++;
         } else {
-            console.log(
-                "Error - checkIfPlayerWins() returned invalid response"
-            );
+            console.log("Error - checkIfPlayerWins() return invalid response");
         }
     }
 
@@ -337,6 +368,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(
             `Player Score is: ${playerWins}\nComputer score is: ${computerWins}\nDraws is: ${drawnGames}`
         );
+        playerScoreEl.innerText = playerWins;
+        cpuScoreEl.innerText = computerWins;
+        drawScoreEl.innerText = drawnGames;
     }
 
     /** Reset scores / win counts 
@@ -346,8 +380,8 @@ document.addEventListener("DOMContentLoaded", function () {
         playerWins = 0;
         computerWins = 0;
         drawnGames = 0;
-
         playerChoices.length = 0;
+        displayScores();
     }
 });
 
