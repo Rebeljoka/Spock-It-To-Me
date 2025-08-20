@@ -27,15 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // Difficulty Modal JS
-    var difficultyModalEl = document.getElementById('difficultyModal');
-    var difficultyModal = difficultyModalEl ? new bootstrap.Modal(difficultyModalEl) : null;
-    var difficultyBtn = document.getElementById('difficultyBtn');
-    if (difficultyBtn && difficultyModal) {
-        difficultyBtn.addEventListener('click', function() {
-            difficultyModal.show();
-        });
-    }
+    // // Difficulty Modal JS
+    // var difficultyModalEl = document.getElementById('difficultyModal');
+    // var difficultyModal = difficultyModalEl ? new bootstrap.Modal(difficultyModalEl) : null;
+    // var difficultyBtn = document.getElementById('difficultyBtn');
+    // if (difficultyBtn && difficultyModal) {
+    //     difficultyBtn.addEventListener('click', function() {
+    //         difficultyModal.show();
+    //     });
+    // }
 
     // Best Of Modal JS
     var bestOfModalEl = document.getElementById('bestOfModal');
@@ -124,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let drawnGames = 0;
 
     let gameComplete = false;
+    let gameStarted = false;
 
     /**------------------------------------------------------------------
      * Get html element references
@@ -133,12 +134,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const cpuScoreEl = document.getElementById("cpuScore");
     const drawScoreEl = document.getElementById("drawScore");
 
+
+    /** CPU game move buttons */
+    // Create an array of all the CPU button elements,
+    const cpuButtonElArray = document.getElementsByClassName("CPU-btn");
+    // Generate array of all user gameplay choice button elements.
+    const choiceButtonsArray = document.getElementsByClassName("move-choice-btn");
+
+    const startButtonEl = document.getElementById("startBtn");
+    const restartButtonEl = document.getElementById("restartBtn");
+
+
     /**-------------------------------------------------------------------
      * Attach event handlers
      */
 
-    // Generate array of all user gameplay choice button elements.
-    const choiceButtonsArray = document.getElementsByClassName("move-choice-btn");
+
     // Add event listeners for each button - for click and for Enter key down
     for (let button of choiceButtonsArray) {
         console.log(button.id);
@@ -146,39 +157,46 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Call resetGame function on restart button element click
-    const restartButtonEl = document.getElementById("restartBtn");
+    startButtonEl.addEventListener("click", startGameFunc);
     restartButtonEl.addEventListener("click", resetGame);
 
 
-    //--------------------------------------------------------------------------------------
-    //--------------------------------------------------------------------------------------
-    /** handles user click events on game move choice buttons */
-    function handleUserMoveChoice(e) {
-        const buttonId = e.currentTarget.id;
-        console.log(`Player choices array: ${playerChoices}`);
-
-        const computerChoice = computerChoiceGenerator(currentDifficulty);
-        if (computerChoice == null) {
-            console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
-            return;
-        }
-        console.log(
-            `Player selected ${buttonId}\nComputer selected ${computerChoice}`
-        );
-        playerFavouriteMove(); //Debug call
-
-        const playerOutcome = checkIfPlayerWins(buttonId, computerChoice);
-        console.log(playerOutcome);
-        updateScores(playerOutcome);
-        displayScores();
-
-        // TODO: Reflect outcome of game in the html from here:
-
-        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPUS GO THIS ROUND
-         * Especially a huge problem for MEDIUM difficulty
-         */
-        playerChoices.push(buttonId);
+    /** Game state handling functions */
+    function initialGameStateFunc(){
+        gameComplete = false;
+        gameStarted = false;
+        resetGame();
+        enableStartButton();
+        disableRestartButton();
+        disablePlayerMoveButtons();
+        disableCpuMoveButtons();
     }
+
+    function startGameFunc(){
+        gameComplete = false;
+        gameStarted = true;
+        resetGame();
+        disableStartButton();
+        enablePlayerMoveButtons();
+        enableCpuMoveButtons();
+        enableRestartButton();
+    }
+
+    function gameCompleteFunc(){
+        gameComplete = true;
+        gameStarted = false;
+        enableStartButton();
+        disableRestartButton();
+        disablePlayerMoveButtons();
+        disableCpuMoveButtons();
+    }
+
+
+    //--------------------------------------------------------------------------------------
+    // Init game state now all varibles are declared
+    //--------------------------------------------------------------------------------------
+
+    initialGameStateFunc();
 
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
@@ -218,7 +236,6 @@ document.addEventListener("DOMContentLoaded", function () {
     //--------------------------------------------------------------------------------------
     /** handles user click events on game move choice buttons */
     function handleUserMoveChoice(e) {
-
         // If game is over, simply ignore all user move choices
         if(gameComplete === true){
             return;
@@ -240,13 +257,16 @@ document.addEventListener("DOMContentLoaded", function () {
         startCountdown(() => {
             updateScores(playerOutcome);
             displayScores();
+            if(gameComplete === true){
+                gameCompleteActions();
+                gameCompleteFunc();
+            }
         });
+        
 
         // if moves this game >= moves for game type
             // disable player buttons until start or restart is clicked
-        if(gameComplete === true){
-            gameCompleteActions();
-        }
+        
 
         // TODO: Reflect outcome of game in the html from here:
 
@@ -466,6 +486,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return outcome;
     }
 
+
+    /** Helper functions ----------------------------------
+     * 
+     */
+
     /** Updates win/lose/draw scores 
      * Returns: nothing
     */
@@ -493,13 +518,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /** Display scores
-     * TODO: Make scores display on page istead of console.
-     * This function has placeholder functionality until html page is ready
      */
     function displayScores() {
-        // console.log(
-        //     `Player Score is: ${playerWins}\nComputer score is: ${computerWins}\nDraws is: ${drawnGames}`
-        // );
         playerScoreEl.innerText = playerWins;
         cpuScoreEl.innerText = computerWins;
         drawScoreEl.innerText = drawnGames;
@@ -519,8 +539,59 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(`Game reset: wld: ${playerWins} ${computerWins} ${drawnGames} PMC: ${playerMoveChoices.length
             } MTG: ${movesThisGame} GC: ${gameComplete}`);
     }
-});
 
+    /** Buttons enabling / disabling functions
+     * Buttons are greyed out when disabled
+     */
+
+    function disableStartButton(){
+        startButtonEl.disabled = true;
+        startButtonEl.classList.add("greyed-out");
+    }
+
+    function enableStartButton(){
+        startButtonEl.disabled = false;
+        startButtonEl.classList.remove("greyed-out");
+    }
+
+    function disableRestartButton(){
+        restartButtonEl.disabled = true;
+        restartButtonEl.classList.add("greyed-out");
+    }
+
+    function enableRestartButton(){
+        restartButtonEl.disabled = false;
+        restartButtonEl.classList.remove("greyed-out");
+    }
+
+    function disableCpuMoveButtons(){
+        for(let el of cpuButtonElArray){
+            el.disabled = true;
+            el.classList.add("greyed-out");  
+        }
+    }
+
+    function enableCpuMoveButtons(){
+        for(let el of cpuButtonElArray){
+            el.disabled = false;
+            el.classList.remove("greyed-out");  
+        }
+    }
+
+    function disablePlayerMoveButtons(){
+        for(let el of choiceButtonsArray){
+            // el.style.display = "none";
+            el.disabled = true;
+            el.classList.add("greyed-out");
+        }
+    }
+
+    function enablePlayerMoveButtons(){
+        for(let el of choiceButtonsArray){
+            el.disabled = false;
+            el.classList.remove("greyed-out");
+        }
+    }
 
     /** Interactive button JS code */
 
@@ -529,6 +600,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const defaultRockSrc = "assets/images/rockBtn.webp";
     const selectedRockSrc = "assets/images/rockBtnClicked.webp";
     userRockBtn.addEventListener("click", function () {
+        if (gameComplete) return;
         userRockImg.src = selectedRockSrc;
         setTimeout(() => {
             userRockImg.src = defaultRockSrc;
@@ -547,6 +619,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const defaultPaperSrc = "assets/images/paperBtn.webp";
     const selectedPaperSrc = "assets/images/paperBtnClicked.webp";
     userPaperBtn.addEventListener("click", function () {
+        if (gameComplete) return;
         userPaperImg.src = selectedPaperSrc;
         setTimeout(() => {
             userPaperImg.src = defaultPaperSrc;
@@ -565,6 +638,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const defaultScissorsSrc = "assets/images/scissorsBtn.webp";
     const selectedScissorsSrc = "assets/images/scissorsBtnClicked.webp";
     userScissorsBtn.addEventListener("click", function () {
+        if (gameComplete) return;
         userScissorsImg.src = selectedScissorsSrc;
         setTimeout(() => {
             userScissorsImg.src = defaultScissorsSrc;
@@ -615,6 +689,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const defaultLizardSrc = "assets/images/lizardBtn.webp";
     const selectedLizardSrc = "assets/images/lizardBtnClicked.webp";
     userLizardBtn.addEventListener("click", function () {
+        if (gameComplete) return;
         userLizardImg.src = selectedLizardSrc;
         setTimeout(() => {
             userLizardImg.src = defaultLizardSrc;
@@ -626,11 +701,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const defaultSpockSrc = "assets/images/spockBtn.webp";
     const selectedSpockSrc = "assets/images/spockBtnClicked.webp";
     userSpockBtn.addEventListener("click", function () {
+        if (gameComplete) return;
         userSpockImg.src = selectedSpockSrc;
         setTimeout(() => {
             userSpockImg.src = defaultSpockSrc;
         }, 200);
     });
 
-const canvas = document.getElementById("confetti-canvas");
-const jsConfetti = new JSConfetti({ canvas });
+    const canvas = document.getElementById("confetti-canvas");
+    const jsConfetti = new JSConfetti({ canvas });
+
+});
