@@ -97,11 +97,23 @@ document.addEventListener("DOMContentLoaded", function () {
         hard: "hardBtn",
     };
 
+    const difficultyLevelLabels = {
+        easyBtn: "Easy",
+        mediumBtn: "Medium",
+        hardBtn: "Hard",
+    };
+
     // Game types
     const gameType = {
         BestOf3: "bestOf3Btn",
         BestOf5: "bestOf5Btn",
         Endless: "endlessBtn",
+    };
+
+    const gameTypeLabels = {
+        bestOf3Btn: "Best of 3",
+        bestOf5Btn: "Best of 5",
+        endlessBtn: "Endless",
     };
     
     //------------------------------------------------------------
@@ -144,6 +156,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const startButtonEl = document.getElementById("startBtn");
     const restartButtonEl = document.getElementById("restartBtn");
 
+    const gameStateMessageEl = document.getElementById("game-state-message");
+
 
     /**-------------------------------------------------------------------
      * Attach event handlers
@@ -157,12 +171,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Call resetGame function on restart button element click
-    startButtonEl.addEventListener("click", startGameFunc);
-    restartButtonEl.addEventListener("click", resetGame);
+    startButtonEl.addEventListener("click", gameStartFunc);
+    restartButtonEl.addEventListener("click", gameRestartFunc);
 
 
     /** Game state handling functions */
-    function initialGameStateFunc(){
+    function gameInitialStateFunc(){
         gameComplete = false;
         gameStarted = false;
         resetGame();
@@ -172,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
         disableCpuMoveButtons();
     }
 
-    function startGameFunc(){
+    function gameStartFunc(){
         gameComplete = false;
         gameStarted = true;
         resetGame();
@@ -180,6 +194,9 @@ document.addEventListener("DOMContentLoaded", function () {
         enablePlayerMoveButtons();
         enableCpuMoveButtons();
         enableRestartButton();
+        gameStateMessageEl.innerText = "Now you've dun gone started the game...\n"
+        gameStateMessageEl.innerText += `Game is ${gameTypeLabels[currentGameType]
+            }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}\n`;
     }
 
     function gameCompleteFunc(){
@@ -189,6 +206,31 @@ document.addEventListener("DOMContentLoaded", function () {
         disableRestartButton();
         disablePlayerMoveButtons();
         disableCpuMoveButtons();
+        gameStateMessageEl.innerText = "That's it! Game completed!\n"
+        gameStateMessageEl.innerText += `${gameOutcomeMessage()}\n`;
+    }
+
+    function gameRestartFunc(){
+        gameComplete = false;
+        gameStarted = true;
+        resetGame();
+        disableStartButton();
+        enablePlayerMoveButtons();
+        enableCpuMoveButtons();
+        enableRestartButton();
+        gameStateMessageEl.innerText = "Okay, you're restarting the game...\n"
+        gameStateMessageEl.innerText += `Game is ${gameTypeLabels[currentGameType]
+            }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}\n`;
+    }
+
+    function gameRestartFuncNoText(){
+        gameComplete = false;
+        gameStarted = true;
+        resetGame();
+        disableStartButton();
+        enablePlayerMoveButtons();
+        enableCpuMoveButtons();
+        enableRestartButton();
     }
 
 
@@ -196,7 +238,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Init game state now all varibles are declared
     //--------------------------------------------------------------------------------------
 
-    initialGameStateFunc();
+    gameInitialStateFunc();
+    gameStateMessageEl.innerText = "Game initialised! Ready to start ....";
+    if ( currentGameType != null && currentDifficulty != null){
+        gameStateMessageEl.innerText = `Game type is ${gameTypeLabels[currentGameType]
+            }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}.`;
+    }
 
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
@@ -206,29 +253,30 @@ document.addEventListener("DOMContentLoaded", function () {
      */
 
     function difficultyChange(e){
-
-        console.log('Difficulty selected:', e.currentTarget.id);
         let newDifficulty = e.currentTarget.id;
-        if(newDifficulty === currentDifficulty){
-            console.log("User selected same difficulty level again, nothing changed or reset");
-        }
-        else{
-            console.log(`Difficult level change from ${currentDifficulty} to ${newDifficulty}\nresetting scores and history.`);
+        if(newDifficulty != currentDifficulty){
+            gameStateMessageEl.innerText = `Difficulty changed from ${difficultyLevelLabels[currentDifficulty]
+                } to ${difficultyLevelLabels[newDifficulty]}.\n`;
+            gameStateMessageEl.innerText += "Game ready to start."
             currentDifficulty = newDifficulty;
-            resetGame();
+            gameInitialStateFunc();
+        }else{
+            gameStateMessageEl.innerText = `You're already on ${
+                difficultyLevelLabels[currentDifficulty]} difficulty level.`;
         }
     }
 
     function gameTypeChange(e){
-        const buttonId = e.currentTarget.id;
         let newGameType = e.currentTarget.id;
-        if(newGameType === currentGameType){
-            console.log(`User selected the same game type ${currentGameType} again - continuing`);
-        }
-        else{
-            console.log(`User changed game type from to ${currentGameType} to ${newGameType} - restarting`);
+        if(newGameType != currentGameType){
+            gameStateMessageEl.innerText = `Game type changed from ${gameTypeLabels[currentGameType]
+                } to ${gameTypeLabels[newGameType]}.\n`;
+            gameStateMessageEl.innerText += "Game ready to start."
             currentGameType = newGameType;
-            resetGame();
+            gameInitialStateFunc();
+        }else{
+            gameStateMessageEl.innerText = `You're already playing ${
+                gameTypeLabels[currentGameType]}.`;
         }
     }
 
@@ -237,38 +285,28 @@ document.addEventListener("DOMContentLoaded", function () {
     /** handles user click events on game move choice buttons */
     function handleUserMoveChoice(e) {
         // If game is over, simply ignore all user move choices
-        if(gameComplete === true){
-            return;
-        }
+        if(gameComplete === true) return;
 
         const playerChoiceButtonId = e.currentTarget.id;
         const computerChoice = computerChoiceGenerator(currentDifficulty);
-        if (computerChoice == null) {
+        if (computerChoice == null) { 
             console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
             return;
         }
 
-        console.log(`Player selected ${playerChoiceButtonId}\nComputer selected ${computerChoice}`);
-
         const playerOutcome = processRound(playerChoiceButtonId, computerChoice, currentGameType);
-        
-        console.log(playerOutcome);
 
         startCountdown(() => {
+            gameStateMessageEl.innerText = `Player chose ${playerChoiceButtonId}! Computer chose ${computerChoice}!\n`;
             updateScores(playerOutcome);
             displayScores();
             if(gameComplete === true){
-                gameCompleteActions();
+                // gameCompleteActions();
                 gameCompleteFunc();
             }
         });
-        
 
-        // if moves this game >= moves for game type
-            // disable player buttons until start or restart is clicked
-        
-
-        // TODO: Reflect outcome of game in the html from here:
+        gameStateMessageEl.innerText += `You ${playerOutcome}!\n`;
 
         /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND
          * Especially a huge problem for MEDIUM difficulty*/
@@ -331,29 +369,46 @@ document.addEventListener("DOMContentLoaded", function () {
         return playerWinOutcome;
     }
 
+    /**gameOutComeMessage: generates a short string explaining who has won 
+     * based on the scores at the time of calling 
+     * */
+    function gameOutcomeMessage(){
+        if(playerWins > computerWins){
+            return "PLAYER Wins!";
+        }
+        else if(computerWins > playerWins){
+            return "COMPUTER wins!";
+        }
+        else
+            {
+            return "It's a DRAW!";
+        }
+    }
+
     /** -----------------------------------------
      *  Generate appropriate game complete message
      */
-    function gameCompleteActions(){
-        gameComplete = true;
-        console.log("--------------------------------------");
-        console.log("In gameComplete function:");
-        console.log("Game has reached full round limit");
-        console.log("Display results and game end stuff");
-        console.log(`Current game type: ${currentGameType}\nMoves completed: ${movesThisGame}`);
-        console.log(`playerWins = ${playerWins}, computerWins = ${computerWins}, draws = ${drawnGames}.`)
-        if (playerWins === computerWins){
-            console.log("Overall outcome: DRAW");
-        }
-        else if(playerWins > computerWins){
-            console.log("Overall outcome: PLAYER Wins");
-        }
-        else{
-            console.log("Overall outcome: COMPUTER wins");
-        }
-        console.log("Restart or select new game type or difficulty to play again");
-        console.log("--------------------------------------");
-    }
+
+    // function gameCompleteActions(){
+    //     gameComplete = true;
+    //     console.log("--------------------------------------");
+    //     console.log("In gameComplete function:");
+    //     console.log("Game has reached full round limit");
+    //     console.log("Display results and game end stuff");
+    //     console.log(`Current game type: ${currentGameType}\nMoves completed: ${movesThisGame}`);
+    //     console.log(`playerWins = ${playerWins}, computerWins = ${computerWins}, draws = ${drawnGames}.`)
+    //     if (playerWins === computerWins){
+    //         console.log("Overall outcome: DRAW");
+    //     }
+    //     else if(playerWins > computerWins){
+    //         console.log("Overall outcome: PLAYER Wins");
+    //     }
+    //     else{
+    //         console.log("Overall outcome: COMPUTER wins");
+    //     }
+    //     console.log("Restart or select new game type or difficulty to play again");
+    //     console.log("--------------------------------------");
+    //}
 
     /** CPU choice function: returns one of the five options as a CPU choice 
      * Difficultly parameter options are easy, medium and hard as per the difficultyLevels object
@@ -580,7 +635,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function disablePlayerMoveButtons(){
         for(let el of choiceButtonsArray){
-            // el.style.display = "none";
             el.disabled = true;
             el.classList.add("greyed-out");
         }
