@@ -1,3 +1,59 @@
+    // Keyboard shortcuts for Best Of modal
+    document.addEventListener("keydown", function(e) {
+        const modalEl = document.getElementById("bestOfModal");
+        const isOpen = modalEl && modalEl.classList.contains("show");
+        if (!isOpen) return;
+        if (e.key === "3") {
+            const btn = document.getElementById("bestOf3Btn");
+            if (btn) {
+                btn.focus();
+                btn.click();
+            }
+        }
+        if (e.key === "5") {
+            const btn = document.getElementById("bestOf5Btn");
+            if (btn) {
+                btn.focus();
+                btn.click();
+            }
+        }
+        // Use N for endless to avoid E conflict
+        if (e.key === "n" || e.key === "N") {
+            const btn = document.getElementById("endlessBtn");
+            if (btn) {
+                btn.focus();
+                btn.click();
+            }
+        }
+    });
+    // Keyboard shortcuts for difficulty modal
+    document.addEventListener("keydown", function(e) {
+        const modalEl = document.getElementById("difficultyModal");
+        const isOpen = modalEl && modalEl.classList.contains("show");
+        if (!isOpen) return;
+        if (e.key === "e" || e.key === "E") {
+            const btn = document.getElementById("easyBtn");
+            if (btn) {
+                btn.focus();
+                btn.click();
+            }
+        }
+        if (e.key === "m" || e.key === "M") {
+            const btn = document.getElementById("mediumBtn");
+            if (btn) {
+                btn.focus();
+                btn.click();
+            }
+        }
+        if (e.key === "h" || e.key === "H") {
+            const btn = document.getElementById("hardBtn");
+            if (btn) {
+                btn.focus();
+                btn.click();
+            }
+        }
+    });
+
 document.addEventListener("DOMContentLoaded", function () {
     // Also override console.error and console.warn to log to browser-console div
     const originalConsoleError = console.error;
@@ -30,12 +86,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // // Difficulty Modal JS
     // var difficultyModalEl = document.getElementById('difficultyModal');
     // var difficultyModal = difficultyModalEl ? new bootstrap.Modal(difficultyModalEl) : null;
-    // var difficultyBtn = document.getElementById('difficultyBtn');
-    // if (difficultyBtn && difficultyModal) {
-    //     difficultyBtn.addEventListener('click', function() {
-    //         difficultyModal.show();
-    //     });
-    // }
+        var difficultyBtn = document.getElementById('difficultyBtn');
+        if (difficultyBtn && difficultyModal) {
+            difficultyBtn.addEventListener('click', function() {
+                // Remove 'selected' from all difficulty buttons
+                ['easyBtn', 'mediumBtn', 'hardBtn'].forEach(function(id) {
+                    var btn = document.getElementById(id);
+                    if (btn) btn.classList.remove('selected');
+                });
+                // Add 'selected' to the current difficulty button
+                var selectedBtn = document.getElementById(currentDifficulty);
+                if (selectedBtn) selectedBtn.classList.add('selected');
+                difficultyModal.show();
+            });
+        }
 
     // Best Of Modal JS
     var bestOfModalEl = document.getElementById('bestOfModal');
@@ -48,18 +112,42 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Difficulty modal button clicks (for future logic)
+    var difficultyModalEl = document.getElementById('difficultyModal');
+    var difficultyModal = difficultyModalEl ? new bootstrap.Modal(difficultyModalEl) : null;
     ['easyBtn', 'mediumBtn', 'hardBtn'].forEach(function(id) {
         var btn = document.getElementById(id);
         if (btn) {
-            btn.addEventListener('click', difficultyChange);
+            btn.addEventListener('click', function(e) {
+                difficultyChange(e);
+                // Remove 'selected' from all difficulty buttons
+                ['easyBtn', 'mediumBtn', 'hardBtn'].forEach(function(id2) {
+                    var btn2 = document.getElementById(id2);
+                    if (btn2) btn2.classList.remove('selected');
+                });
+                btn.classList.add('selected');
+                setTimeout(function() {
+                    if (difficultyModal) {
+                        difficultyModal.hide();
+                    }
+                }, 1000);
+            });
         }
     });
 
     // Best Of modal button clicks (for future logic)
+    var bestOfModalEl = document.getElementById('bestOfModal');
+    var bestOfModal = bestOfModalEl ? new bootstrap.Modal(bestOfModalEl) : null;
     ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id) {
         var btn = document.getElementById(id);
         if (btn) {
-            btn.addEventListener('click', gameTypeChange);
+            btn.addEventListener('click', function(e) {
+                gameTypeChange(e);
+                if (bestOfModal) {
+                    setTimeout(function() {
+                        bestOfModal.hide();
+                    }, 1000);
+                }
+            });
         }
     });
 
@@ -150,11 +238,68 @@ document.addEventListener("DOMContentLoaded", function () {
      */
 
 
-    // Add event listeners for each button - for click and for Enter key down
+    // Add event listeners for each button - for click
     for (let button of choiceButtonsArray) {
         console.log(button.id);
         button.addEventListener("click", handleUserMoveChoice);
     }
+
+    // Keyboard shortcuts: 1-5 for user move buttons
+    document.addEventListener("keydown", function(e) {
+        // User move buttons: 1-5 and Enter
+        if (gameComplete === false && gameStarted === true) {
+            const keyMap = {
+                "1": "rock",
+                "2": "paper",
+                "3": "scissors",
+                "4": "lizard",
+                "5": "spock"
+            };
+            const btnId = keyMap[e.key];
+            if (btnId) {
+                const btn = document.getElementById(btnId);
+                if (btn && !btn.disabled) {
+                    btn.focus();
+                    btn.click();
+                }
+                return;
+            }
+            if (e.key === "Enter") {
+                const active = document.activeElement;
+                if (active && active.classList.contains("move-choice-btn") && !active.disabled) {
+                    active.click();
+                }
+                return;
+            }
+        }
+        // Global shortcuts (always available)
+        if (e.key === "s" || e.key === "S") {
+            if (startButtonEl && !startButtonEl.disabled) {
+                startButtonEl.focus();
+                startButtonEl.click();
+            }
+        }
+        if (e.key === "r" || e.key === "R") {
+            if (restartButtonEl && !restartButtonEl.disabled) {
+                restartButtonEl.focus();
+                restartButtonEl.click();
+            }
+        }
+        if (e.key === "d" || e.key === "D") {
+            const difficultyBtn = document.getElementById("difficultyBtn");
+            if (difficultyBtn && !difficultyBtn.disabled) {
+                difficultyBtn.focus();
+                difficultyBtn.click();
+            }
+        }
+        if (e.key === "b" || e.key === "B") {
+            const bestOfBtn = document.getElementById("bestOfBtn");
+            if (bestOfBtn && !bestOfBtn.disabled) {
+                bestOfBtn.focus();
+                bestOfBtn.click();
+            }
+        }
+    });
 
     // Call resetGame function on restart button element click
     startButtonEl.addEventListener("click", startGameFunc);
