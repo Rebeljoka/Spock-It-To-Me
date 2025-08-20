@@ -59,9 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id) {
         var btn = document.getElementById(id);
         if (btn) {
-            btn.addEventListener('click', function() {
-                console.log('Best Of selected:', btn.textContent.trim());
-            });
+            btn.addEventListener('click', gameTypeChange);
         }
     });
 
@@ -99,10 +97,19 @@ document.addEventListener("DOMContentLoaded", function () {
         hard: "hardBtn",
     };
 
+    // Game types
+    const gameType = {
+        BestOf3: "bestOf3Btn",
+        BestOf5: "bestOf5Btn",
+        Endless: "endlessBtn",
+    };
+
     //------------------------------------------------------------
     /** Global Variables - keep to minimum */
 
+    // Sensible defaults for current difficulty and currentGameType
     let currentDifficulty = difficultyLevels.medium;
+    let currentGameType = gameType.BestOf3;
 
     /** Array containing list of choices that the player has made 
      * DO NOT update with current event move selection until AFTER
@@ -173,11 +180,24 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log('Difficulty selected:', e.currentTarget.id);
         let newDifficulty = e.currentTarget.id;
         if(newDifficulty === currentDifficulty){
-            console.log("No changes to difficulty, nothing changed or reset");
+            console.log("User selected same difficulty level again, nothing changed or reset");
         }
         else{
             console.log(`Difficult level change from ${currentDifficulty} to ${newDifficulty}\nresetting scores and history.`);
             currentDifficulty = newDifficulty;
+            resetGame();
+        }
+    }
+
+    function gameTypeChange(e){
+        const buttonId = e.currentTarget.id;
+        let newGameType = e.currentTarget.id;
+        if(newGameType === currentGameType){
+            console.log(`User selected the same game type ${currentGameType} again - continuing`);
+        }
+        else{
+            console.log(`User changed game type from to ${currentGameType} to ${newGameType} - restarting`);
+            currentGameType = newGameType;
             resetGame();
         }
     }
