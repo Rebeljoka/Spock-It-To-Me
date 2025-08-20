@@ -1,31 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Also override console.error and console.warn to log to browser-console div
-    const originalConsoleError = console.error;
-    console.error = function (...args) {
-        originalConsoleError.apply(console, args);
-        const el = document.getElementById('browser-console');
-        if (el) {
-            el.innerHTML += '<span style="color:#ff5555">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
-        }
-    };
+    // const originalConsoleError = console.error;
+    // console.error = function (...args) {
+    //     originalConsoleError.apply(console, args);
+    //     const el = document.getElementById('browser-console');
+    //     if (el) {
+    //         el.innerHTML += '<span style="color:#ff5555">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
+    //     }
+    // };
 
-    const originalConsoleWarn = console.warn;
-    console.warn = function (...args) {
-        originalConsoleWarn.apply(console, args);
-        const el = document.getElementById('browser-console');
-        if (el) {
-            el.innerHTML += '<span style="color:#ffd700">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
-        }
-    };
-    // Override console.log to also log to the browser-console div
-    const originalConsoleLog = console.log;
-    console.log = function (...args) {
-        originalConsoleLog.apply(console, args);
-        const el = document.getElementById('browser-console');
-        if (el) {
-            el.innerHTML += args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '<br>';
-        }
-    };
+    // const originalConsoleWarn = console.warn;
+    // console.warn = function (...args) {
+    //     originalConsoleWarn.apply(console, args);
+    //     const el = document.getElementById('browser-console');
+    //     if (el) {
+    //         el.innerHTML += '<span style="color:#ffd700">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
+    //     }
+    // };
+    // // Override console.log to also log to the browser-console div
+    // const originalConsoleLog = console.log;
+    // console.log = function (...args) {
+    //     originalConsoleLog.apply(console, args);
+    //     const el = document.getElementById('browser-console');
+    //     if (el) {
+    //         el.innerHTML += args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '<br>';
+    //     }
+    // };
 
     // // Difficulty Modal JS
     // var difficultyModalEl = document.getElementById('difficultyModal');
@@ -223,17 +223,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}\n`;
     }
 
-    function gameRestartFuncNoText(){
-        gameComplete = false;
-        gameStarted = true;
-        resetGame();
-        disableStartButton();
-        enablePlayerMoveButtons();
-        enableCpuMoveButtons();
-        enableRestartButton();
-    }
-
-
     //--------------------------------------------------------------------------------------
     // Init game state now all varibles are declared
     //--------------------------------------------------------------------------------------
@@ -295,23 +284,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const playerOutcome = processRound(playerChoiceButtonId, computerChoice, currentGameType);
+        console.log(`playerOutcome is: ${playerOutcome}`);
 
         startCountdown(() => {
             gameStateMessageEl.innerText = `Player chose ${playerChoiceButtonId}! Computer chose ${computerChoice}!\n`;
+            gameStateMessageEl.innerText += `You ${playerOutcome}!\n`;
             updateScores(playerOutcome);
             displayScores();
+
             if(gameComplete === true){
-                // gameCompleteActions();
-                gameCompleteFunc();
+                // startCountdown(showWinner);
+                showWhoWonCountdown(showWinner);
+                showWhoWonCountdown();
             }
         });
 
-        gameStateMessageEl.innerText += `You ${playerOutcome}!\n`;
-
-        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND
-         * Especially a huge problem for MEDIUM difficulty*/
+        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND */
         playerMoveChoices.push(playerChoiceButtonId);
     }
+
+
+    function showWinner() {
+        gameStateMessageEl.innerText = `Game Over! ${gameOutcomeMessage()}`;
+    }
+
+
 
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
@@ -384,31 +381,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return "It's a DRAW!";
         }
     }
-
-    /** -----------------------------------------
-     *  Generate appropriate game complete message
-     */
-
-    // function gameCompleteActions(){
-    //     gameComplete = true;
-    //     console.log("--------------------------------------");
-    //     console.log("In gameComplete function:");
-    //     console.log("Game has reached full round limit");
-    //     console.log("Display results and game end stuff");
-    //     console.log(`Current game type: ${currentGameType}\nMoves completed: ${movesThisGame}`);
-    //     console.log(`playerWins = ${playerWins}, computerWins = ${computerWins}, draws = ${drawnGames}.`)
-    //     if (playerWins === computerWins){
-    //         console.log("Overall outcome: DRAW");
-    //     }
-    //     else if(playerWins > computerWins){
-    //         console.log("Overall outcome: PLAYER Wins");
-    //     }
-    //     else{
-    //         console.log("Overall outcome: COMPUTER wins");
-    //     }
-    //     console.log("Restart or select new game type or difficulty to play again");
-    //     console.log("--------------------------------------");
-    //}
 
     /** CPU choice function: returns one of the five options as a CPU choice 
      * Difficultly parameter options are easy, medium and hard as per the difficultyLevels object
@@ -490,7 +462,6 @@ document.addEventListener("DOMContentLoaded", function () {
      * 
      */
     function weightedChoice(preferred, weight = 0.5) {
-
         // This function returns an array with the move repeated more times if it's preferred,
         // just the once if its no preferred
         function expandIfPreferred(moveOption) {
@@ -649,7 +620,89 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /** Interactive button JS code */
 
-    const userRockBtn = document.getElementById("rock");
+    // Countdown function
+    function startCountdown(callback) {
+        const container = document.getElementById('countdown-timer-container');
+        if (!container) return;
+        container.innerHTML = '';
+        const countdownDiv = document.createElement('div');
+        countdownDiv.id = 'countdown-timer';
+        countdownDiv.style.fontSize = '4rem';
+        countdownDiv.style.fontWeight = 'bold';
+        countdownDiv.style.textAlign = 'center';
+        container.appendChild(countdownDiv);
+        let count = 3;
+        function updateCountdownDisplay(val) {
+            let color = '#ff3333';
+            if (val === 2) color = '#FFD700';
+            if (val === 1) color = '#33cc33';
+            countdownDiv.innerHTML = `<span style="color:${color}">${val}</span>`;
+        }
+        updateCountdownDisplay(count);
+        const interval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                updateCountdownDisplay(count);
+            } else if (count === 0) {
+                countdownDiv.innerHTML = `<span style="color:#33cc33">GO!</span>`;
+            } else {
+                clearInterval(interval);
+                container.innerHTML = '';
+                if (typeof callback === 'function') callback();
+            }
+        }, 700);
+    }
+
+    /** Timer used to delay callback by 5 seconds, display "WHO WON?"
+     * while counting down
+     */
+    function showWhoWonCountdown(callback) {
+        const container = document.getElementById("countdown-timer-container");
+        if (!container) return;
+        container.innerHTML = "";
+        const whoWonDiv = document.createElement("div");
+        whoWonDiv.id = "who-won-timer";
+        whoWonDiv.style.fontSize = "4rem";
+        whoWonDiv.style.fontWeight = "bold";
+        whoWonDiv.style.textAlign = "center";
+        whoWonDiv.innerText = "WHO WON?";
+        container.appendChild(whoWonDiv);
+
+        // Show "WHO WON?" for 5 seconds, then clear and call callback
+        setTimeout(() => {
+            container.innerHTML = "";
+            if (typeof callback === "function") callback();
+        }, 5000);
+    }
+
+    const userLizardBtn = document.getElementById("lizard");
+    const userLizardImg = document.getElementById("UserLizardImg");
+    const defaultLizardSrc = "assets/images/lizardBtn.webp";
+    const selectedLizardSrc = "assets/images/lizardBtnClicked.webp";
+    userLizardBtn.addEventListener("click", function () {
+        if (gameComplete) return;
+        userLizardImg.src = selectedLizardSrc;
+        setTimeout(() => {
+            userLizardImg.src = defaultLizardSrc;
+        }, 200);
+    });
+
+    const userSpockBtn = document.getElementById("spock");
+    const userSpockImg = document.getElementById("UserSpockImg");
+    const defaultSpockSrc = "assets/images/spockBtn.webp";
+    const selectedSpockSrc = "assets/images/spockBtnClicked.webp";
+    userSpockBtn.addEventListener("click", function () {
+        if (gameComplete) return;
+        userSpockImg.src = selectedSpockSrc;
+        setTimeout(() => {
+            userSpockImg.src = defaultSpockSrc;
+        }, 200);
+    });
+
+    const canvas = document.getElementById("confetti-canvas");
+    const jsConfetti = new JSConfetti({ canvas });
+
+        const userRockBtn = document.getElementById("rock");
     const userRockImg = document.getElementById("UserRockImg");
     const defaultRockSrc = "assets/images/rockBtn.webp";
     const selectedRockSrc = "assets/images/rockBtnClicked.webp";
@@ -705,64 +758,5 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     });
-    // Countdown function
-    function startCountdown(callback) {
-        const container = document.getElementById('countdown-timer-container');
-        if (!container) return;
-        container.innerHTML = '';
-        const countdownDiv = document.createElement('div');
-        countdownDiv.id = 'countdown-timer';
-        countdownDiv.style.fontSize = '4rem';
-        countdownDiv.style.fontWeight = 'bold';
-        countdownDiv.style.textAlign = 'center';
-        container.appendChild(countdownDiv);
-        let count = 3;
-        function updateCountdownDisplay(val) {
-            let color = '#ff3333';
-            if (val === 2) color = '#FFD700';
-            if (val === 1) color = '#33cc33';
-            countdownDiv.innerHTML = `<span style="color:${color}">${val}</span>`;
-        }
-        updateCountdownDisplay(count);
-        const interval = setInterval(() => {
-            count--;
-            if (count > 0) {
-                updateCountdownDisplay(count);
-            } else if (count === 0) {
-                countdownDiv.innerHTML = `<span style="color:#33cc33">GO!</span>`;
-            } else {
-                clearInterval(interval);
-                container.innerHTML = '';
-                if (typeof callback === 'function') callback();
-            }
-        }, 700);
-    }
-
-    const userLizardBtn = document.getElementById("lizard");
-    const userLizardImg = document.getElementById("UserLizardImg");
-    const defaultLizardSrc = "assets/images/lizardBtn.webp";
-    const selectedLizardSrc = "assets/images/lizardBtnClicked.webp";
-    userLizardBtn.addEventListener("click", function () {
-        if (gameComplete) return;
-        userLizardImg.src = selectedLizardSrc;
-        setTimeout(() => {
-            userLizardImg.src = defaultLizardSrc;
-        }, 200);
-    });
-
-    const userSpockBtn = document.getElementById("spock");
-    const userSpockImg = document.getElementById("UserSpockImg");
-    const defaultSpockSrc = "assets/images/spockBtn.webp";
-    const selectedSpockSrc = "assets/images/spockBtnClicked.webp";
-    userSpockBtn.addEventListener("click", function () {
-        if (gameComplete) return;
-        userSpockImg.src = selectedSpockSrc;
-        setTimeout(() => {
-            userSpockImg.src = defaultSpockSrc;
-        }, 200);
-    });
-
-    const canvas = document.getElementById("confetti-canvas");
-    const jsConfetti = new JSConfetti({ canvas });
 
 });
