@@ -103,13 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         BestOf5: "bestOf5Btn",
         Endless: "endlessBtn",
     };
-
-    const movesPerGameType = {
-        BestOf3: 3,
-        BestOf5: 5,
-        Endless: "endless",
-    };
-
+    
     //------------------------------------------------------------
     /** Global Variables - keep to minimum */
 
