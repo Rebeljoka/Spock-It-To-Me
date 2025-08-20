@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         BestOf5: "bestOf5Btn",
         Endless: "endlessBtn",
     };
-
+    
     //------------------------------------------------------------
     /** Global Variables - keep to minimum */
 
@@ -116,11 +116,14 @@ document.addEventListener("DOMContentLoaded", function () {
      * all calculations relating to CPU have been done or will
      * HEAVILY advantage CPU move choice in favour of the CPU
     */
-    const playerChoices = [];
+    const playerMoveChoices = [];
+    let movesThisGame = 0;
 
     let playerWins = 0;
     let computerWins = 0;
     let drawnGames = 0;
+
+    let gameComplete = false;
 
     /**------------------------------------------------------------------
      * Get html element references
@@ -142,6 +145,11 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", handleUserMoveChoice);
     }
 
+    // Call resetGame function on restart button element click
+    const restartButtonEl = document.getElementById("restartBtn");
+    restartButtonEl.addEventListener("click", resetGame);
+
+
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
     /** handles user click events on game move choice buttons */
@@ -161,10 +169,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const playerOutcome = checkIfPlayerWins(buttonId, computerChoice);
         console.log(playerOutcome);
-        startCountdown(() => {
-            updateScores(playerOutcome);
-            displayScores();
-        });
+        updateScores(playerOutcome);
+        displayScores();
 
         // TODO: Reflect outcome of game in the html from here:
 
@@ -176,6 +182,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
+
+    /** -----------------------------------------
+     * Event handling functions
+     */
 
     function difficultyChange(e){
 
@@ -204,6 +214,126 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    //--------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
+    /** handles user click events on game move choice buttons */
+    function handleUserMoveChoice(e) {
+
+        // If game is over, simply ignore all user move choices
+        if(gameComplete === true){
+            return;
+        }
+
+        const playerChoiceButtonId = e.currentTarget.id;
+        const computerChoice = computerChoiceGenerator(currentDifficulty);
+        if (computerChoice == null) {
+            console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
+            return;
+        }
+
+        console.log(`Player selected ${playerChoiceButtonId}\nComputer selected ${computerChoice}`);
+
+        const playerOutcome = processRound(playerChoiceButtonId, computerChoice, currentGameType);
+        
+        console.log(playerOutcome);
+
+        startCountdown(() => {
+            updateScores(playerOutcome);
+            displayScores();
+        });
+
+        // if moves this game >= moves for game type
+            // disable player buttons until start or restart is clicked
+        if(gameComplete === true){
+            gameCompleteActions();
+        }
+
+        // TODO: Reflect outcome of game in the html from here:
+
+        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND
+         * Especially a huge problem for MEDIUM difficulty*/
+        playerMoveChoices.push(playerChoiceButtonId);
+    }
+
+    //--------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
+
+    /** Processes round logic
+     * Parameters:
+     * - playerChoice - string representing player choice of move
+     * - computerChoice - string representing computer choice of move
+     * - currentGameType -  bestOf3, 5, Endless
+     * Returns: 
+     * - outcome of the game from the player's perspective
+     */
+
+    function processRound(playerChoice, computerChoice, currentGameType){
+        // Error handling
+        if(playerChoice == false || computerChoice == false) return null;
+        if(gameComplete === true) console.log("Game is complete, processRound should not be called until restart");
+
+        let playerWinOutcome = null;
+        movesThisGame++;
+        console.log(`Entering processRound(), num moves this game so far: ${movesThisGame}`);
+       
+        switch(currentGameType){
+            case gameType.BestOf3:
+                console.log("case: best of 3");
+                if(movesThisGame < 3){
+                    playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
+                }
+                else if(movesThisGame === 3){
+                    playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
+                    gameComplete = true;
+                }else{
+                    console.log("case: best of 3 over, game should no longer be reaching here");
+                }
+                break;
+            case gameType.BestOf5:
+                console.log("case: best of 5");
+                if(movesThisGame < 5){
+                    playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
+                }
+                else if(movesThisGame === 5){
+                    playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
+                    gameComplete = true;
+                }else{
+                    console.log("case: best of 5 over, game should no longer be reaching here");
+                }
+                break;
+            case gameType.Endless:
+                console.log("case: endless");
+                playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
+                break;
+            default:
+                console.log("Invalid game type passed into processRound(), no game processing done");
+        }
+        return playerWinOutcome;
+    }
+
+    /** -----------------------------------------
+     *  Generate appropriate game complete message
+     */
+    function gameCompleteActions(){
+        gameComplete = true;
+        console.log("--------------------------------------");
+        console.log("In gameComplete function:");
+        console.log("Game has reached full round limit");
+        console.log("Display results and game end stuff");
+        console.log(`Current game type: ${currentGameType}\nMoves completed: ${movesThisGame}`);
+        console.log(`playerWins = ${playerWins}, computerWins = ${computerWins}, draws = ${drawnGames}.`)
+        if (playerWins === computerWins){
+            console.log("Overall outcome: DRAW");
+        }
+        else if(playerWins > computerWins){
+            console.log("Overall outcome: PLAYER Wins");
+        }
+        else{
+            console.log("Overall outcome: COMPUTER wins");
+        }
+        console.log("Restart or select new game type or difficulty to play again");
+        console.log("--------------------------------------");
+    }
 
     /** CPU choice function: returns one of the five options as a CPU choice 
      * Difficultly parameter options are easy, medium and hard as per the difficultyLevels object
@@ -220,8 +350,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 cpuSelection = randomMoveChoice();
                 break;
             case difficultyLevels.medium:
-                if(playerChoices.length === 0) return randomMoveChoice();
-                const playerLastMove = playerChoices[playerChoices.length - 1];
+                if(playerMoveChoices.length === 0) return randomMoveChoice();
+                const playerLastMove = playerMoveChoices[playerMoveChoices.length - 1];
                 // Bit complex, but this should create an array (counterMovesMedium) that includes
                 //  only winRules keys that include in their array lastMove as a move they beat
                 const counterMovesMedium = Object.keys(winRules).filter(
@@ -229,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 cpuSelection = weightedChoice(counterMovesMedium, 0.4);
                 break;
             case difficultyLevels.hard:
-                if(playerChoices.length === 0) return randomMoveChoice();
+                if(playerMoveChoices.length === 0) return randomMoveChoice();
                 const playerMostFrequent = playerFavouriteMove();
                 // See medium difficulty switch case (above) for explanation
                 const counterMovesHard = Object.keys(winRules).filter(
@@ -252,14 +382,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /** Calculates which move in the playerChoices is most picked / favoutire
-     * Returns most commonly selected player move from playerChoices array
+    /** Calculates which move in the playerMoveChoices is most picked / favoutire
+     * Returns most commonly selected player move from playerMoveChoices array
      * If more than one shares first place, fist one of these encountered in array will be chosen
     */
     function playerFavouriteMove() {
         const countPlayerChoices = {};
         // Record number of times each choice was selected
-        for (let choice of playerChoices) {
+        for (let choice of playerMoveChoices) {
             countPlayerChoices[choice] = (countPlayerChoices[choice] || 0) + 1;
         }
         // console.log(`countPlayerChoices: ${JSON.stringify(countPlayerChoices)}`);
@@ -367,25 +497,32 @@ document.addEventListener("DOMContentLoaded", function () {
      * This function has placeholder functionality until html page is ready
      */
     function displayScores() {
-        console.log(
-            `Player Score is: ${playerWins}\nComputer score is: ${computerWins}\nDraws is: ${drawnGames}`
-        );
+        // console.log(
+        //     `Player Score is: ${playerWins}\nComputer score is: ${computerWins}\nDraws is: ${drawnGames}`
+        // );
         playerScoreEl.innerText = playerWins;
         cpuScoreEl.innerText = computerWins;
         drawScoreEl.innerText = drawnGames;
     }
 
-    /** Reset scores / win counts 
+    /** Reset scores / win counts then push to display suing displayScores() function
      * 
     */
-    function resetGame() {
+    function resetGame(e) {
         playerWins = 0;
         computerWins = 0;
         drawnGames = 0;
-        playerChoices.length = 0;
+        playerMoveChoices.length = 0;
+        movesThisGame = 0;
+        gameComplete = false;
         displayScores();
+        console.log(`Game reset: wld: ${playerWins} ${computerWins} ${drawnGames} PMC: ${playerMoveChoices.length
+            } MTG: ${movesThisGame} GC: ${gameComplete}`);
     }
 });
+
+
+    /** Interactive button JS code */
 
     const userRockBtn = document.getElementById("rock");
     const userRockImg = document.getElementById("UserRockImg");
