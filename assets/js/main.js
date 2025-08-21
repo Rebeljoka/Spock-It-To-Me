@@ -1,4 +1,5 @@
 // Keyboard shortcut to open How to Play modal (H)
+/* global bootstrap, JSConfetti */
 document.addEventListener("keydown", function(e) {
     if ((e.key === "h" || e.key === "H") && !document.body.classList.contains("modal-open")) {
         var instructionsModalEl = document.getElementById('instructionsModal');
@@ -65,7 +66,6 @@ document.addEventListener("keydown", function(e) {
     });
 
 document.addEventListener("DOMContentLoaded", function () {
-    // ...existing code...
     // At the end of DOMContentLoaded, highlight default selections
     window.setTimeout(function() {
         var defaultBestOfBtn = document.getElementById(currentGameType);
@@ -73,33 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
         var defaultDifficultyBtn = document.getElementById(currentDifficulty);
         if (defaultDifficultyBtn) defaultDifficultyBtn.classList.add('selected');
     }, 0);
-    // Also override console.error and console.warn to log to browser-console div
-    // const originalConsoleError = console.error;
-    // console.error = function (...args) {
-    //     originalConsoleError.apply(console, args);
-    //     const el = document.getElementById('browser-console');
-    //     if (el) {
-    //         el.innerHTML += '<span style="color:#ff5555">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
-    //     }
-    // };
-
-    // const originalConsoleWarn = console.warn;
-    // console.warn = function (...args) {
-    //     originalConsoleWarn.apply(console, args);
-    //     const el = document.getElementById('browser-console');
-    //     if (el) {
-    //         el.innerHTML += '<span style="color:#ffd700">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
-    //     }
-    // };
-    // // Override console.log to also log to the browser-console div
-    // const originalConsoleLog = console.log;
-    // console.log = function (...args) {
-    //     originalConsoleLog.apply(console, args);
-    //     const el = document.getElementById('browser-console');
-    //     if (el) {
-    //         el.innerHTML += args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '<br>';
-    //     }
-    // };
 
     // // Difficulty Modal JS
     // var difficultyModalEl = document.getElementById('difficultyModal');
@@ -161,8 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Best Of modal button clicks (for future logic)
-    var bestOfModalEl = document.getElementById('bestOfModal');
-    var bestOfModal = bestOfModalEl ? new bootstrap.Modal(bestOfModalEl) : null;
+    // reuse earlier `bestOfModalEl`/`bestOfModal` instead of redeclaring
     ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id) {
         var btn = document.getElementById(id);
         if (btn) {
@@ -379,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // While a game is running, prevent changing settings
     disableDifficultyButton();
     disableBestOfButton();
-        gameStateMessageEl.innerText = "Now you've dun gone started the game...\n"
+        gameStateMessageEl.innerText = "Now you've dun gone started the game...\n";
         gameStateMessageEl.innerText += `Game is ${gameTypeLabels[currentGameType]
             }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}\n`;
     }
@@ -426,7 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(newDifficulty != currentDifficulty){
             gameStateMessageEl.innerText = `Difficulty changed from ${difficultyLevelLabels[currentDifficulty]
                 } to ${difficultyLevelLabels[newDifficulty]}.\n`;
-            gameStateMessageEl.innerText += "Game ready to start."
+            gameStateMessageEl.innerText += "Game ready to start.";
             currentDifficulty = newDifficulty;
             gameInitialStateFunc();
         }else{
@@ -440,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(newGameType != currentGameType){
             gameStateMessageEl.innerText = `Game type changed from ${gameTypeLabels[currentGameType]
                 } to ${gameTypeLabels[newGameType]}.\n`;
-            gameStateMessageEl.innerText += "Game ready to start."
+            gameStateMessageEl.innerText += "Game ready to start.";
             currentGameType = newGameType;
             gameInitialStateFunc();
         }else{
@@ -501,6 +473,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     updateScores(playerOutcome);
                     displayScores();
 
+                    // End Best-Of games early if either player reaches the required majority
+                    if (currentGameType === gameType.BestOf3 || currentGameType === gameType.BestOf5) {
+                        const maxRounds = currentGameType === gameType.BestOf3 ? 3 : 5;
+                        const winsNeeded = Math.ceil(maxRounds / 2);
+                        if (playerWins >= winsNeeded || computerWins >= winsNeeded) {
+                            gameComplete = true;
+                        }
+                    }
+
+                    // If BestOf mode, end game early when a player reaches majority (e.g., 2 of 3, 3 of 5)
+                    if (currentGameType === gameType.BestOf3 || currentGameType === gameType.BestOf5) {
+                        const maxRounds = currentGameType === gameType.BestOf3 ? 3 : 5;
+                        const winsNeeded = Math.ceil(maxRounds / 2);
+                        if (playerWins >= winsNeeded || computerWins >= winsNeeded) {
+                            gameComplete = true;
+                        }
+                    }
+
                     // After round, restore all buttons and re-enable them
                     for (let btn of document.getElementsByClassName("move-choice-btn")) {
                         btn.style.display = "inline-block";
@@ -527,30 +517,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 2000);
 
         // Hide all other CPU buttons, show only the selected one
-        for (let btn of document.getElementsByClassName("CPU-btn")) {
-            if (btn.id.toLowerCase() === "cpu" + computerChoice.toLowerCase()) {
-                btn.style.display = "inline-block";
-                btn.classList.add("selected-move-btn");
-            } else {
-                btn.style.display = "none";
-            }
-        }
-        if (computerChoice == null) { 
-            console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
-            return;
-        }
-
-        const playerOutcome = processRound(playerChoiceButtonId, computerChoice, currentGameType);
-        console.log(`playerOutcome is: ${playerOutcome}`);
-
-
-        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND */
-        playerMoveChoices.push(playerChoiceButtonId);
-    }
-
-
-    function showWinner() {
-        gameStateMessageEl.innerText = `Game Over! ${gameOutcomeMessage()}`;
     }
 
 
@@ -575,32 +541,15 @@ document.addEventListener("DOMContentLoaded", function () {
         let playerWinOutcome = null;
         movesThisGame++;
         console.log(`Entering processRound(), num moves this game so far: ${movesThisGame}`);
-       
-        switch(currentGameType){
-            case gameType.BestOf3:
-                console.log("case: best of 3");
-                if(movesThisGame < 3){
+            switch(currentGameType){
+                case gameType.BestOf3:
+                    console.log("case: best of 3");
                     playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
-                }
-                else if(movesThisGame === 3){
+                    break;
+                case gameType.BestOf5:
+                    console.log("case: best of 5");
                     playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
-                    gameComplete = true;
-                }else{
-                    console.log("case: best of 3 over, game should no longer be reaching here");
-                }
-                break;
-            case gameType.BestOf5:
-                console.log("case: best of 5");
-                if(movesThisGame < 5){
-                    playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
-                }
-                else if(movesThisGame === 5){
-                    playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
-                    gameComplete = true;
-                }else{
-                    console.log("case: best of 5 over, game should no longer be reaching here");
-                }
-                break;
+                    break;
             case gameType.Endless:
                 console.log("case: endless");
                 playerWinOutcome = checkIfPlayerWins(playerChoice, computerChoice);
@@ -608,6 +557,20 @@ document.addEventListener("DOMContentLoaded", function () {
             default:
                 console.log("Invalid game type passed into processRound(), no game processing done");
         }
+
+            // After updating scores elsewhere, caller will call displayScores();
+            // but we also need to determine here if the game should finish early
+            if (currentGameType === gameType.BestOf3 || currentGameType === gameType.BestOf5) {
+                const maxRounds = currentGameType === gameType.BestOf3 ? 3 : 5;
+                const winsNeeded = Math.ceil(maxRounds / 2);
+                if (playerWins >= winsNeeded || computerWins >= winsNeeded) {
+                    gameComplete = true;
+                } else if (movesThisGame >= maxRounds) {
+                    // fallback: if we've played all rounds, game ends
+                    gameComplete = true;
+                }
+            }
+
         return playerWinOutcome;
     }
 
@@ -641,8 +604,8 @@ document.addEventListener("DOMContentLoaded", function () {
             case difficultyLevels.easy:
                 cpuSelection = randomMoveChoice();
                 break;
-            case difficultyLevels.medium:
-                if(playerMoveChoices.length === 0) return randomMoveChoice();
+            case difficultyLevels.medium: {
+                if (playerMoveChoices.length === 0) return randomMoveChoice();
                 const playerLastMove = playerMoveChoices[playerMoveChoices.length - 1];
                 // Bit complex, but this should create an array (counterMovesMedium) that includes
                 //  only winRules keys that include in their array lastMove as a move they beat
@@ -650,14 +613,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     choice => winRules[choice].includes(playerLastMove));
                 cpuSelection = weightedChoice(counterMovesMedium, 0.4);
                 break;
-            case difficultyLevels.hard:
-                if(playerMoveChoices.length === 0) return randomMoveChoice();
+            }
+            case difficultyLevels.hard: {
+                if (playerMoveChoices.length === 0) return randomMoveChoice();
                 const playerMostFrequent = playerFavouriteMove();
                 // See medium difficulty switch case (above) for explanation
                 const counterMovesHard = Object.keys(winRules).filter(
                     choice => winRules[choice].includes(playerMostFrequent));
                 cpuSelection = weightedChoice(counterMovesHard, 0.7);
                 break;
+            }
         }
 
         if(cpuSelection === null) return randomMoveChoice();        
@@ -695,7 +660,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         const favouriteMove = entries[0][0]; // The choice with the highest count
-        console.log(`Player's favourite move is: ${favouriteMove}`)
+        console.log(`Player's favourite move is: ${favouriteMove}`);
         return favouriteMove;
     }
 
@@ -775,12 +740,9 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         } else if (playerOutcome === outcomes.lose) {
             computerWins++;
-            jsConfetti.addConfetti({
-                emojis: [ "❌", "💔"],
-                confettiColors: ["#FF2A00"],
-                emojiSize: 100,
-                confettiNumber: 500
-            });
+            // show a raining-emoji animation on loss instead of the default confetti
+            // Use rain mode so `duration` controls how long each emoji takes to fall
+            startEmojiRain(["❌", "💔"], { rain: true, emojiSize: 100, count: 300, duration: 1500});
         } else if (playerOutcome === outcomes.draw) {
             drawnGames++;
         } else {
@@ -799,7 +761,7 @@ document.addEventListener("DOMContentLoaded", function () {
     /** Reset scores / win counts then push to display suing displayScores() function
      * 
     */
-    function resetGame(e) {
+    function resetGame() {
         playerWins = 0;
         computerWins = 0;
         drawnGames = 0;
@@ -999,6 +961,133 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const canvas = document.getElementById("confetti-canvas");
     const jsConfetti = new JSConfetti({ canvas });
+
+    // --- Emoji rain implementation (loss animation) ---
+    const ctx = canvas.getContext("2d");
+    let rainParticles = [];
+    let rainAnimationId = null;
+
+    function resizeCanvasForDisplay() {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        ctx.scale(dpr, dpr);
+    }
+
+    // create a particle (time-driven: fallDuration controls time to cross)
+    function createParticle(x, y, emoji, size, fallDuration, canvasHeight) {
+        const now = performance.now();
+    // add a larger horizontal jitter so particles are more spread across the width
+    const jitter = (Math.random() - 0.5) * 480; // ±240px
+        return {
+            baseX: x + jitter,
+            startY: y,
+            y: y,
+            emoji,
+            size,
+            // horizontal drift in pixels per ms (slightly larger for more spread)
+            vxMs: (Math.random() - 0.5) * 0.09,
+            rotation: Math.random() * Math.PI * 2,
+            rotationSpeed: (Math.random() - 0.5) * 0.06,
+            alpha: 1,
+            startTime: now,
+            // per-particle fall duration (ms) with small variation so they don't land all together
+            fallDuration: Math.max(50, (fallDuration || 2000) * (0.85 + Math.random() * 0.3)),
+            // sway to spread particles horizontally (pixels) — larger amplitude for wider spread
+            swayAmplitude: 20 + Math.random() * 150,
+            swayFrequency: 0.5 + Math.random() * 2.0,
+            swayPhase: Math.random() * Math.PI * 2,
+            // target end y (a little beyond the bottom) with per-particle variation for vertical spread
+            endY: (canvasHeight || window.innerHeight) + 50 + Math.random() * 400
+        };
+    }
+
+    function drawParticles() {
+        const rect = canvas.getBoundingClientRect();
+        ctx.clearRect(0, 0, rect.width, rect.height);
+        ctx.save();
+        // draw each emoji using fillText
+        for (let p of rainParticles) {
+            ctx.globalAlpha = p.alpha;
+            ctx.font = `${p.size}px serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation);
+            ctx.fillText(p.emoji, 0, 0);
+            ctx.restore();
+        }
+        ctx.restore();
+    }
+
+    function stepParticles() {
+        const rect = canvas.getBoundingClientRect();
+        const now = performance.now();
+        for (let p of rainParticles) {
+            const elapsed = now - p.startTime;
+            const progress = Math.min(1, elapsed / p.fallDuration);
+            // compute y based on progress between startY and endY
+            p.y = p.startY + progress * (p.endY - p.startY);
+            // horizontal drift + sway to spread across width
+            const sway = Math.sin(progress * p.swayFrequency * Math.PI * 2 + p.swayPhase) * p.swayAmplitude;
+            p.x = p.baseX + p.vxMs * elapsed + sway;
+            p.rotation += p.rotationSpeed;
+            // fade out near the end
+            if (progress > 0.85) p.alpha = Math.max(0, 1 - (progress - 0.85) / 0.15);
+        }
+        // remove particles that finished falling or invisible
+        rainParticles = rainParticles.filter(p => p.alpha > 0 && p.y < rect.height + 100 && (performance.now() - p.startTime) < (p.fallDuration + 500));
+    }
+
+    function animateRain() {
+        stepParticles();
+        drawParticles();
+        if (rainParticles.length > 0) {
+            rainAnimationId = requestAnimationFrame(animateRain);
+        } else {
+            cancelAnimationFrame(rainAnimationId);
+            rainAnimationId = null;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // reset transform in case resize scaled context
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+        }
+    }
+
+    // start a short rain of emojis from top
+    function startEmojiRain(emojis, opts = {}) {
+        // ensure canvas covers the viewport width and reasonable height
+        // set inline size if not explicit
+        canvas.style.position = 'fixed';
+        canvas.style.left = '0';
+        canvas.style.top = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+
+        // prepare canvas for high-dpi
+        resizeCanvasForDisplay();
+
+        const count = opts.count || 80;
+        const emojiSize = opts.emojiSize || 48;
+        const duration = opts.duration || 2500;
+
+        // populate particles across the top
+        const rect = canvas.getBoundingClientRect();
+        for (let i = 0; i < count; i++) {
+            const x = Math.random() * rect.width;
+            // start at a variety of heights above the viewport for vertical spread
+            const y = -Math.random() * rect.height * 1.2; // up to 120% of viewport above top
+            const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+            const size = emojiSize * (0.8 + Math.random() * 0.6);
+            // fallDuration set from duration so duration controls speed
+            rainParticles.push(createParticle(x, y, emoji, size, duration, rect.height));
+        }
+
+        // kick off animation loop
+        if (!rainAnimationId) animateRain();
+    }
 
         const userRockBtn = document.getElementById("rock");
     const userRockImg = document.getElementById("UserRockImg");
