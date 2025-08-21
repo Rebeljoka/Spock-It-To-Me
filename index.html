@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <header class="d-flex justify-content-center" role="banner">
+    <header class="d-flex justify-content-center" aria-label="Site header">
         <img src="assets/images/HeaderV2.webp" alt="Spock It To Me Western Town game header image"
             class="img-fluid headerImage">
     </header>
@@ -81,24 +81,24 @@
                 </div>
                 <hr>
                 <div class="row justify-content-center align-items-start g-4 mx-auto">
-                    <div class="col-md-4 text-start" aria-label="Game Types">
-                        <h6>Game Types</h6>
+                    <div class="col-md-4 text-start" aria-labelledby="gameTypesHeading">
+                        <h6 id="gameTypesHeading">Game Types</h6>
                         <ul>
                             <li><strong>Best of 3:</strong> First to win 2 out of 3 rounds wins the game.</li>
                             <li><strong>Best of 5:</strong> First to win 3 out of 5 rounds wins the game.</li>
                             <li><strong>Endless:</strong> Play as many rounds as you like, no limit.</li>
                         </ul>
                     </div>
-                    <div class="col-md-4 text-start" aria-label="Difficulty Levels">
-                        <h6>Difficulty Levels</h6>
+                    <div class="col-md-4 text-start" aria-labelledby="difficultyLevelsHeading">
+                        <h6 id="difficultyLevelsHeading">Difficulty Levels</h6>
                         <ul>
                             <li><strong>Easy:</strong> Computer picks moves randomly.</li>
                             <li><strong>Medium:</strong> Computer sometimes counters your last move.</li>
                             <li><strong>Hard:</strong> Computer often counters your most frequent move.</li>
                         </ul>
                     </div>
-                    <div class="col-md-4 text-start" aria-label="What beats what">
-                        <h6>What beats what?</h6>
+                    <div class="col-md-4 text-start" aria-labelledby="whatBeatsHeading">
+                        <h6 id="whatBeatsHeading">What beats what?</h6>
                         <ul>
                             <li><strong style="color: red;">🪨 Rock</strong> crushes Scissors &amp; crushes Lizard</li>
                             <li><strong style="color: yellow;">📄 Paper</strong> covers Rock &amp; disproves Spock</li>
@@ -109,6 +109,8 @@
                     </div>
                 </div>
                 <div class="p-2 rounded ">
+
+                    
                     <hr>
                     <h5 class="text-center mb-3">Keyboard Shortcuts</h5>
                     <div class="container my-4">
@@ -203,8 +205,8 @@
                             context (modal or game screen).</p>
                     </div>
                 </div>
-                <p class="text-center mt-1 lead"> Select a Game Type and Difficulty Level then click start! Once the game
-                    starts, you will be able to make your move.</p>
+                <p class="text-center mt-1 lead"> Select a Game Type and Difficulty Level then click start! Once the game starts, you
+                    will be able to make your move.</p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -289,7 +291,8 @@
         </div>
 
         <!-- Start/Stop, Score, and Modal Buttons Responsive Row -->
-        <div class="container my-4" aria-label="Game controls and score">
+        <div class="container my-4" aria-labelledby="controlsHeading">
+            <h2 id="controlsHeading" class="visually-hidden">Game controls and score</h2>
             <div class="row g-3 align-items-center text-center">
                 <div
                     class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-start gap-2 gap-md-3 order-2 order-md-1">
@@ -302,8 +305,8 @@
                     <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center w-100"
                         aria-live="polite">
                         <span class="fw-bold scoreTxt">Score:</span>
-                        <span id="playerScore" class="text-success">0</span> - <span id="cpuScore"
-                            class="text-danger">0</span> - <span id="drawScore" class="text-secondary">0</span>
+                        <span id="playerScore" class="text-success" aria-label="Player score">0</span> - <span id="cpuScore"
+                            class="text-danger" aria-label="Computer score">0</span> - <span id="drawScore" class="text-secondary" aria-label="Draws">0</span>
                     </div>
                 </div>
                 <div
@@ -425,6 +428,78 @@
     </div>
 
     </main>
+
+    <!-- Site footer -->
+    <footer class="site-footer bg-dark text-light py-5 mt-4" role="contentinfo" aria-label="Site footer">
+        <div class="container">
+            <!-- Two columns with lists placed above the existing footer content -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <div class="footer-list">
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <a href="https://github.com/Rebeljoka" class="text-light footer-link"><i class="fab fa-github me-2" aria-hidden="true"></i>Rebeljoka's Github</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/Rebekah-codes" class="text-light footer-link"><i class="fab fa-github me-2" aria-hidden="true"></i>Rebekah-codes Github</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/CSwinhoe01" class="text-light footer-link"><i class="fab fa-github me-2" aria-hidden="true"></i>CSwinhoe01's Github</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/lratcli" class="text-light footer-link"><i class="fab fa-github me-2" aria-hidden="true"></i>lratcli's Github</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 text-center mb-3 mb-md-0">
+                    <img src="assets/favicon/favicon.svg" alt="Site favicon" class="footer-favicon img-fluid">
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="footer-list text-md-end">
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <a href="https://www.linkedin.com/in/your-next-jfssd-habib/" class="text-light footer-link"><i class="fab fa-linkedin me-2" aria-hidden="true"></i>Habib's LinkedIn</a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/in/rebekah-morris-14270b372/" class="text-light footer-link"><i class="fab fa-linkedin me-2" aria-hidden="true"></i>Rebekah's LinkedIn</a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/in/corey-swinhoe-5b496a372" class="text-light footer-link"><i class="fab fa-linkedin me-2" aria-hidden="true"></i>Corey's LinkedIn</a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/in/luke-ratcliffe-developer/" class="text-light footer-link"><i class="fab fa-linkedin me-2" aria-hidden="true"></i>Luke's LinkedIn</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                    <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+                    <small>&copy; 2025 Spock It To Me &mdash; All rights reserved. (Non-Profit Educational Site)</small>
+                </div>
+
+                <div class="col-12 col-md-4 text-center mb-2 mb-md-0">
+                    <!-- Sound toggle: persisted via localStorage and wired to JS -->
+                    <div class="d-inline-block align-middle footer-sound-toggle" role="group" aria-label="Sound controls">
+                        <input type="checkbox" id="soundToggle" checked aria-label="Enable or disable game sounds">
+                        <label for="soundToggle" class="ms-1 text-light small">Sound</label>
+                        <button type="button" id="soundTestBtn" class="btn btn-sm btn-outline-light ms-2" aria-label="Test sound">Test</button>
+                        <span id="soundStatus" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></span>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 text-center text-md-end">
+                    <a href="README.md" class="text-light me-3 footer-link">About</a>
+                    <a href="#instructionsModal" class="text-light me-3 footer-link" data-bs-toggle="modal">How to Play</a>
+                    <a href="https://github.com/Rebeljoka/Spock-It-To-Me" class="text-light footer-link" target="_blank" rel="noopener">Source</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <canvas id="confetti-canvas" aria-hidden="true"></canvas>
 

@@ -43,12 +43,28 @@ h4, h5, h6, p {
     padding-top: 1rem;
 }
 
+/* Ensure the page fills the viewport and allows pushing the footer to the bottom
+   when content is shorter than the browser height. Using a flex column layout
+   is the least invasive approach and works with Bootstrap utilities. */
+html, body {
+    height: 100%;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-image: url('../images/Western_Background_Image.webp');
     background-repeat: no-repeat;
     background-size: 100vw auto;
     background-position: top center;
     background-color: #A66500;
+}
+
+/* let the main content grow and take available space so the footer is pushed
+   to the bottom on short pages */
+main {
+    flex: 1 0 auto;
 }
 
 /*
@@ -75,7 +91,7 @@ body {
     transform: translate(-50%, -60%);
     width: 100%;
     text-align: center;
-    color: black;
+    color: white;
     font-weight: bold;
     z-index: 2;
     pointer-events: none;
@@ -403,6 +419,35 @@ canvas {
     p { font-size: 1rem; }
 }
 
+/*
+========================================
+  FOOTER
+========================================
+*/
+.site-footer {
+    background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+    border-top: 2px solid rgba(255,255,255,0.04);
+}
+.site-footer .footer-link {
+    text-decoration: none;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: large;
+    opacity: 0.9;
+}
+.site-footer .footer-link:hover,
+.site-footer .footer-link:focus {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+@media (max-width: 575.98px) {
+    .site-footer {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        font-size: 0.9rem;
+    }
+}
+
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
     .headerImage {
@@ -439,4 +484,17 @@ canvas {
     }
     h2 { font-size: 2rem; }
     p { font-size: 1.25rem; }
+}
+
+/* Footer favicon sizing to preserve aspect ratio and avoid squashing */
+.footer-favicon {
+    width: 96px !important;
+    height: auto;
+    display: inline-block;
+}
+
+@media (max-width: 575.98px) {
+    .footer-favicon {
+        width: 64px;
+    }
 }
