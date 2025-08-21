@@ -56,32 +56,32 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     // Also override console.error and console.warn to log to browser-console div
-    const originalConsoleError = console.error;
-    console.error = function (...args) {
-        originalConsoleError.apply(console, args);
-        const el = document.getElementById('browser-console');
-        if (el) {
-            el.innerHTML += '<span style="color:#ff5555">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
-        }
-    };
+    // const originalConsoleError = console.error;
+    // console.error = function (...args) {
+    //     originalConsoleError.apply(console, args);
+    //     const el = document.getElementById('browser-console');
+    //     if (el) {
+    //         el.innerHTML += '<span style="color:#ff5555">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
+    //     }
+    // };
 
-    const originalConsoleWarn = console.warn;
-    console.warn = function (...args) {
-        originalConsoleWarn.apply(console, args);
-        const el = document.getElementById('browser-console');
-        if (el) {
-            el.innerHTML += '<span style="color:#ffd700">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
-        }
-    };
-    // Override console.log to also log to the browser-console div
-    const originalConsoleLog = console.log;
-    console.log = function (...args) {
-        originalConsoleLog.apply(console, args);
-        const el = document.getElementById('browser-console');
-        if (el) {
-            el.innerHTML += args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '<br>';
-        }
-    };
+    // const originalConsoleWarn = console.warn;
+    // console.warn = function (...args) {
+    //     originalConsoleWarn.apply(console, args);
+    //     const el = document.getElementById('browser-console');
+    //     if (el) {
+    //         el.innerHTML += '<span style="color:#ffd700">' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '</span><br>';
+    //     }
+    // };
+    // // Override console.log to also log to the browser-console div
+    // const originalConsoleLog = console.log;
+    // console.log = function (...args) {
+    //     originalConsoleLog.apply(console, args);
+    //     const el = document.getElementById('browser-console');
+    //     if (el) {
+    //         el.innerHTML += args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ') + '<br>';
+    //     }
+    // };
 
     // // Difficulty Modal JS
     // var difficultyModalEl = document.getElementById('difficultyModal');
@@ -185,11 +185,23 @@ document.addEventListener("DOMContentLoaded", function () {
         hard: "hardBtn",
     };
 
+    const difficultyLevelLabels = {
+        easyBtn: "Easy",
+        mediumBtn: "Medium",
+        hardBtn: "Hard",
+    };
+
     // Game types
     const gameType = {
         BestOf3: "bestOf3Btn",
         BestOf5: "bestOf5Btn",
         Endless: "endlessBtn",
+    };
+
+    const gameTypeLabels = {
+        bestOf3Btn: "Best of 3",
+        bestOf5Btn: "Best of 5",
+        endlessBtn: "Endless",
     };
     
     //------------------------------------------------------------
@@ -231,6 +243,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const startButtonEl = document.getElementById("startBtn");
     const restartButtonEl = document.getElementById("restartBtn");
+
+    const gameStateMessageEl = document.getElementById("game-state-message");
 
 
     /**-------------------------------------------------------------------
@@ -302,12 +316,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Call resetGame function on restart button element click
-    startButtonEl.addEventListener("click", startGameFunc);
-    restartButtonEl.addEventListener("click", resetGame);
+    startButtonEl.addEventListener("click", gameStartFunc);
+    restartButtonEl.addEventListener("click", gameRestartFunc);
 
 
     /** Game state handling functions */
-    function initialGameStateFunc(){
+    function gameInitialStateFunc(){
         gameComplete = false;
         gameStarted = false;
         resetGame();
@@ -317,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
         disableCpuMoveButtons();
     }
 
-    function startGameFunc(){
+    function gameStartFunc(){
         gameComplete = false;
         gameStarted = true;
         resetGame();
@@ -325,6 +339,9 @@ document.addEventListener("DOMContentLoaded", function () {
         enablePlayerMoveButtons();
         enableCpuMoveButtons();
         enableRestartButton();
+        gameStateMessageEl.innerText = "Now you've dun gone started the game...\n"
+        gameStateMessageEl.innerText += `Game is ${gameTypeLabels[currentGameType]
+            }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}\n`;
     }
 
     function gameCompleteFunc(){
@@ -334,14 +351,33 @@ document.addEventListener("DOMContentLoaded", function () {
         disableRestartButton();
         disablePlayerMoveButtons();
         disableCpuMoveButtons();
+        // gameStateMessageEl.innerText = "That's it! Game completed!\n"
+        // gameStateMessageEl.innerText += `${gameOutcomeMessage()}\n`;
     }
 
+    function gameRestartFunc(){
+        gameComplete = false;
+        gameStarted = true;
+        resetGame();
+        disableStartButton();
+        enablePlayerMoveButtons();
+        enableCpuMoveButtons();
+        enableRestartButton();
+        gameStateMessageEl.innerText = "Okay, you're restarting the game...\n"
+        gameStateMessageEl.innerText += `Game is ${gameTypeLabels[currentGameType]
+            }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}\n`;
+    }
 
     //--------------------------------------------------------------------------------------
     // Init game state now all varibles are declared
     //--------------------------------------------------------------------------------------
 
-    initialGameStateFunc();
+    gameInitialStateFunc();
+    gameStateMessageEl.innerText = "Game initialised! Ready to start ....";
+    if ( currentGameType != null && currentDifficulty != null){
+        gameStateMessageEl.innerText = `Game type is ${gameTypeLabels[currentGameType]
+            }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}.`;
+    }
 
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
@@ -351,29 +387,30 @@ document.addEventListener("DOMContentLoaded", function () {
      */
 
     function difficultyChange(e){
-
-        console.log('Difficulty selected:', e.currentTarget.id);
         let newDifficulty = e.currentTarget.id;
-        if(newDifficulty === currentDifficulty){
-            console.log("User selected same difficulty level again, nothing changed or reset");
-        }
-        else{
-            console.log(`Difficult level change from ${currentDifficulty} to ${newDifficulty}\nresetting scores and history.`);
+        if(newDifficulty != currentDifficulty){
+            gameStateMessageEl.innerText = `Difficulty changed from ${difficultyLevelLabels[currentDifficulty]
+                } to ${difficultyLevelLabels[newDifficulty]}.\n`;
+            gameStateMessageEl.innerText += "Game ready to start."
             currentDifficulty = newDifficulty;
-            resetGame();
+            gameInitialStateFunc();
+        }else{
+            gameStateMessageEl.innerText = `You're already on ${
+                difficultyLevelLabels[currentDifficulty]} difficulty level.`;
         }
     }
 
     function gameTypeChange(e){
-        const buttonId = e.currentTarget.id;
         let newGameType = e.currentTarget.id;
-        if(newGameType === currentGameType){
-            console.log(`User selected the same game type ${currentGameType} again - continuing`);
-        }
-        else{
-            console.log(`User changed game type from to ${currentGameType} to ${newGameType} - restarting`);
+        if(newGameType != currentGameType){
+            gameStateMessageEl.innerText = `Game type changed from ${gameTypeLabels[currentGameType]
+                } to ${gameTypeLabels[newGameType]}.\n`;
+            gameStateMessageEl.innerText += "Game ready to start."
             currentGameType = newGameType;
-            resetGame();
+            gameInitialStateFunc();
+        }else{
+            gameStateMessageEl.innerText = `You're already playing ${
+                gameTypeLabels[currentGameType]}.`;
         }
     }
 
@@ -382,43 +419,44 @@ document.addEventListener("DOMContentLoaded", function () {
     /** handles user click events on game move choice buttons */
     function handleUserMoveChoice(e) {
         // If game is over, simply ignore all user move choices
-        if(gameComplete === true){
-            return;
-        }
+        if(gameComplete === true) return;
 
         const playerChoiceButtonId = e.currentTarget.id;
         const computerChoice = computerChoiceGenerator(currentDifficulty);
-        if (computerChoice == null) {
+        if (computerChoice == null) { 
             console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
             return;
         }
 
-        console.log(`Player selected ${playerChoiceButtonId}\nComputer selected ${computerChoice}`);
-
         const playerOutcome = processRound(playerChoiceButtonId, computerChoice, currentGameType);
-        
-        console.log(playerOutcome);
+        console.log(`playerOutcome is: ${playerOutcome}`);
 
         startCountdown(() => {
+            gameStateMessageEl.innerText = `You chose ${playerChoiceButtonId}! Computer chose ${computerChoice}!\n`;
+            gameStateMessageEl.innerText += `You ${playerOutcome}!\n`;
             updateScores(playerOutcome);
             displayScores();
+
             if(gameComplete === true){
-                gameCompleteActions();
+                // startCountdown(showWinner);
+                showWhoWonCountdown(() => {
+                    gameStateMessageEl.innerText = `Game Over! ${gameOutcomeMessage().toUpperCase()}`;
+                    displayWhoWonTimedMessage();
+                });
                 gameCompleteFunc();
             }
         });
-        
 
-        // if moves this game >= moves for game type
-            // disable player buttons until start or restart is clicked
-        
-
-        // TODO: Reflect outcome of game in the html from here:
-
-        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND
-         * Especially a huge problem for MEDIUM difficulty*/
+        /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND */
         playerMoveChoices.push(playerChoiceButtonId);
     }
+
+
+    function showWinner() {
+        gameStateMessageEl.innerText = `Game Over! ${gameOutcomeMessage()}`;
+    }
+
+
 
     //--------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------
@@ -476,28 +514,20 @@ document.addEventListener("DOMContentLoaded", function () {
         return playerWinOutcome;
     }
 
-    /** -----------------------------------------
-     *  Generate appropriate game complete message
-     */
-    function gameCompleteActions(){
-        gameComplete = true;
-        console.log("--------------------------------------");
-        console.log("In gameComplete function:");
-        console.log("Game has reached full round limit");
-        console.log("Display results and game end stuff");
-        console.log(`Current game type: ${currentGameType}\nMoves completed: ${movesThisGame}`);
-        console.log(`playerWins = ${playerWins}, computerWins = ${computerWins}, draws = ${drawnGames}.`)
-        if (playerWins === computerWins){
-            console.log("Overall outcome: DRAW");
+    /**gameOutComeMessage: generates a short string explaining who has won 
+     * based on the scores at the time of calling 
+     * */
+    function gameOutcomeMessage(){
+        if(playerWins > computerWins){
+            return "PLAYER Wins!";
         }
-        else if(playerWins > computerWins){
-            console.log("Overall outcome: PLAYER Wins");
+        else if(computerWins > playerWins){
+            return "COMPUTER wins!";
         }
-        else{
-            console.log("Overall outcome: COMPUTER wins");
+        else
+            {
+            return "It's a DRAW!";
         }
-        console.log("Restart or select new game type or difficulty to play again");
-        console.log("--------------------------------------");
     }
 
     /** CPU choice function: returns one of the five options as a CPU choice 
@@ -580,7 +610,6 @@ document.addEventListener("DOMContentLoaded", function () {
      * 
      */
     function weightedChoice(preferred, weight = 0.5) {
-
         // This function returns an array with the move repeated more times if it's preferred,
         // just the once if its no preferred
         function expandIfPreferred(moveOption) {
@@ -725,7 +754,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function disablePlayerMoveButtons(){
         for(let el of choiceButtonsArray){
-            // el.style.display = "none";
             el.disabled = true;
             el.classList.add("greyed-out");
         }
@@ -740,7 +768,111 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /** Interactive button JS code */
 
-    const userRockBtn = document.getElementById("rock");
+    // Countdown function
+    function startCountdown(callback) {
+        const container = document.getElementById('countdown-timer-container');
+        if (!container) return;
+        container.innerHTML = '';
+        const countdownDiv = document.createElement('div');
+        countdownDiv.id = 'countdown-timer';
+        countdownDiv.style.fontSize = '4rem';
+        countdownDiv.style.fontWeight = 'bold';
+        countdownDiv.style.textAlign = 'center';
+        container.appendChild(countdownDiv);
+        let count = 3;
+        function updateCountdownDisplay(val) {
+            let color = '#ff3333';
+            if (val === 2) color = '#FFD700';
+            if (val === 1) color = '#33cc33';
+            countdownDiv.innerHTML = `<span style="color:${color}">${val}</span>`;
+        }
+        updateCountdownDisplay(count);
+        const interval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                updateCountdownDisplay(count);
+            } else if (count === 0) {
+                countdownDiv.innerHTML = `<span style="color:#33cc33">GO!</span>`;
+            } else {
+                clearInterval(interval);
+                container.innerHTML = '';
+                if (typeof callback === 'function') callback();
+            }
+        }, 700);
+    }
+
+    /** Timer used to delay callback by 4 seconds, display "WHO WON THE GAME?"
+     * while counting down
+     */
+    function showWhoWonCountdown(callback) {
+        const container = document.getElementById("countdown-timer-container");
+        if (!container) return;
+        container.innerHTML = "";
+        const whoWonDiv = document.createElement("div");
+        whoWonDiv.id = "who-won-timer";
+        whoWonDiv.style.fontSize = "4rem";
+        whoWonDiv.style.fontWeight = "bold";
+        whoWonDiv.style.textAlign = "center";
+        whoWonDiv.style.color = "purple";
+        whoWonDiv.innerText = "WHO WON THE GAME?";
+        container.appendChild(whoWonDiv);
+
+        // Show "WHO WON?" for 4 seconds, then clear and call callback
+        setTimeout(() => {
+            container.innerHTML = "";
+            if (typeof callback === "function") callback();
+        }, 4000);
+    }
+
+    /**Timer being used to display who won the game prominently for 4 seconds  */
+    function displayWhoWonTimedMessage(callback) {
+        const container = document.getElementById("countdown-timer-container");
+        if (!container) return;
+        container.innerHTML = "";
+        const whoWonTimedMessageDiv = document.createElement("div");
+        whoWonTimedMessageDiv.id = "display-who-won-timer";
+        whoWonTimedMessageDiv.style.fontSize = "4rem";
+        whoWonTimedMessageDiv.style.fontWeight = "bold";
+        whoWonTimedMessageDiv.style.textAlign = "center";
+        whoWonTimedMessageDiv.style.color = "red";
+        whoWonTimedMessageDiv.innerText = gameOutcomeMessage();
+        container.appendChild(whoWonTimedMessageDiv);
+
+        // Show whoWonDiv.innerText for 4 seconds, then clear and call callback
+        setTimeout(() => {
+            container.innerHTML = "";
+            if (typeof callback === "function") callback();
+        }, 4000);
+    }
+
+    const userLizardBtn = document.getElementById("lizard");
+    const userLizardImg = document.getElementById("UserLizardImg");
+    const defaultLizardSrc = "assets/images/lizardBtn.webp";
+    const selectedLizardSrc = "assets/images/lizardBtnClicked.webp";
+    userLizardBtn.addEventListener("click", function () {
+        if (gameComplete) return;
+        userLizardImg.src = selectedLizardSrc;
+        setTimeout(() => {
+            userLizardImg.src = defaultLizardSrc;
+        }, 200);
+    });
+
+    const userSpockBtn = document.getElementById("spock");
+    const userSpockImg = document.getElementById("UserSpockImg");
+    const defaultSpockSrc = "assets/images/spockBtn.webp";
+    const selectedSpockSrc = "assets/images/spockBtnClicked.webp";
+    userSpockBtn.addEventListener("click", function () {
+        if (gameComplete) return;
+        userSpockImg.src = selectedSpockSrc;
+        setTimeout(() => {
+            userSpockImg.src = defaultSpockSrc;
+        }, 200);
+    });
+
+    const canvas = document.getElementById("confetti-canvas");
+    const jsConfetti = new JSConfetti({ canvas });
+
+        const userRockBtn = document.getElementById("rock");
     const userRockImg = document.getElementById("UserRockImg");
     const defaultRockSrc = "assets/images/rockBtn.webp";
     const selectedRockSrc = "assets/images/rockBtnClicked.webp";
@@ -784,61 +916,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Confetti is now triggered only in updateScores
             });
     });
-    // Countdown function
-    function startCountdown(callback) {
-        const container = document.getElementById('countdown-timer-container');
-        if (!container) return;
-        container.innerHTML = '';
-        const countdownDiv = document.createElement('div');
-        countdownDiv.classList.add('countdown-active');
-        container.appendChild(countdownDiv);
-        let count = 3;
-        function updateCountdownDisplay(val) {
-            let color = '#ff3333';
-            if (val === 2) color = '#FFD700';
-            if (val === 1) color = '#33cc33';
-            countdownDiv.innerHTML = `<span style="color:${color}">${val}</span>`;
-        }
-        updateCountdownDisplay(count);
-        const interval = setInterval(() => {
-            count--;
-            if (count > 0) {
-                updateCountdownDisplay(count);
-            } else if (count === 0) {
-                countdownDiv.innerHTML = `<span style="color:#33cc33">GO!</span>`;
-            } else {
-                clearInterval(interval);
-                container.innerHTML = '';
-                if (typeof callback === 'function') callback();
-            }
-        }, 700);
-    }
 
-    const userLizardBtn = document.getElementById("lizard");
-    const userLizardImg = document.getElementById("UserLizardImg");
-    const defaultLizardSrc = "assets/images/lizardBtn.webp";
-    const selectedLizardSrc = "assets/images/lizardBtnClicked.webp";
-    userLizardBtn.addEventListener("click", function () {
-        if (gameComplete) return;
-        userLizardImg.src = selectedLizardSrc;
-        setTimeout(() => {
-            userLizardImg.src = defaultLizardSrc;
-        }, 200);
-    });
-
-    const userSpockBtn = document.getElementById("spock");
-    const userSpockImg = document.getElementById("UserSpockImg");
-    const defaultSpockSrc = "assets/images/spockBtn.webp";
-    const selectedSpockSrc = "assets/images/spockBtnClicked.webp";
-    userSpockBtn.addEventListener("click", function () {
-        if (gameComplete) return;
-        userSpockImg.src = selectedSpockSrc;
-        setTimeout(() => {
-            userSpockImg.src = defaultSpockSrc;
-        }, 200);
-    });
-
-    const canvas = document.getElementById("confetti-canvas");
-    const jsConfetti = new JSConfetti({ canvas });
 
 });
