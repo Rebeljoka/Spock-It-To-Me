@@ -388,16 +388,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function gameRestartFunc(){
-        gameComplete = false;
-        gameStarted = true;
-        resetGame();
-        disableStartButton();
-        enablePlayerMoveButtons();
-        enableCpuMoveButtons();
-        enableRestartButton();
-        gameStateMessageEl.innerText = "Okay, you're restarting the game...\n"
-        gameStateMessageEl.innerText += `Game is ${gameTypeLabels[currentGameType]
-            }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}\n`;
+    gameInitialStateFunc();
+    gameStateMessageEl.innerText = "Game reset! You can change Best Of or Difficulty before starting.";
     }
 
     //--------------------------------------------------------------------------------------
@@ -456,7 +448,88 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const playerChoiceButtonId = e.currentTarget.id;
-        const computerChoice = computerChoiceGenerator(currentDifficulty);
+
+        // Hide all other user move buttons, show only the selected one
+        for (let btn of document.getElementsByClassName("move-choice-btn")) {
+            if (btn.id === playerChoiceButtonId) {
+                btn.style.display = "inline-block";
+                btn.classList.add("selected-move-btn");
+                btn.style.pointerEvents = "none";
+                btn.tabIndex = -1;
+            } else {
+                btn.style.display = "none";
+            }
+        }
+
+            // Simulate CPU thinking for 2 seconds before picking
+            setTimeout(() => {
+                const computerChoice = computerChoiceGenerator(currentDifficulty);
+
+                // Hide all other CPU buttons, show only the selected one
+                for (let btn of document.getElementsByClassName("CPU-btn")) {
+                    if (btn.id.toLowerCase() === "cpu" + computerChoice.toLowerCase()) {
+                        btn.style.display = "inline-block";
+                        btn.classList.add("selected-move-btn");
+                    } else {
+                        btn.style.display = "none";
+                    }
+                }
+
+                if (computerChoice == null) { 
+                    console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
+                    return;
+                }
+
+                const playerOutcome = processRound(playerChoiceButtonId, computerChoice, currentGameType);
+                console.log(`playerOutcome is: ${playerOutcome}`);
+
+                // Start countdown AFTER CPU picks
+                startCountdown(() => {
+                    gameStateMessageEl.innerText = `You chose ${playerChoiceButtonId}! Computer chose ${computerChoice}!\n`;
+                    gameStateMessageEl.innerText += `You ${playerOutcome}!\n`;
+                    // Set lose color if player lost
+                    if (playerOutcome === 'lose') {
+                        gameStateMessageEl.classList.add('game-message-lose');
+                    } else {
+                        gameStateMessageEl.classList.remove('game-message-lose');
+                    }
+                    updateScores(playerOutcome);
+                    displayScores();
+
+                    // After round, restore all buttons and re-enable them
+                    for (let btn of document.getElementsByClassName("move-choice-btn")) {
+                        btn.style.display = "inline-block";
+                        btn.classList.remove("selected-move-btn");
+                        btn.style.pointerEvents = "auto";
+                        btn.tabIndex = 0;
+                    }
+                    for (let btn of document.getElementsByClassName("CPU-btn")) {
+                        btn.style.display = "inline-block";
+                        btn.classList.remove("selected-move-btn");
+                    }
+
+                    if(gameComplete === true){
+                        showWhoWonCountdown(() => {
+                            gameStateMessageEl.innerText = `Game Over! ${gameOutcomeMessage().toUpperCase()}`;
+                            displayWhoWonTimedMessage();
+                        });
+                        gameCompleteFunc();
+                    }
+                });
+
+                /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND */
+                playerMoveChoices.push(playerChoiceButtonId);
+            }, 2000);
+
+        // Hide all other CPU buttons, show only the selected one
+        for (let btn of document.getElementsByClassName("CPU-btn")) {
+            if (btn.id.toLowerCase() === "cpu" + computerChoice.toLowerCase()) {
+                btn.style.display = "inline-block";
+                btn.classList.add("selected-move-btn");
+            } else {
+                btn.style.display = "none";
+            }
+        }
         if (computerChoice == null) { 
             console.error("null returned from computerChoiceGenerator(), exiting player input event handler");
             return;
@@ -465,21 +538,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const playerOutcome = processRound(playerChoiceButtonId, computerChoice, currentGameType);
         console.log(`playerOutcome is: ${playerOutcome}`);
 
-        startCountdown(() => {
-            gameStateMessageEl.innerText = `You chose ${playerChoiceButtonId}! Computer chose ${computerChoice}!\n`;
-            gameStateMessageEl.innerText += `You ${playerOutcome}!\n`;
-            updateScores(playerOutcome);
-            displayScores();
-
-            if(gameComplete === true){
-                // startCountdown(showWinner);
-                showWhoWonCountdown(() => {
-                    gameStateMessageEl.innerText = `Game Over! ${gameOutcomeMessage().toUpperCase()}`;
-                    displayWhoWonTimedMessage();
-                });
-                gameCompleteFunc();
-            }
-        });
 
         /** DO RIGHT AT THE END in order to PREVENT IT BIASING THE CPU's GO THIS ROUND */
         playerMoveChoices.push(playerChoiceButtonId);
@@ -808,10 +866,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!container) return;
         container.innerHTML = '';
         const countdownDiv = document.createElement('div');
-        countdownDiv.id = 'countdown-timer';
-        countdownDiv.style.fontSize = '4rem';
-        countdownDiv.style.fontWeight = 'bold';
-        countdownDiv.style.textAlign = 'center';
+    countdownDiv.id = 'countdown-timer';
+    countdownDiv.classList.add('countdown-active');
         container.appendChild(countdownDiv);
         let count = 3;
         function updateCountdownDisplay(val) {
@@ -916,9 +972,6 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userRockImg.src = defaultRockSrc;
         }, 200);
-            startCountdown(() => {
-                // Confetti is now triggered only in updateScores
-            });
     });
 
     const userPaperBtn = document.getElementById("paper");
@@ -931,9 +984,6 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userPaperImg.src = defaultPaperSrc;
         }, 200);
-            startCountdown(() => {
-                // Confetti is now triggered only in updateScores
-            });
     });
 
     const userScissorsBtn = document.getElementById("scissors");
@@ -946,9 +996,6 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             userScissorsImg.src = defaultScissorsSrc;
         }, 200);
-            startCountdown(() => {
-                // Confetti is now triggered only in updateScores
-            });
     });
 
 
