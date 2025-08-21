@@ -66,6 +66,137 @@ document.addEventListener("keydown", function(e) {
     });
 
 document.addEventListener("DOMContentLoaded", function () {
+    // ----- Sound setup: load audio files and sound toggle -----
+    const soundFiles = {
+        win: 'assets/sounds/ding.mp3',
+        lose: 'assets/sounds/wrong.swf.mp3',
+        draw: 'assets/sounds/slap.mp3',
+        // summary sounds (requested). If `yay.mp3` is not available we will fallback to 'ding.mp3'
+        summary: {
+            win: 'assets/sounds/yay.mp3',
+            lose: 'assets/sounds/sadtrombone.mp3',
+            draw: 'assets/sounds/snore-mimi.mp3'
+        }
+    };
+
+    // Create Audio objects. Missing files will cause runtime load errors; code uses try/catch on play.
+    const audio = {
+        win: new Audio(soundFiles.win),
+        lose: new Audio(soundFiles.lose),
+        draw: new Audio(soundFiles.draw),
+        summary: {
+            win: new Audio(soundFiles.summary.win),
+            lose: new Audio(soundFiles.summary.lose),
+            draw: new Audio(soundFiles.summary.draw)
+        }
+    };
+
+    // Set default volume to 30%
+    Object.values(audio).forEach(a => { try { a.volume = 0.3; } catch (e) {} });
+
+    // Sound toggle persisted in localStorage under key 'spockit_sound_enabled'
+    const soundToggleEl = document.getElementById('soundToggle');
+    const SOUND_KEY = 'spockit_sound_enabled';
+    function readSoundSetting() {
+        const val = localStorage.getItem(SOUND_KEY);
+        if (val === null) return true; // default enabled
+        return val === '1';
+    }
+    function writeSoundSetting(enabled) {
+        localStorage.setItem(SOUND_KEY, enabled ? '1' : '0');
+    }
+
+    // Initialize checkbox state from storage
+    if (soundToggleEl) {
+        const enabled = readSoundSetting();
+        soundToggleEl.checked = enabled;
+        soundToggleEl.addEventListener('change', function (e) {
+            writeSoundSetting(!!e.target.checked);
+            // Announce change for assistive tech
+            const statusEl = document.getElementById('soundStatus');
+            if (statusEl) {
+                statusEl.innerText = e.target.checked ? 'Sound enabled' : 'Sound disabled';
+            }
+        });
+    }
+
+    function isSoundEnabled() {
+        return readSoundSetting();
+    }
+
+    // Helper to play a named sound safely
+    function playSound(name) {
+        if (!isSoundEnabled()) return;
+        try {
+            const a = audio[name];
+            if (!a) return;
+            // Reset playback to allow rapid successive plays
+            a.pause();
+            a.currentTime = 0;
+            a.volume = 0.3;
+            a.play().catch(() => {
+                // ignore play promise rejections (autoplay policies)
+            });
+        } catch (err) {
+            console.warn('Sound playback failed', err);
+        }
+    }
+
+    // Play summary sound based on overall game result
+    function playSummarySound() {
+        if (!isSoundEnabled()) return;
+        try {
+            let result = 'draw';
+            if (playerWins > computerWins) result = 'win';
+            else if (computerWins > playerWins) result = 'lose';
+
+            // pick summary audio; if yay.mp3 missing browsers will error on load — try/catch around play
+            const a = audio.summary && audio.summary[result];
+            if (!a) {
+                // Fallback: use regular win sound for player win, lose for loss, draw for draw
+                const fallback = result === 'win' ? audio.win : result === 'lose' ? audio.lose : audio.draw;
+                if (fallback) { fallback.pause(); fallback.currentTime = 0; fallback.volume = 0.3; fallback.play().catch(()=>{}); }
+                return;
+            }
+            a.pause(); a.currentTime = 0; a.volume = 0.3; a.play().catch(()=>{});
+        } catch (err) {
+            console.warn('Summary sound playback failed', err);
+        }
+    }
+
+    // Wire up sound test button to play a short preview (uses win sound)
+    const soundTestBtn = document.getElementById('soundTestBtn');
+    if (soundTestBtn) {
+        soundTestBtn.addEventListener('click', function () {
+            // If sound is disabled, toggle checkbox visually and announce that sound is off
+            if (!isSoundEnabled()) {
+                const statusEl = document.getElementById('soundStatus');
+                if (statusEl) statusEl.innerText = 'Sound is currently disabled. Enable sound to hear preview.';
+                return;
+            }
+            try {
+                // Play a short preview: use win sound first, fall back to draw then lose
+                const previewOrder = ['win', 'draw', 'lose'];
+                let idx = 0;
+                function playNext() {
+                    if (idx >= previewOrder.length) return;
+                    const name = previewOrder[idx++];
+                    const a = audio[name];
+                    if (!a) return playNext();
+                    a.pause();
+                    a.currentTime = 0;
+                    a.volume = 0.3;
+                    a.play().catch(() => {}).then(() => {
+                        // attempt to stop after 700ms to make preview short
+                        setTimeout(() => { try { a.pause(); a.currentTime = 0; } catch (e) {} }, 700);
+                    });
+                }
+                playNext();
+            } catch (err) {
+                console.warn('Preview playback failed', err);
+            }
+        });
+    }
     // At the end of DOMContentLoaded, highlight default selections
     window.setTimeout(function() {
         var defaultBestOfBtn = document.getElementById(currentGameType);
@@ -508,6 +639,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             gameStateMessageEl.innerText = `Game Over! ${gameOutcomeMessage().toUpperCase()}`;
                             displayWhoWonTimedMessage();
                         });
+                        try { playSummarySound(); } catch (e) {}
                         gameCompleteFunc();
                     }
                 });
@@ -738,13 +870,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 emojiSize: 100,
                 confettiNumber: 500
             });
+                // Play win sound
+                try { playSound('win'); } catch (e) {}
         } else if (playerOutcome === outcomes.lose) {
             computerWins++;
             // show a raining-emoji animation on loss instead of the default confetti
             // Use rain mode so `duration` controls how long each emoji takes to fall
             startEmojiRain(["❌", "💔"], { rain: true, emojiSize: 100, count: 300, duration: 1500});
+                // Play lose sound
+                try { playSound('lose'); } catch (e) {}
         } else if (playerOutcome === outcomes.draw) {
             drawnGames++;
+                // Play draw sound
+                try { playSound('draw'); } catch (e) {}
         } else {
             console.log("Error - checkIfPlayerWins() return invalid response");
         }
