@@ -144,9 +144,9 @@ a one-page web app that reimagines the classic game with a geeky twist. Inspired
 
 <h2 align="center">❤️ Accessibility Checks</h2>
 
-![WCAG Pass 1]()
+![WCAG Pass 1](assets/documentation/wcag-pass.webp)
 
-![WCAG Pass 2]()
+![WCAG Pass 2](assets/documentation/wcag-pass-2.webp)
 
 <h2 align="center"> 🤖 AI Reflections </h2>  
 
