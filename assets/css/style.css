@@ -63,8 +63,69 @@ background-color: #A66500;
 
 .how-to-img {
     max-width: 100%;
-    height: 350px;
+    height: 250px;
 }
+
+/* Keyboard Shortcuts Section Styling */
+.keyboard-shortcuts-container {
+    border-radius: 1rem;
+    padding: 2rem 1rem;
+    margin: 2rem auto;
+    max-width: 900px;
+}
+.keyboard-shortcuts-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.shortcut-badge {
+    display: inline-block;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    vertical-align: middle;
+}
+.shortcut-badge.h { background: #111; }
+.shortcut-badge.s { background: #2ecc40; }
+.shortcut-badge.r { background: #900022; }
+.shortcut-badge.d { background: #0099e6; }
+.shortcut-badge.b { background: #ffe600; color: #222; }
+.shortcut-badge.e { background: #2ecc40; }
+.shortcut-badge.m { background: #ffe600; color: #222; }
+.shortcut-badge.hh { background: #e60000; }
+
+
+.shortcut-explanation {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0.5rem;
+    min-width: 220px;
+}
+.shortcut-explanation .badge {
+    font-size: 1.25rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    border: 2px solid #dee2e6;
+}
+.shortcut-explanation .text-muted {
+    font-size: 0.95rem;
+    margin-left: 0.25rem;
+}
+
 
 .section-title, .section-description {
     color: white !important;
@@ -142,6 +203,34 @@ background-color: #A66500;
     background-color: #dc3545 !important; /* Bootstrap danger */
     color: #fff !important;
     border-color: #dc3545 !important;
+}
+
+/* Solid color for selected Best Of buttons */
+#bestOf3Btn.selected {
+    background-color: #0d6efd !important; /* Bootstrap primary */
+    color: #fff !important;
+    border-color: #0d6efd !important;
+}
+#bestOf5Btn.selected {
+    background-color: #6f42c1 !important; /* Bootstrap purple */
+    color: #fff !important;
+    border-color: #6f42c1 !important;
+}
+#endlessBtn.selected {
+    background-color: #20c997 !important; /* Bootstrap teal */
+    color: #fff !important;
+    border-color: #20c997 !important;
+}
+
+/* Custom Bootstrap outline purple button */
+.btn-outline-purple {
+    color: #6f42c1;
+    border-color: #6f42c1;
+}
+.btn-outline-purple:hover, .btn-outline-purple:focus {
+    background-color: #6f42c1;
+    color: #fff;
+    border-color: #6f42c1;
 }
 
 canvas {
