@@ -126,7 +126,6 @@ background-color: #A66500;
     margin-left: 0.25rem;
 }
 
-
 .section-title, .section-description {
     color: white !important;
 }
@@ -165,6 +164,14 @@ background-color: #A66500;
     margin: 2px !important;
 }
 
+.selected-move-btn img {
+    width: 350px !important;
+    height: 350px !important;
+    font-size: 2rem;
+    z-index: 2;
+    transition: all 0.2s ease-in-out;
+}
+
 .scoreTxt {
     font-family: var(--secondary-font);
     font-size: 1.5rem;
@@ -186,6 +193,11 @@ background-color: #A66500;
     font-size: 4rem;
     font-weight: bold;
     text-align: center;
+    z-index: 3;
+}
+
+#game-state-message {
+    color: white;
 }
 
 /* Solid color for selected difficulty buttons */
