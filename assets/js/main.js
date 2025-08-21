@@ -304,7 +304,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const btnId = keyMap[e.key];
             if (btnId) {
                 const btn = document.getElementById(btnId);
-                if (btn && !btn.disabled) {
+                // Respect tabIndex=-1 (used to make move buttons non-interactive for keyboard)
+                if (btn && btn.tabIndex !== -1) {
                     btn.focus();
                     btn.click();
                 }
@@ -312,7 +313,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             if (e.key === "Enter") {
                 const active = document.activeElement;
-                if (active && active.classList.contains("move-choice-btn") && !active.disabled) {
+                // Only activate Enter if the focused move button is keyboard-focusable (tabIndex !== -1)
+                if (active && active.classList.contains("move-choice-btn") && active.tabIndex !== -1) {
                     active.click();
                 }
                 return;
@@ -361,6 +363,9 @@ document.addEventListener("DOMContentLoaded", function () {
         disableRestartButton();
         disablePlayerMoveButtons();
         disableCpuMoveButtons();
+    // Ensure difficulty and best-of controls are available when no game is running
+    enableDifficultyButton();
+    enableBestOfButton();
     }
 
     function gameStartFunc(){
@@ -371,6 +376,9 @@ document.addEventListener("DOMContentLoaded", function () {
         enablePlayerMoveButtons();
         enableCpuMoveButtons();
         enableRestartButton();
+    // While a game is running, prevent changing settings
+    disableDifficultyButton();
+    disableBestOfButton();
         gameStateMessageEl.innerText = "Now you've dun gone started the game...\n"
         gameStateMessageEl.innerText += `Game is ${gameTypeLabels[currentGameType]
             }, Difficulty is ${difficultyLevelLabels[currentDifficulty]}\n`;
@@ -383,6 +391,9 @@ document.addEventListener("DOMContentLoaded", function () {
         disableRestartButton();
         disablePlayerMoveButtons();
         disableCpuMoveButtons();
+    // Re-enable settings when the game completes
+    enableDifficultyButton();
+    enableBestOfButton();
         // gameStateMessageEl.innerText = "That's it! Game completed!\n"
         // gameStateMessageEl.innerText += `${gameOutcomeMessage()}\n`;
     }
@@ -849,6 +860,39 @@ document.addEventListener("DOMContentLoaded", function () {
         for(let el of choiceButtonsArray){
             el.disabled = false;
             el.classList.remove("greyed-out");
+        }
+    }
+
+    // Difficulty & Best-Of controls (top-level settings) - enable/disable helpers
+    function disableDifficultyButton(){
+        const difficultyBtn = document.getElementById('difficultyBtn');
+        if(difficultyBtn){
+            difficultyBtn.disabled = true;
+            difficultyBtn.classList.add('greyed-out');
+        }
+    }
+
+    function enableDifficultyButton(){
+        const difficultyBtn = document.getElementById('difficultyBtn');
+        if(difficultyBtn){
+            difficultyBtn.disabled = false;
+            difficultyBtn.classList.remove('greyed-out');
+        }
+    }
+
+    function disableBestOfButton(){
+        const bestOfBtn = document.getElementById('bestOfBtn');
+        if(bestOfBtn){
+            bestOfBtn.disabled = true;
+            bestOfBtn.classList.add('greyed-out');
+        }
+    }
+
+    function enableBestOfButton(){
+        const bestOfBtn = document.getElementById('bestOfBtn');
+        if(bestOfBtn){
+            bestOfBtn.disabled = false;
+            bestOfBtn.classList.remove('greyed-out');
         }
     }
 
