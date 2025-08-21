@@ -12,49 +12,59 @@
 
 <body>
     <header class="d-flex justify-content-center" role="banner">
-        <img src="assets/images/HeaderV2.webp" alt="Spock It To Me Western Town game header image" class="img-fluid headerImage">
+        <img src="assets/images/HeaderV2.webp" alt="Spock It To Me Western Town game header image"
+            class="img-fluid headerImage">
     </header>
-
     <!-- Centered Instructions Modal Trigger Button -->
     <div class="d-flex justify-content-center mt-2">
         <div class="d-flex justify-content-center mt-2">
-            <button type="button" class="btn bg-transparent d-block mx-auto howToPlayBtn" data-bs-toggle="modal" data-bs-target="#instructionsModal" aria-label="Open instructions on how to play the game">
+            <button type="button" class="btn bg-transparent d-block mx-auto howToPlayBtn" data-bs-toggle="modal"
+                data-bs-target="#instructionsModal" aria-label="Open instructions on how to play the game">
                 <img src="assets/images/howToPlay.webp" alt="How to Play button" class="howToPlayImg">
                 <span class="howToPlayText">How to Play</span>
             </button>
         </div>
     </div>
-
     <!-- Instructions Modal -->
     <div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="instructionsModalLabel"
         aria-modal="true" role="dialog" aria-describedby="instructionsModalDesc">
-    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
                     <h5 class="modal-title text-center w-100" id="instructionsModalLabel">How to Play</h5>
                     <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="instructionsModalDesc">
-                    <p class="text-center h2">Spock It To Me - How To Play Rock, Paper, Scissors, Lizard, Spock.</p>
-                    <p class="text-center fs-6">🎉 Rock Paper Scissors Lizard Spock is the turbocharged, galaxy-brained upgrade to the classic hand game you played in the schoolyard. Invented by Sam Kass and popularized by The Big Bang Theory, it adds two brilliant new contenders — Lizard and Spock — to the original trio, creating a five-way battle of wits, reflexes, and geeky glory.</p>
-                    <img src="assets/images/how-to.webp" alt="How to Play" class="img-fluid how-to-img mx-auto d-block">
-                    <p class="text-center">Above is a visual representation of which move beats which.</p>
-                    <div class="d-flex justify-content-center align-items-center gap-3 my-3">
-                        <img src="assets/images/rockBtn.webp" alt="Rock" class="img-fluid" style="max-width:60px; border: 2px solid red;">
-                        <img src="assets/images/paperBtn.webp" alt="Paper" class="img-fluid" style="max-width:60px; border: 2px solid yellow;">
-                        <img src="assets/images/scissorsBtn.webp" alt="Scissors" class="img-fluid" style="max-width:60px; border: 2px solid purple;">
-                        <img src="assets/images/lizardBtn.webp" alt="Lizard" class="img-fluid" style="max-width:60px; border: 2px solid green;">
-                        <img src="assets/images/spockBtn.webp" alt="Spock" class="img-fluid" style="max-width:60px; border: 2px solid blue;">
-                    </div>
-                    <hr>
-                    <div class="text-start" aria-label="Game Types and Difficulty Levels">
+                <h5 class="text-center display-6 py-4">Spock It To Me - How To Play Rock, Paper, Scissors, Lizard, Spock.</h5>
+                <p class="text-center fs-6">🎉 Rock Paper Scissors Lizard Spock is the turbocharged, galaxy-brained
+                    upgrade to the classic hand game you played in the schoolyard. Invented by Sam Kass and popularized
+                    by The Big Bang Theory, it adds two brilliant new contenders — Lizard and Spock — to the original
+                    trio, creating a five-way battle of wits, reflexes, and geeky glory.</p>
+                <img src="assets/images/how-to.webp" alt="How to Play" class="img-fluid how-to-img mx-auto d-block">
+                <p class="text-center">Above is a visual representation of which move beats which.</p>
+                <div class="d-flex justify-content-center align-items-center gap-3 my-3">
+                    <img src="assets/images/rockBtn.webp" alt="Rock" class="img-fluid"
+                        style="max-width:60px; border: 2px solid red;">
+                    <img src="assets/images/paperBtn.webp" alt="Paper" class="img-fluid"
+                        style="max-width:60px; border: 2px solid yellow;">
+                    <img src="assets/images/scissorsBtn.webp" alt="Scissors" class="img-fluid"
+                        style="max-width:60px; border: 2px solid purple;">
+                    <img src="assets/images/lizardBtn.webp" alt="Lizard" class="img-fluid"
+                        style="max-width:60px; border: 2px solid green;">
+                    <img src="assets/images/spockBtn.webp" alt="Spock" class="img-fluid"
+                        style="max-width:60px; border: 2px solid blue;">
+                </div>
+                <hr>
+                <div class="row justify-content-center align-items-start g-4 mx-auto">
+                    <div class="col-md-4 text-start" aria-label="Game Types">
                         <h6>Game Types</h6>
                         <ul>
                             <li><strong>Best of 3:</strong> First to win 2 out of 3 rounds wins the game.</li>
                             <li><strong>Best of 5:</strong> First to win 3 out of 5 rounds wins the game.</li>
                             <li><strong>Endless:</strong> Play as many rounds as you like, no limit.</li>
                         </ul>
+                    </div>
+                    <div class="col-md-4 text-start" aria-label="Difficulty Levels">
                         <h6>Difficulty Levels</h6>
                         <ul>
                             <li><strong>Easy:</strong> Computer picks moves randomly.</li>
@@ -62,25 +72,122 @@
                             <li><strong>Hard:</strong> Computer often counters your most frequent move.</li>
                         </ul>
                     </div>
+                    <div class="col-md-4 text-start" aria-label="What beats what">
+                        <h6>What beats what?</h6>
+                        <ul>
+                            <li><strong style="color: red;">🪨 Rock</strong> crushes Scissors &amp; crushes Lizard</li>
+                            <li><strong style="color: yellow;">📄 Paper</strong> covers Rock &amp; disproves Spock</li>
+                            <li><strong style="color: purple;">✂️ Scissors</strong> cuts Paper &amp; decapitates Lizard</li>
+                            <li><strong style="color: green;">🦎 Lizard</strong> eats Paper &amp; poisons Spock</li>
+                            <li><strong style="color: blue;">🖖 Spock</strong> smashes Scissors &amp; vaporizes Rock</li>
+                        </ul>
+                    </div>
                 </div>
-                <ul class="list-unstyled text-center">
-                    <li><strong style="color: red;">🪨 Rock</strong> crushes Scissors &amp; crushes Lizard</li>
-                    <li><strong style="color: yellow;">📄 Paper</strong> covers Rock &amp; disproves Spock</li>
-                    <li><strong style="color: purple;">✂️ Scissors</strong> cuts Paper &amp; decapitates Lizard</li>
-                    <li><strong style="color: green;">🦎 Lizard</strong> eats Paper &amp; poisons Spock</li>
-                    <li><strong style="color: blue;">🖖 Spock</strong> smashes Scissors &amp; vaporizes Rock</li>
-                </ul>
-                <p class="text-center mt-3"> Select a Game Type and Difficulty Level then click start! Once the game starts, you will be able to make your move.</p>
+                <div class="p-2 rounded ">
+                    <hr>
+                    <h5 class="text-center mb-3">Keyboard Shortcuts</h5>
+                    <div class="container my-4">
+                        <div class="row mb-4 g-4">
+                            <div class="col-lg-4">
+                                <h6 class="fw-bold">Page Buttons</h6>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center mb-2"><span
+                                            class="shortcut-badge h">H</span><span class="ms-2">How to Play</span></div>
+                                    <div class="d-flex align-items-center mb-2"><span
+                                            class="shortcut-badge s">S</span><span class="ms-2">Start Game</span></div>
+                                    <div class="d-flex align-items-center mb-2"><span
+                                            class="shortcut-badge r">R</span><span class="ms-2">Restart Game</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2"><span
+                                            class="shortcut-badge d">D</span><span class="ms-2">Open Difficulty
+                                            Modal</span></div>
+                                    <div class="d-flex align-items-center mb-2"><span
+                                            class="shortcut-badge b">B</span><span class="ms-2">Open Best Of
+                                            Modal</span></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <h6 class="fw-bold">Difficulty Modal Shortcuts</h6>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center mb-2"><span
+                                            class="shortcut-badge d">D</span><span class="ms-2">Open Difficulty
+                                            Modal</span></div>
+                                    <div class="d-flex">
+                                        <div
+                                            style="border-left: 4px solid #222; margin-right: 16px; margin-left: 16px; min-height: 120px;">
+                                        </div>
+                                        <div>
+                                            <div class="d-flex align-items-center mb-2"><span
+                                                    class="shortcut-badge e">E</span><span class="ms-2">Select Easy
+                                                    Difficulty</span></div>
+                                            <div class="d-flex align-items-center mb-2"><span
+                                                    class="shortcut-badge m">M</span><span class="ms-2">Select Medium
+                                                    Difficulty</span></div>
+                                            <div class="d-flex align-items-center mb-2"><span
+                                                    class="shortcut-badge hh">H</span><span class="ms-2">Select Hard
+                                                    Difficulty</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <h6 class="fw-bold">Best Of Modal Shortcuts</h6>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center mb-2"><span
+                                            class="shortcut-badge b">B</span><span class="ms-2">Open Best Of
+                                            Modal</span></div>
+                                    <div class="d-flex">
+                                        <div
+                                            style="border-left: 4px solid #222; margin-right: 16px; margin-left: 16px; min-height: 120px;">
+                                        </div>
+                                        <div>
+                                            <div class="d-flex align-items-center mb-2"><span class="shortcut-badge"
+                                                    style="background:#888">3</span><span class="ms-2">Select Best of
+                                                    3</span></div>
+                                            <div class="d-flex align-items-center mb-2"><span class="shortcut-badge"
+                                                    style="background:#888">5</span><span class="ms-2">Select Best of
+                                                    5</span></div>
+                                            <div class="d-flex align-items-center mb-2"><span class="shortcut-badge"
+                                                    style="background:#888">N</span><span class="ms-2">Select Endless
+                                                    Mode</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="fw-bold text-center">User Move Shortcuts</h6>
+                                <div class="mb-3 d-flex flex-wrap justify-content-center">
+                                    <div class="d-flex align-items-center mb-2 me-4"><span class="shortcut-badge"
+                                            style="background:#222">1</span><span class="ms-2">Choose Rock</span></div>
+                                    <div class="d-flex align-items-center mb-2 me-4"><span class="shortcut-badge"
+                                            style="background:#222">2</span><span class="ms-2">Choose Paper</span></div>
+                                    <div class="d-flex align-items-center mb-2 me-4"><span class="shortcut-badge"
+                                            style="background:#222">3</span><span class="ms-2">Choose Scissors</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2 me-4"><span class="shortcut-badge"
+                                            style="background:#222">4</span><span class="ms-2">Choose Lizard</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2 me-4"><span class="shortcut-badge"
+                                            style="background:#222">5</span><span class="ms-2">Choose Spock</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-center mt-3 mb-0 lead"><strong>Tip:</strong> Shortcut keys work only in the relevant
+                            context (modal or game screen).</p>
+                    </div>
+                </div>
+                <p class="text-center mt-1 lead"> Select a Game Type and Difficulty Level then click start! Once the game
+                    starts, you will be able to make your move.</p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Countdown Display (appears dynamically) -->
     <div id="countdown-timer-container" class="d-flex justify-content-center"></div>
-
     <main class="container my-4" id="main-content" role="main">
         <div class="row">
             <section class="col-12 col-md-6 mb-4 mb-md-0" aria-labelledby="your-move-heading">
@@ -89,49 +196,58 @@
                     <p class="text-center section-description">Pick Your Move.</p>
                     <div class="d-flex flex-column align-items-center py-0">
                         <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="rock" aria-label="Choose Rock">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="rock"
+                                aria-label="Choose Rock">
                                 <img src="assets/images/rockBtn.webp" id="UserRockImg" alt="Rock button">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="paper" aria-label="Choose Paper">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="paper"
+                                aria-label="Choose Paper">
                                 <img src="assets/images/paperBtn.webp" id="UserPaperImg" alt="Paper button">
                             </button>
                         </div>
                         <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="scissors" aria-label="Choose Scissors">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="scissors"
+                                aria-label="Choose Scissors">
                                 <img src="assets/images/scissorsBtn.webp" id="UserScissorsImg" alt="Scissors button">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="lizard" aria-label="Choose Lizard">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="lizard"
+                                aria-label="Choose Lizard">
                                 <img src="assets/images/lizardBtn.webp" id="UserLizardImg" alt="Lizard button">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="spock" aria-label="Choose Spock">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="spock"
+                                aria-label="Choose Spock">
                                 <img src="assets/images/spockBtn.webp" id="UserSpockImg" alt="Spock button">
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
-
             <section class="col-12 col-md-6 mb-4 mb-md-0" aria-labelledby="opponent-move-heading">
                 <div class="p-3 text-center">
                     <h2 class="text-center section-title" id="opponent-move-heading">Opponent Move:</h2>
                     <p class="text-center section-description">Opponent Picks Their Move.</p>
                     <div class="d-flex flex-column align-items-center py-0">
                         <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPURock" aria-label="CPU chose Rock">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPURock"
+                                aria-label="CPU chose Rock">
                                 <img src="assets/images/rockBtn.webp" id="CPURockImg" alt="CPU Rock button">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUPaper" aria-label="CPU chose Paper">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUPaper"
+                                aria-label="CPU chose Paper">
                                 <img src="assets/images/paperBtn.webp" id="CPUPaperImg" alt="CPU Paper button">
                             </button>
                         </div>
                         <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUScissors" aria-label="CPU chose Scissors">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUScissors"
+                                aria-label="CPU chose Scissors">
                                 <img src="assets/images/scissorsBtn.webp" id="CPUScissorsImg" alt="CPU Scissors button">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPULizard" aria-label="CPU chose Lizard">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPULizard"
+                                aria-label="CPU chose Lizard">
                                 <img src="assets/images/lizardBtn.webp" id="CPULizardImg" alt="CPU Lizard button">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUSpock" aria-label="CPU chose Spock">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUSpock"
+                                aria-label="CPU chose Spock">
                                 <img src="assets/images/spockBtn.webp" id="CPUSpockImg" alt="CPU Spock button">
                             </button>
                         </div>
@@ -139,136 +255,146 @@
                 </div>
             </section>
         </div>
-
-    <!-- Start/Stop, Score, and Modal Buttons Responsive Row -->
-    <div class="container my-4" aria-label="Game controls and score">
-        <div class="row g-3 align-items-center text-center">
-            <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-start gap-2 gap-md-3 order-2 order-md-1">
-                <button type="button" class="btn btn-success btn-lg w-50 w-md-auto" id="startBtn" aria-label="Start game">Start</button>
-                <button type="button" class="btn btn-danger btn-lg w-50 w-md-auto" id="restartBtn" aria-label="Restart game">Restart</button>
-            </div>
-            <div class="col-12 col-md-4 d-flex justify-content-center align-items-center order-3 order-md-2">
-                <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center w-100" aria-live="polite">
-                    <span class="fw-bold scoreTxt">Score:</span>
-                    <span id="playerScore" class="text-success">0</span> - <span id="cpuScore" class="text-danger">0</span> - <span id="drawScore" class="text-secondary">0</span>
+        <!-- Start/Stop, Score, and Modal Buttons Responsive Row -->
+        <div class="container my-4" aria-label="Game controls and score">
+            <div class="row g-3 align-items-center text-center">
+                <div
+                    class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-start gap-2 gap-md-3 order-2 order-md-1">
+                    <button type="button" class="btn btn-success btn-lg w-50 w-md-auto" id="startBtn"
+                        aria-label="Start game">Start</button>
+                    <button type="button" class="btn btn-danger btn-lg w-50 w-md-auto" id="restartBtn"
+                        aria-label="Restart game">Restart</button>
                 </div>
-            </div>
-            <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-end gap-2 gap-md-3 order-1 order-md-3">
-                <button type="button" class="btn btn-primary btn-lg w-50 w-md-auto" id="difficultyBtn" data-bs-toggle="modal"
-                    data-bs-target="#difficultyModal" aria-label="Select difficulty">Difficulty</button>
-                <button type="button" class="btn btn-warning btn-lg w-50 w-md-auto" id="bestOfBtn" data-bs-toggle="modal"
-                    data-bs-target="#bestOfModal" aria-label="Select best of mode">Best Of</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Difficulty Modal -->
-    <div class="modal fade" id="difficultyModal" tabindex="-1" aria-labelledby="difficultyModalLabel" aria-modal="true"
-        role="dialog" aria-describedby="difficultyModalDesc">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    <h5 class="modal-title text-center w-100" id="difficultyModalLabel">Select Difficulty</h5>
-                    <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="difficultyModalDesc">
-                    <div class="d-flex justify-content-between">
-                        <div class="text-center flex-fill mx-2 smBtn">
-                            <button type="button"
-                                class="btn btn-outline-success d-flex flex-column align-items-center py-3" id="easyBtn" aria-label="Select easy difficulty">
-                                <span class="wanted-label mb-2">WANTED</span>
-                                <img src="assets/images/Easy.webp" alt="Easy difficulty"
-                                    class="img-fluid mb-2 difficulty-img">
-                                <span class="w-100 text-center">Easy</span>
-                                <div class="d-flex justify-content-center align-items-center w-100 gap-2">
-                                    <img src="assets/images/spanish-peseta.png" alt="Spanish Peseta"
-                                        class="img-fluid peseta-img"> 1,000
-                                </div>
-                            </button>
-                        </div>
-                        <div class="text-center flex-fill mx-2">
-                            <button type="button"
-                                class="btn btn-outline-warning d-flex flex-column align-items-center py-3"
-                                id="mediumBtn" aria-label="Select medium difficulty">
-                                <span class="wanted-label mb-2">WANTED</span>
-                                <img src="assets/images/Medium.webp" alt="Medium difficulty"
-                                    class="img-fluid mb-2 difficulty-img">
-                                <span class="w-100 text-center">Medium</span>
-                                <div class="d-flex justify-content-center align-items-center w-100 gap-2">
-                                    <img src="assets/images/spanish-peseta.png" alt="Spanish Peseta"
-                                        class="img-fluid peseta-img"> 10,000
-                                </div>
-                            </button>
-                        </div>
-                        <div class="text-center flex-fill mx-2">
-                            <button type="button"
-                                class="btn btn-outline-danger d-flex flex-column align-items-center py-3" id="hardBtn" aria-label="Select hard difficulty">
-                                <span class="wanted-label mb-2">WANTED</span>
-                                <img src="assets/images/Hard.webp" alt="Hard difficulty"
-                                    class="img-fluid mb-2 difficulty-img">
-                                <span class="w-100 text-center">Hard</span>
-                                <div class="d-flex justify-content-center align-items-center w-100 gap-2">
-                                    <img src="assets/images/spanish-peseta.png" alt="Spanish Peseta"
-                                        class="img-fluid peseta-img"> 100,000
-                                </div>
-                            </button>
-                        </div>
+                <div class="col-12 col-md-4 d-flex justify-content-center align-items-center order-3 order-md-2">
+                    <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center w-100"
+                        aria-live="polite">
+                        <span class="fw-bold scoreTxt">Score:</span>
+                        <span id="playerScore" class="text-success">0</span> - <span id="cpuScore"
+                            class="text-danger">0</span> - <span id="drawScore" class="text-secondary">0</span>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div
+                    class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-end gap-2 gap-md-3 order-1 order-md-3">
+                    <button type="button" class="btn btn-primary btn-lg w-50 w-md-auto" id="difficultyBtn"
+                        data-bs-toggle="modal" data-bs-target="#difficultyModal"
+                        aria-label="Select difficulty">Difficulty</button>
+                    <button type="button" class="btn btn-warning btn-lg w-50 w-md-auto" id="bestOfBtn"
+                        data-bs-toggle="modal" data-bs-target="#bestOfModal" aria-label="Select best of mode">Best
+                        Of</button>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Best Of Modal -->
-    <div class="modal fade" id="bestOfModal" tabindex="-1" aria-labelledby="bestOfModalLabel" aria-modal="true"
-        role="dialog" aria-describedby="bestOfModalDesc">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    <h5 class="modal-title text-center w-100" id="bestOfModalLabel">Best Of:</h5>
-                    <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="bestOfModalDesc">
-                    <div class="d-flex justify-content-between">
-                        <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="bestOf3Btn" aria-label="Select best of 3 mode">
-                                <img src="assets/images/three.webp" alt="Best of 3" class="img-fluid bestOfImg">
-                            </button>
-                        </div>
-                        <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="bestOf5Btn" aria-label="Select best of 5 mode">
-                                <img src="assets/images/five.webp" alt="Best of 5" class="img-fluid bestOfImg">
-                            </button>
-                        </div>
-                        <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="endlessBtn" aria-label="Select endless mode">
-                                <img src="assets/images/endless.webp" alt="Endless mode" class="img-fluid bestOfImg">
-                            </button>
+        <!-- Difficulty Modal -->
+        <div class="modal fade" id="difficultyModal" tabindex="-1" aria-labelledby="difficultyModalLabel"
+            aria-modal="true" role="dialog" aria-describedby="difficultyModalDesc">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title text-center w-100" id="difficultyModalLabel">Select Difficulty</h5>
+                        <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="difficultyModalDesc">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-center flex-fill mx-2 smBtn">
+                                <button type="button"
+                                    class="btn btn-outline-success d-flex flex-column align-items-center py-3"
+                                    id="easyBtn" aria-label="Select easy difficulty">
+                                    <span class="wanted-label mb-2">WANTED</span>
+                                    <img src="assets/images/Easy.webp" alt="Easy difficulty"
+                                        class="img-fluid mb-2 difficulty-img">
+                                    <span class="w-100 text-center">Easy</span>
+                                    <div class="d-flex justify-content-center align-items-center w-100 gap-2">
+                                        <img src="assets/images/spanish-peseta.png" alt="Spanish Peseta"
+                                            class="img-fluid peseta-img"> 1,000
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="text-center flex-fill mx-2">
+                                <button type="button"
+                                    class="btn btn-outline-warning d-flex flex-column align-items-center py-3"
+                                    id="mediumBtn" aria-label="Select medium difficulty">
+                                    <span class="wanted-label mb-2">WANTED</span>
+                                    <img src="assets/images/Medium.webp" alt="Medium difficulty"
+                                        class="img-fluid mb-2 difficulty-img">
+                                    <span class="w-100 text-center">Medium</span>
+                                    <div class="d-flex justify-content-center align-items-center w-100 gap-2">
+                                        <img src="assets/images/spanish-peseta.png" alt="Spanish Peseta"
+                                            class="img-fluid peseta-img"> 10,000
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="text-center flex-fill mx-2">
+                                <button type="button"
+                                    class="btn btn-outline-danger d-flex flex-column align-items-center py-3"
+                                    id="hardBtn" aria-label="Select hard difficulty">
+                                    <span class="wanted-label mb-2">WANTED</span>
+                                    <img src="assets/images/Hard.webp" alt="Hard difficulty"
+                                        class="img-fluid mb-2 difficulty-img">
+                                    <span class="w-100 text-center">Hard</span>
+                                    <div class="d-flex justify-content-center align-items-center w-100 gap-2">
+                                        <img src="assets/images/spanish-peseta.png" alt="Spanish Peseta"
+                                            class="img-fluid peseta-img"> 100,000
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+        <!-- Best Of Modal -->
+        <div class="modal fade" id="bestOfModal" tabindex="-1" aria-labelledby="bestOfModalLabel" aria-modal="true"
+            role="dialog" aria-describedby="bestOfModalDesc">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title text-center w-100" id="bestOfModalLabel">Best Of:</h5>
+                        <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="bestOfModalDesc">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-center flex-fill mx-2">
+                                <button type="button"
+                                    class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center btn-outline-primary"
+                                    id="bestOf3Btn" aria-label="Select best of 3 mode">
+                                    <img src="assets/images/three.webp" alt="Best of 3" class="img-fluid bestOfImg">
+                                </button>
+                            </div>
+                            <div class="text-center flex-fill mx-2">
+                                <button type="button"
+                                    class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center btn-outline-purple"
+                                    id="bestOf5Btn" aria-label="Select best of 5 mode">
+                                    <img src="assets/images/five.webp" alt="Best of 5" class="img-fluid bestOfImg">
+                                </button>
+                            </div>
+                            <div class="text-center flex-fill mx-2">
+                                <button type="button"
+                                    class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center btn-outline-success"
+                                    id="endlessBtn" aria-label="Select endless mode">
+                                    <img src="assets/images/endless.webp" alt="Endless mode"
+                                        class="img-fluid bestOfImg">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="text-center mt-4">
             <h2 id="game-state-message" class="mt-3"></h2>
         </div>
-
-        <div id="browser-console" style="background:#222;color:#eee;padding:1em;font-family:monospace;max-height:200px;overflow:auto;"></div>
-
+        <div id="browser-console"
+            style="background:#222;color:#eee;padding:1em;font-family:monospace;max-height:200px;overflow:auto;"></div>
     </main>
-
     <canvas id="confetti-canvas"></canvas>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
     <script src="assets/js/main.js"></script>

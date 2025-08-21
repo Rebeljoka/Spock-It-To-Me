@@ -1,3 +1,13 @@
+// Keyboard shortcut to open How to Play modal (H)
+document.addEventListener("keydown", function(e) {
+    if ((e.key === "h" || e.key === "H") && !document.body.classList.contains("modal-open")) {
+        var instructionsModalEl = document.getElementById('instructionsModal');
+        if (instructionsModalEl) {
+            var instructionsModal = new bootstrap.Modal(instructionsModalEl);
+            instructionsModal.show();
+        }
+    }
+});
     // Keyboard shortcuts for Best Of modal
     document.addEventListener("keydown", function(e) {
         const modalEl = document.getElementById("bestOfModal");
@@ -55,6 +65,14 @@
     });
 
 document.addEventListener("DOMContentLoaded", function () {
+    // ...existing code...
+    // At the end of DOMContentLoaded, highlight default selections
+    window.setTimeout(function() {
+        var defaultBestOfBtn = document.getElementById(currentGameType);
+        if (defaultBestOfBtn) defaultBestOfBtn.classList.add('selected');
+        var defaultDifficultyBtn = document.getElementById(currentDifficulty);
+        if (defaultDifficultyBtn) defaultDifficultyBtn.classList.add('selected');
+    }, 0);
     // Also override console.error and console.warn to log to browser-console div
     // const originalConsoleError = console.error;
     // console.error = function (...args) {
@@ -107,6 +125,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var bestOfBtn = document.getElementById('bestOfBtn');
     if (bestOfBtn && bestOfModal) {
         bestOfBtn.addEventListener('click', function() {
+            // Remove 'selected' from all Best Of buttons
+            ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id) {
+                var btn = document.getElementById(id);
+                if (btn) btn.classList.remove('selected');
+            });
+            // Add 'selected' to the current game type button
+            var selectedBtn = document.getElementById(currentGameType);
+            if (selectedBtn) selectedBtn.classList.add('selected');
             bestOfModal.show();
         });
     }
@@ -142,6 +168,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (btn) {
             btn.addEventListener('click', function(e) {
                 gameTypeChange(e);
+                // Remove 'selected' from all Best Of buttons
+                ['bestOf3Btn', 'bestOf5Btn', 'endlessBtn'].forEach(function(id2) {
+                    var btn2 = document.getElementById(id2);
+                    if (btn2) btn2.classList.remove('selected');
+                });
+                btn.classList.add('selected');
                 if (bestOfModal) {
                     setTimeout(function() {
                         bestOfModal.hide();
@@ -419,7 +451,9 @@ document.addEventListener("DOMContentLoaded", function () {
     /** handles user click events on game move choice buttons */
     function handleUserMoveChoice(e) {
         // If game is over, simply ignore all user move choices
-        if(gameComplete === true) return;
+        if(!gameStarted || gameComplete === true){
+            return;
+        }
 
         const playerChoiceButtonId = e.currentTarget.id;
         const computerChoice = computerChoiceGenerator(currentDifficulty);
