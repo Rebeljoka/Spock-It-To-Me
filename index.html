@@ -11,15 +11,15 @@
 </head>
 
 <body>
-    <header class="d-flex justify-content-center">
-        <img src="assets/images/HeaderV2.webp" alt="Spock It To Me Western Town" class="img-fluid headerImage">
+    <header class="d-flex justify-content-center" role="banner">
+        <img src="assets/images/HeaderV2.webp" alt="Spock It To Me Western Town game header image" class="img-fluid headerImage">
     </header>
 
     <!-- Centered Instructions Modal Trigger Button -->
     <div class="d-flex justify-content-center mt-2">
         <div class="d-flex justify-content-center mt-2">
-            <button type="button" class="btn bg-transparent d-block mx-auto howToPlayBtn" data-bs-toggle="modal" data-bs-target="#instructionsModal" aria-label="How to Play">
-                <img src="assets/images/howToPlay.webp" alt="How to Play" class="howToPlayImg">
+            <button type="button" class="btn bg-transparent d-block mx-auto howToPlayBtn" data-bs-toggle="modal" data-bs-target="#instructionsModal" aria-label="Open instructions on how to play the game">
+                <img src="assets/images/howToPlay.webp" alt="How to Play button" class="howToPlayImg">
                 <span class="howToPlayText">How to Play</span>
             </button>
         </div>
@@ -27,39 +27,50 @@
 
     <!-- Instructions Modal -->
     <div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="instructionsModalLabel"
-        aria-modal="true" role="dialog">
-        <div class="modal-dialog">
+        aria-modal="true" role="dialog" aria-describedby="instructionsModalDesc">
+    <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
                     <h5 class="modal-title text-center w-100" id="instructionsModalLabel">How to Play</h5>
                     <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <p class="text-center">Spock It To Me - How To Play Rock, Paper, Scissors, Lizard, Spock.</p>
+                <div class="modal-body" id="instructionsModalDesc">
+                    <p class="text-center h2">Spock It To Me - How To Play Rock, Paper, Scissors, Lizard, Spock.</p>
+                    <p class="text-center fs-6">🎉 Rock Paper Scissors Lizard Spock is the turbocharged, galaxy-brained upgrade to the classic hand game you played in the schoolyard. Invented by Sam Kass and popularized by The Big Bang Theory, it adds two brilliant new contenders — Lizard and Spock — to the original trio, creating a five-way battle of wits, reflexes, and geeky glory.</p>
                     <img src="assets/images/how-to.webp" alt="How to Play" class="img-fluid how-to-img mx-auto d-block">
                     <p class="text-center">Above is a visual representation of which move beats which.</p>
                     <div class="d-flex justify-content-center align-items-center gap-3 my-3">
-                        <img src="assets/images/rockBtn.webp" alt="Rock" class="img-fluid"
-                            style="max-width:60px; border: 2px solid red;">
-                        <img src="assets/images/paperBtn.webp" alt="Paper" class="img-fluid"
-                            style="max-width:60px; border: 2px solid yellow;">
-                        <img src="assets/images/scissorsBtn.webp" alt="Scissors" class="img-fluid"
-                            style="max-width:60px; border: 2px solid purple;">
-                        <img src="assets/images/lizardBtn.webp" alt="Lizard" class="img-fluid"
-                            style="max-width:60px; border: 2px solid green;">
-                        <img src="assets/images/spockBtn.webp" alt="Spock" class="img-fluid"
-                            style="max-width:60px; border: 2px solid blue;">
+                        <img src="assets/images/rockBtn.webp" alt="Rock" class="img-fluid" style="max-width:60px; border: 2px solid red;">
+                        <img src="assets/images/paperBtn.webp" alt="Paper" class="img-fluid" style="max-width:60px; border: 2px solid yellow;">
+                        <img src="assets/images/scissorsBtn.webp" alt="Scissors" class="img-fluid" style="max-width:60px; border: 2px solid purple;">
+                        <img src="assets/images/lizardBtn.webp" alt="Lizard" class="img-fluid" style="max-width:60px; border: 2px solid green;">
+                        <img src="assets/images/spockBtn.webp" alt="Spock" class="img-fluid" style="max-width:60px; border: 2px solid blue;">
+                    </div>
+                    <hr>
+                    <div class="text-start" aria-label="Game Types and Difficulty Levels">
+                        <h6>Game Types</h6>
+                        <ul>
+                            <li><strong>Best of 3:</strong> First to win 2 out of 3 rounds wins the game.</li>
+                            <li><strong>Best of 5:</strong> First to win 3 out of 5 rounds wins the game.</li>
+                            <li><strong>Endless:</strong> Play as many rounds as you like, no limit.</li>
+                        </ul>
+                        <h6>Difficulty Levels</h6>
+                        <ul>
+                            <li><strong>Easy:</strong> Computer picks moves randomly.</li>
+                            <li><strong>Medium:</strong> Computer sometimes counters your last move.</li>
+                            <li><strong>Hard:</strong> Computer often counters your most frequent move.</li>
+                        </ul>
                     </div>
                 </div>
                 <ul class="list-unstyled text-center">
-                    <li><strong style="color: red;">Rock</strong> crushes Scissors &amp; crushes Lizard</li>
-                    <li><strong style="color: yellow;">Paper</strong> covers Rock &amp; disproves Spock</li>
-                    <li><strong style="color: purple;">Scissors</strong> cuts Paper &amp; decapitates Lizard</li>
-                    <li><strong style="color: green;">Lizard</strong> eats Paper &amp; poisons Spock</li>
-                    <li><strong style="color: blue;">Spock</strong> smashes Scissors &amp; vaporizes Rock</li>
+                    <li><strong style="color: red;">🪨 Rock</strong> crushes Scissors &amp; crushes Lizard</li>
+                    <li><strong style="color: yellow;">📄 Paper</strong> covers Rock &amp; disproves Spock</li>
+                    <li><strong style="color: purple;">✂️ Scissors</strong> cuts Paper &amp; decapitates Lizard</li>
+                    <li><strong style="color: green;">🦎 Lizard</strong> eats Paper &amp; poisons Spock</li>
+                    <li><strong style="color: blue;">🖖 Spock</strong> smashes Scissors &amp; vaporizes Rock</li>
                 </ul>
-                <p class="text-center mt-3"> Select your move and see if you can win against the computer! </p>
+                <p class="text-center mt-3"> Select a Game Type and Difficulty Level then click start! Once the game starts, you will be able to make your move.</p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -70,29 +81,29 @@
     <!-- Countdown Display (appears dynamically) -->
     <div id="countdown-timer-container" class="d-flex justify-content-center"></div>
 
-    <main class="container my-4">
+    <main class="container my-4" id="main-content" role="main">
         <div class="row">
-            <section class="col-12 col-md-6 mb-4 mb-md-0">
+            <section class="col-12 col-md-6 mb-4 mb-md-0" aria-labelledby="your-move-heading">
                 <div class="p-3 text-center">
-                    <h2 class="text-center">Your Move:</h2>
-                    <p class="text-center">Pick Your Move.</p>
+                    <h2 class="text-center section-title" id="your-move-heading">Your Move:</h2>
+                    <p class="text-center section-description">Pick Your Move.</p>
                     <div class="d-flex flex-column align-items-center py-0">
                         <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="rock">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="rock" aria-label="Choose Rock">
                                 <img src="assets/images/rockBtn.webp" id="UserRockImg" alt="Rock button">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="paper">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="paper" aria-label="Choose Paper">
                                 <img src="assets/images/paperBtn.webp" id="UserPaperImg" alt="Paper button">
                             </button>
                         </div>
                         <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="scissors">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="scissors" aria-label="Choose Scissors">
                                 <img src="assets/images/scissorsBtn.webp" id="UserScissorsImg" alt="Scissors button">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="lizard">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="lizard" aria-label="Choose Lizard">
                                 <img src="assets/images/lizardBtn.webp" id="UserLizardImg" alt="Lizard button">
                             </button>
-                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="spock">
+                            <button type="button" class="btn mx-1 move-choice-btn w-auto" id="spock" aria-label="Choose Spock">
                                 <img src="assets/images/spockBtn.webp" id="UserSpockImg" alt="Spock button">
                             </button>
                         </div>
@@ -100,27 +111,27 @@
                 </div>
             </section>
 
-            <section class="col-12 col-md-6 mb-4 mb-md-0">
+            <section class="col-12 col-md-6 mb-4 mb-md-0" aria-labelledby="opponent-move-heading">
                 <div class="p-3 text-center">
-                    <h2 class="text-center">Opponent Move:</h2>
-                    <p class="text-center">Opponent Picks Their Move.</p>
+                    <h2 class="text-center section-title" id="opponent-move-heading">Opponent Move:</h2>
+                    <p class="text-center section-description">Opponent Picks Their Move.</p>
                     <div class="d-flex flex-column align-items-center py-0">
                         <div class="d-flex justify-content-center mb-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPURock">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPURock" aria-label="CPU chose Rock">
                                 <img src="assets/images/rockBtn.webp" id="CPURockImg" alt="CPU Rock button">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUPaper">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUPaper" aria-label="CPU chose Paper">
                                 <img src="assets/images/paperBtn.webp" id="CPUPaperImg" alt="CPU Paper button">
                             </button>
                         </div>
                         <div class="d-flex justify-content-center mt-0 col-10 mx-auto">
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUScissors">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUScissors" aria-label="CPU chose Scissors">
                                 <img src="assets/images/scissorsBtn.webp" id="CPUScissorsImg" alt="CPU Scissors button">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPULizard">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPULizard" aria-label="CPU chose Lizard">
                                 <img src="assets/images/lizardBtn.webp" id="CPULizardImg" alt="CPU Lizard button">
                             </button>
-                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUSpock">
+                            <button type="button" class="btn mx-1 CPU-btn w-auto" id="CPUSpock" aria-label="CPU chose Spock">
                                 <img src="assets/images/spockBtn.webp" id="CPUSpockImg" alt="CPU Spock button">
                             </button>
                         </div>
@@ -130,30 +141,30 @@
         </div>
 
     <!-- Start/Stop, Score, and Modal Buttons Responsive Row -->
-    <div class="container my-4">
+    <div class="container my-4" aria-label="Game controls and score">
         <div class="row g-3 align-items-center text-center">
             <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-start gap-2 gap-md-3 order-2 order-md-1">
-                <button type="button" class="btn btn-success btn-lg w-50 w-md-auto" id="startBtn">Start</button>
-                <button type="button" class="btn btn-danger btn-lg w-50 w-md-auto" id="restartBtn">Restart</button>
+                <button type="button" class="btn btn-success btn-lg w-50 w-md-auto" id="startBtn" aria-label="Start game">Start</button>
+                <button type="button" class="btn btn-danger btn-lg w-50 w-md-auto" id="restartBtn" aria-label="Restart game">Restart</button>
             </div>
             <div class="col-12 col-md-4 d-flex justify-content-center align-items-center order-3 order-md-2">
-                <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center w-100">
+                <div id="scoreCounter" class="px-4 py-2 bg-light rounded border text-center w-100" aria-live="polite">
                     <span class="fw-bold scoreTxt">Score:</span>
                     <span id="playerScore" class="text-success">0</span> - <span id="cpuScore" class="text-danger">0</span> - <span id="drawScore" class="text-secondary">0</span>
                 </div>
             </div>
             <div class="col-12 col-md-4 d-flex flex-row justify-content-center justify-content-md-end gap-2 gap-md-3 order-1 order-md-3">
                 <button type="button" class="btn btn-primary btn-lg w-50 w-md-auto" id="difficultyBtn" data-bs-toggle="modal"
-                    data-bs-target="#difficultyModal">Difficulty</button>
+                    data-bs-target="#difficultyModal" aria-label="Select difficulty">Difficulty</button>
                 <button type="button" class="btn btn-warning btn-lg w-50 w-md-auto" id="bestOfBtn" data-bs-toggle="modal"
-                    data-bs-target="#bestOfModal">Best Of</button>
+                    data-bs-target="#bestOfModal" aria-label="Select best of mode">Best Of</button>
             </div>
         </div>
     </div>
 
     <!-- Difficulty Modal -->
     <div class="modal fade" id="difficultyModal" tabindex="-1" aria-labelledby="difficultyModalLabel" aria-modal="true"
-        role="dialog">
+        role="dialog" aria-describedby="difficultyModalDesc">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
@@ -161,11 +172,11 @@
                     <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="difficultyModalDesc">
                     <div class="d-flex justify-content-between">
-                        <div class="text-center flex-fill mx-2">
+                        <div class="text-center flex-fill mx-2 smBtn">
                             <button type="button"
-                                class="btn btn-outline-success d-flex flex-column align-items-center py-3" id="easyBtn">
+                                class="btn btn-outline-success d-flex flex-column align-items-center py-3" id="easyBtn" aria-label="Select easy difficulty">
                                 <span class="wanted-label mb-2">WANTED</span>
                                 <img src="assets/images/Easy.webp" alt="Easy difficulty"
                                     class="img-fluid mb-2 difficulty-img">
@@ -179,7 +190,7 @@
                         <div class="text-center flex-fill mx-2">
                             <button type="button"
                                 class="btn btn-outline-warning d-flex flex-column align-items-center py-3"
-                                id="mediumBtn">
+                                id="mediumBtn" aria-label="Select medium difficulty">
                                 <span class="wanted-label mb-2">WANTED</span>
                                 <img src="assets/images/Medium.webp" alt="Medium difficulty"
                                     class="img-fluid mb-2 difficulty-img">
@@ -192,7 +203,7 @@
                         </div>
                         <div class="text-center flex-fill mx-2">
                             <button type="button"
-                                class="btn btn-outline-danger d-flex flex-column align-items-center py-3" id="hardBtn">
+                                class="btn btn-outline-danger d-flex flex-column align-items-center py-3" id="hardBtn" aria-label="Select hard difficulty">
                                 <span class="wanted-label mb-2">WANTED</span>
                                 <img src="assets/images/Hard.webp" alt="Hard difficulty"
                                     class="img-fluid mb-2 difficulty-img">
@@ -214,31 +225,30 @@
 
     <!-- Best Of Modal -->
     <div class="modal fade" id="bestOfModal" tabindex="-1" aria-labelledby="bestOfModalLabel" aria-modal="true"
-        role="dialog">
-        <div class="modal-dialog">
+        role="dialog" aria-describedby="bestOfModalDesc">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
                     <h5 class="modal-title text-center w-100" id="bestOfModalLabel">Best Of:</h5>
                     <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="bestOfModalDesc">
                     <div class="d-flex justify-content-between">
                         <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn btn-outline-info w-100 mb-2" id="bestOf3Btn">3</button>
-                            <img src="assets/images/three.webp" alt="Best of 3" class="img-fluid"
-                                style="max-height:60px;">
+                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="bestOf3Btn" aria-label="Select best of 3 mode">
+                                <img src="assets/images/three.webp" alt="Best of 3" class="img-fluid bestOfImg">
+                            </button>
                         </div>
                         <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn btn-outline-info w-100 mb-2" id="bestOf5Btn">5</button>
-                            <img src="assets/images/five.webp" alt="Best of 5" class="img-fluid"
-                                style="max-height:60px;">
+                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="bestOf5Btn" aria-label="Select best of 5 mode">
+                                <img src="assets/images/five.webp" alt="Best of 5" class="img-fluid bestOfImg">
+                            </button>
                         </div>
                         <div class="text-center flex-fill mx-2">
-                            <button type="button" class="btn btn-outline-info w-100 mb-2"
-                                id="endlessBtn">Endless</button>
-                            <img src="assets/images/endless.webp" alt="Endless mode" class="img-fluid"
-                                style="max-height:60px;">
+                            <button type="button" class="btn w-100 mb-2 d-flex flex-column align-items-center justify-content-center" id="endlessBtn" aria-label="Select endless mode">
+                                <img src="assets/images/endless.webp" alt="Endless mode" class="img-fluid bestOfImg">
+                            </button>
                         </div>
                     </div>
                 </div>

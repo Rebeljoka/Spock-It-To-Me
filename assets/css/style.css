@@ -54,15 +54,20 @@ background-color: #A66500;
     transform: translate(-50%, -60%);
     width: 100%;
     text-align: center;
-    color: #fff;
+    color: black;
     font-weight: bold;
     z-index: 2;
     pointer-events: none;
+    font-size: 25px;
 }
 
 .how-to-img {
     max-width: 100%;
     height: 350px;
+}
+
+.section-title, .section-description {
+    color: white !important;
 }
 
 #difficultyModal .modal-content {
@@ -77,13 +82,6 @@ background-color: #A66500;
     background-color: #7f634b;
 }
 
-.move-choice-btn img,
-.CPU-btn img {
-    width: 140px;
-    height: 140px;
-    margin: 2px !important;
-}
-
 .wanted-label {
     font-family: var(--primary-font);
     font-size: 1.25rem;
@@ -95,12 +93,15 @@ background-color: #A66500;
     display: block;
 }
 
-.difficulty-img {
-    max-height: 300px;
-}
-
 .peseta-img {
     max-height: 16px;
+}
+
+.move-choice-btn img,
+.CPU-btn img {
+    width: 140px;
+    height: 140px;
+    margin: 2px !important;
 }
 
 .scoreTxt {
@@ -113,16 +114,34 @@ background-color: #A66500;
     font-size: 1.5rem;
 }
 
-/* Medium difficulty button: yellow background and white text on hover/focus */
-#mediumBtn:hover, #mediumBtn:focus {
-    background-color: #ffc107 !important;
-    color: #fff !important;
+.greyed-out {
+    border: none;
 }
-#mediumBtn:hover span, #mediumBtn:focus span {
-    color: #fff !important;
+
+.countdown-active {
+    padding: 1rem 2rem;
+    background: white;
+    border-radius: 12px;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
 }
-#mediumBtn:hover .wanted-label, #mediumBtn:focus .wanted-label {
-    color: #000 !important;
+
+/* Solid color for selected difficulty buttons */
+#easyBtn.selected {
+    background-color: #198754 !important; /* Bootstrap success */
+    color: #fff !important;
+    border-color: #198754 !important;
+}
+#mediumBtn.selected {
+    background-color: #ffc107 !important; /* Bootstrap warning */
+    color: #212529 !important;
+    border-color: #ffc107 !important;
+}
+#hardBtn.selected {
+    background-color: #dc3545 !important; /* Bootstrap danger */
+    color: #fff !important;
+    border-color: #dc3545 !important;
 }
 
 canvas {
@@ -136,20 +155,17 @@ canvas {
     display: block;
 }
 
-/* possibly update/uncomment this after text in diff buttons are made larger */
-/* #easyBtn:hover span, #easyBtn:focus span,
-#mediumBtn:hover span, #mediumBtn:focus span,
-#hardBtn:hover span, #hardBtn:focus span {
-    -webkit-text-stroke: 1px #000;
-    text-stroke: 1px #000;
-} */
-
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
     .headerImage {
         height: 120px;
         padding-top: 0.25rem;
     }
+
+    .howToPlayText {
+        font-size: 14px;
+    }
+
     .howToPlayImg {
         width: 120px;
         height: 50px;
@@ -161,6 +177,24 @@ canvas {
     }
     h2 { font-size: 1rem; }
     p { font-size: 0.9rem; }
+
+.smBtn {
+    display: flex;
+    justify-content: center;
+}
+
+    /* Only resize the 3 difficulty buttons and their elements for small screens */
+    #easyBtn,
+    #mediumBtn,
+    #hardBtn {
+        width: 26vw;
+        max-width: 120px;
+        min-width: 80px;
+    }
+
+    .wanted-label {
+        font-size: 1rem;
+    }
 }
 
 /* Small devices (landscape phones, 576px and up) */
@@ -169,6 +203,11 @@ canvas {
         height: 180px;
         padding-top: 0.4rem;
     }
+
+        .howToPlayText {
+        font-size: 20px;
+    }
+
     .howToPlayImg {
         width: 150px;
         height: 70px;
