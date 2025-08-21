@@ -1,3 +1,9 @@
+/*
+========================================
+  IMPORTS & ROOT VARIABLES
+  (imports must be at top for fonts)
+========================================
+*/
 @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Rye&family=Sancreek&display=swap');
 
 :root {
@@ -6,6 +12,11 @@
     --tertiary-font: 'Fredericka the Great', cursive;
 }
 
+/*
+========================================
+  TYPOGRAPHY
+========================================
+*/
 h1, h2, h3 {
     font-family: var(--primary-font);
 }
@@ -22,6 +33,11 @@ h4, h5, h6, p {
     font-family: var(--tertiary-font);
 }
 
+/*
+========================================
+  HEADER
+========================================
+*/
 .headerImage {
     max-width: 100vw;
     padding-top: 1rem;
@@ -32,9 +48,14 @@ body {
     background-repeat: no-repeat;
     background-size: 100vw auto;
     background-position: top center;
-background-color: #A66500;
+    background-color: #A66500;
 }
 
+/*
+========================================
+  HOW TO PLAY BUTTON + IMAGES
+========================================
+*/
 .howToPlayBtn {
     display:block;
     background:transparent;
@@ -66,7 +87,11 @@ background-color: #A66500;
     height: 250px;
 }
 
-/* Keyboard Shortcuts Section Styling */
+/*
+========================================
+  KEYBOARD SHORTCUTS (visual helper)
+========================================
+*/
 .keyboard-shortcuts-container {
     border-radius: 1rem;
     padding: 2rem 1rem;
@@ -102,7 +127,6 @@ background-color: #A66500;
 .shortcut-badge.m { background: #ffe600; color: #222; }
 .shortcut-badge.hh { background: #e60000; }
 
-
 .shortcut-explanation {
     display: flex;
     align-items: center;
@@ -130,6 +154,11 @@ background-color: #A66500;
     color: white !important;
 }
 
+/*
+========================================
+  MODALS (Instructions, Difficulty, Best Of)
+========================================
+*/
 #difficultyModal .modal-content {
     background-color: #7f634b;
 }
@@ -142,6 +171,11 @@ background-color: #A66500;
     background-color: #7f634b;
 }
 
+/*
+========================================
+  DIFFICULTY BUTTON ART + WANTED LABEL
+========================================
+*/
 .wanted-label {
     font-family: var(--primary-font);
     font-size: 1.25rem;
@@ -157,6 +191,11 @@ background-color: #A66500;
     max-height: 16px;
 }
 
+/*
+========================================
+  GAME BUTTONS (User & CPU images + selected state)
+========================================
+*/
 .move-choice-btn img,
 .CPU-btn img {
     width: 140px;
@@ -172,6 +211,11 @@ background-color: #A66500;
     transition: all 0.2s ease-in-out;
 }
 
+/*
+========================================
+  SCORE AREA
+========================================
+*/
 .scoreTxt {
     font-family: var(--secondary-font);
     font-size: 1.5rem;
@@ -186,6 +230,11 @@ background-color: #A66500;
     border: none;
 }
 
+/*
+========================================
+  COUNTDOWN & GAME STATE MESSAGE
+========================================
+*/
 .countdown-active {
     padding: 1rem 2rem;
     background: white;
@@ -200,7 +249,11 @@ background-color: #A66500;
     color: white;
 }
 
-/* Solid color for selected difficulty buttons */
+/*
+========================================
+  SELECTED STATES: DIFFICULTY & BEST OF
+========================================
+*/
 #easyBtn.selected {
     background-color: #198754 !important; /* Bootstrap success */
     color: #fff !important;
@@ -217,7 +270,6 @@ background-color: #A66500;
     border-color: #dc3545 !important;
 }
 
-/* Solid color for selected Best Of buttons */
 #bestOf3Btn.selected {
     background-color: #0d6efd !important; /* Bootstrap primary */
     color: #fff !important;
@@ -245,6 +297,11 @@ background-color: #A66500;
     border-color: #6f42c1;
 }
 
+/*
+========================================
+  CANVAS (confetti) & UTILITIES
+========================================
+*/
 canvas {
     position: fixed;
     top: 0;
@@ -256,6 +313,11 @@ canvas {
     display: block;
 }
 
+/*
+========================================
+  RESPONSIVE RULES (grouped by breakpoints)
+========================================
+*/
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
     .headerImage {
@@ -279,10 +341,10 @@ canvas {
     h2 { font-size: 1rem; }
     p { font-size: 0.9rem; }
 
-.smBtn {
-    display: flex;
-    justify-content: center;
-}
+    .smBtn {
+        display: flex;
+        justify-content: center;
+    }
 
     /* Only resize the 3 difficulty buttons and their elements for small screens */
     #easyBtn,
@@ -305,7 +367,7 @@ canvas {
         padding-top: 0.4rem;
     }
 
-        .howToPlayText {
+    .howToPlayText {
         font-size: 20px;
     }
 
