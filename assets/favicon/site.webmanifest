@@ -1,0 +1,20 @@
+{
+  "name": "Spock It To Me",
+  "short_name": "Spock",
+  "start_url": "https://rebeljoka.github.io/Spock-It-To-Me/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#222222",
+  "icons": [
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
