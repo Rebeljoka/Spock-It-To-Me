@@ -487,12 +487,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 startCountdown(() => {
                     gameStateMessageEl.innerText = `You chose ${playerChoiceButtonId}! Computer chose ${computerChoice}!\n`;
                     gameStateMessageEl.innerText += `You ${playerOutcome}!\n`;
-                    // Set lose color if player lost
-                    if (playerOutcome === 'lose') {
-                        gameStateMessageEl.classList.add('game-message-lose');
-                    } else {
-                        gameStateMessageEl.classList.remove('game-message-lose');
-                    }
                     updateScores(playerOutcome);
                     displayScores();
 
