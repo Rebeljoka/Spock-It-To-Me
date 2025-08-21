@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Play a short preview: use win sound first, fall back to draw then lose
                 const previewOrder = ['win', 'draw', 'lose'];
                 let idx = 0;
-                function playNext() {
+                const playNext = function() {
                     if (idx >= previewOrder.length) return;
                     const name = previewOrder[idx++];
                     const a = audio[name];
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // attempt to stop after 700ms to make preview short
                         setTimeout(() => { try { a.pause(); a.currentTime = 0; } catch (e) {} }, 700);
                     });
-                }
+                };
                 playNext();
             } catch (err) {
                 console.warn('Preview playback failed', err);
@@ -1008,12 +1008,12 @@ document.addEventListener("DOMContentLoaded", function () {
     countdownDiv.classList.add('countdown-active');
         container.appendChild(countdownDiv);
         let count = 3;
-        function updateCountdownDisplay(val) {
+        const updateCountdownDisplay = function(val) {
             let color = '#ff3333';
             if (val === 2) color = '#FFD700';
             if (val === 1) color = '#33cc33';
             countdownDiv.innerHTML = `<span style="color:${color}">${val}</span>`;
-        }
+        };
         updateCountdownDisplay(count);
         const interval = setInterval(() => {
             count--;
