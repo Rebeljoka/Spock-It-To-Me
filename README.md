@@ -162,7 +162,7 @@ AI helped us in several key ways:
 - ⚡ Rapid iteration: We used AI to brainstorm mechanics, troubleshoot bugs, and generate code snippets that saved hours of trial and error.
 - 🧩 Modular design support: AI helped us refactor messy code into cleaner, reusable components—especially useful when merging styles and scripts across team members.
 - 📚 Instant documentation and learning: When we hit unfamiliar territory, AI gave us quick, contextual explanations that kept us moving without deep-dives into docs.
-- 🎨 Creative nudges: For Corey’s graphics and UI layout, AI offered suggestions that helped align visuals with gameplay flow and user experience.  
+- 🎨 Creative nudges: For Corey’s graphics and UI layout, AI offered suggestions that helped align visuals with gameplay flow and user experience while maintaining our site's theme.  
 
 The result? A game that felt cohesive, playful, and polished—despite the time crunch. AI didn’t just speed us up; it helped us stay aligned, reduce friction, and focus on what mattered: building a fun, thematic experience that felt true to our Wild West cartoon vision.
 
